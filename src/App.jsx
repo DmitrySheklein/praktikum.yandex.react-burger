@@ -8,9 +8,21 @@ import {data as fakeData} from './utils/data.js';
 function App() {
   const [productsData, setProductsData] = useState([]);
 
-  useEffect(()=>{
-    setProductsData(fakeData)
-  },[]);
+  const FETCH_URL = `https://norma.nomoreparties.space/api/ingredients`;
+  
+  useEffect(() => {
+    const getProductData = async () => {
+        try {
+          const res = await fetch(FETCH_URL);
+          const {data} = await res.json();
+          setProductsData(data);
+        } catch (error) {
+          console.log(error.message)
+        }
+    }
+
+    getProductData();
+  },[FETCH_URL])
 
   return (
     <div className="App">
