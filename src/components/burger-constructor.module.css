@@ -1,0 +1,34 @@
+.constructorBlock {
+}
+.constructorList,
+.constructorSubList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.constructorSubList {
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+.constructorListItem {
+  display: flex;
+  align-items: center;
+}
+
+.constructorTotal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.constructorTotalPrice {
+  display: flex;
+  align-items: center;
+}
+.constructorTotalPrice svg {
+  margin-left: 10px;
+  width: 33px;
+  height: 33px;
+}

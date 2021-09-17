@@ -1,12 +1,17 @@
 import React from "react";
 import "./App.css";
+import AppHeader from "./components/app-header";
+import BurgerIngredients from "./components/burger-ingredients";
+import BurgerConstructor from "./components/burger-constructor"
 
-import AppHeader from './components/app-header'
 function App() {
   return (
     <div className="App">
-      <AppHeader/>
-
+      <AppHeader />
+      <div className="container flex">
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </div>
     </div>
   );
 }

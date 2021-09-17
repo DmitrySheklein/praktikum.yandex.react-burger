@@ -9,7 +9,7 @@ import styles from "./app-header.module.css";
 
 const AppHeader = () => {
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} mb-10 pb-4 pt-4`}>
       <div className={styles.headerContainer}>
         <nav className={styles.headerMenu}>
           <a
@@ -21,7 +21,7 @@ const AppHeader = () => {
           </a>
           <a
             href="#!"
-            className={`${styles.headerLink} text text_type_main-default`}
+            className={`${styles.headerLink} text text_type_main-default text_color_inactive`}
           >
             <ListIcon type="primary" />
             <span className="ml-4">Лента заказов</span>
@@ -32,7 +32,7 @@ const AppHeader = () => {
         </div>
         <a
           href="#!"
-          className={`${styles.headerLink} text text_type_main-default`}
+          className={`${styles.headerLink} text text_type_main-default text_color_inactive`}
         >
           <ProfileIcon type="primary" />
           <span className="ml-4">Личный кабинет</span>
