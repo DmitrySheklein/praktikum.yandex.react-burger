@@ -28,6 +28,19 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
+      <ul className={`${styles.ingredientsBlock}`}>
+        <li className={`${styles.ingredientsBlockItem}`}>
+          <strong
+            className={`${styles.ingredientsBlockTitle} text text_type_main-medium`}
+          >
+            Булки
+          </strong>
+          <ul className={`${styles.ingredientsList}`}>
+            <li className={`${styles.ingredientsListItem}`}>1</li>
+            <li className={`${styles.ingredientsListItem}`}>2</li>
+          </ul>
+        </li>
+      </ul>
     </div>
   );
 };

@@ -3,3 +3,7 @@
 .tabs {
   display: flex;
 }
+.ingredientsBlock {
+  display: flex;
+  flex-direction: column;
+}
