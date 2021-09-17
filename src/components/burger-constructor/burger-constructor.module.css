@@ -1,0 +1,40 @@
+.block {
+  max-width: 600px;
+}
+.constructorList,
+.constructorSubList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.constructorSubList {
+  max-height: 440px;
+  overflow-y: auto;
+}
+.constructorListItem,
+.constructorSubListItem {
+  display: flex;
+  align-items: center;
+}
+.constructorSubListItem {
+  width: 100%;
+}
+.constructorSubListItem svg {
+  flex-shrink: 0;
+}
+.constructorTotal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.constructorTotalPrice {
+  display: flex;
+  align-items: center;
+}
+.constructorTotalPrice svg {
+  margin-left: 10px;
+  width: 33px;
+  height: 33px;
+}
