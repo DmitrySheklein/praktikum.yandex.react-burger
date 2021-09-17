@@ -20,3 +20,12 @@ ul {
 img {
     max-width: 100%;
 }
+button {
+    cursor: pointer;
+}
+.reset-btn {
+    padding: 0;
+    margin: 0;
+    border:none;
+    background: transparent;
+}
