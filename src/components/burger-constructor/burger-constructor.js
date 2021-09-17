@@ -66,7 +66,11 @@ const BurgerConstructor = ({ productsData }) => {
         <Button type="primary" size="large" onClick={handleOrder}>
           Оформить заказ
         </Button>
-        {startedOrder && <Modal visible={startedOrder}>hello Order</Modal>}
+        {startedOrder && (
+          <Modal visible={startedOrder} setStatedOrder={setStatedOrder}>
+            hello Order
+          </Modal>
+        )}
       </div>
     </div>
   );

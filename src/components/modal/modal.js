@@ -5,15 +5,15 @@ import ModalOverlay from "./modalOverlay";
 import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("react-modals");
-const Modal = ({ children, headerTitle, visible }) => {
-  const [isVisible, setIsVisible] = useState(visible || false);
-  const onModalClick = () => {
-    setIsVisible(!isVisible);
-  };
+const Modal = ({ children, headerTitle, visible, setStatedOrder }) => {
   return ReactDOM.createPortal(
-    isVisible ? (
-      <div className={`${styles.modal} ${isVisible ? styles.show : ""}`}>
-        <ModalOverlay clickHandler={onModalClick} />
+    visible ? (
+      <div className={`${styles.modal} ${visible ? styles.show : ""}`}>
+        <ModalOverlay
+          clickHandler={() => {
+            setStatedOrder(false);
+          }}
+        />
         <div className={styles.modalBody}>
           <div className={styles.modalHeader}>
             <strong className={"text text_type_main-large"}>
@@ -21,7 +21,9 @@ const Modal = ({ children, headerTitle, visible }) => {
             </strong>
             <button
               className={`${styles.modalCloseBtn} reset-btn`}
-              onClick={onModalClick}
+              onClick={() => {
+                setStatedOrder(false);
+              }}
             >
               <CloseIcon type="primary" />
             </button>
