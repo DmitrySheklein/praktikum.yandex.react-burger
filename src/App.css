@@ -9,8 +9,14 @@ a {
 .flex {
   display: flex;
 }
+main {
+    margin-bottom: 40px;
+}
 ul {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+img {
+    max-width: 100%;
 }

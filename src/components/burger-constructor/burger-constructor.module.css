@@ -1,3 +1,6 @@
+.block {
+  max-width: 600px;
+}
 .constructorList,
 .constructorSubList {
   display: flex;
@@ -10,12 +13,17 @@
   max-height: 440px;
   overflow-y: auto;
 }
-
-.constructorListItem {
+.constructorListItem,
+.constructorSubListItem {
   display: flex;
   align-items: center;
 }
-
+.constructorSubListItem {
+  width: 100%;
+}
+.constructorSubListItem svg {
+  flex-shrink: 0;
+}
 .constructorTotal {
   display: flex;
   align-items: center;
