@@ -5,13 +5,13 @@ import ModalOverlay from "./modal-overlay";
 import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("react-modals");
-const Modal = ({ children, headerTitle, visible, setStatedOrder }) => {
+const Modal = ({ children, headerTitle, visible, setFunc }) => {
   return ReactDOM.createPortal(
     visible ? (
       <div className={`${styles.modal} ${visible ? styles.show : ""}`}>
         <ModalOverlay
           clickHandler={() => {
-            setStatedOrder(false);
+            setFunc(false);
           }}
         />
         <div className={`${styles.modalBody} pl-10 pr-10 pt-10 pb-10`}>
@@ -23,7 +23,7 @@ const Modal = ({ children, headerTitle, visible, setStatedOrder }) => {
               title="Закрыть"
               className={`${styles.modalCloseBtn} reset-btn`}
               onClick={() => {
-                setStatedOrder(false);
+                setFunc(false);
               }}
             >
               <CloseIcon type="primary" />

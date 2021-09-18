@@ -68,7 +68,7 @@ const BurgerConstructor = ({ productsData }) => {
           Оформить заказ
         </Button>
         {startedOrder && (
-          <Modal visible={startedOrder} setStatedOrder={setStatedOrder}>
+          <Modal visible={startedOrder} setFunc={setStatedOrder}>
             <OrderDetails />
           </Modal>
         )}

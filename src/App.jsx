@@ -14,6 +14,9 @@ function App() {
         try {
           const res = await fetch(FETCH_URL);
           const {data} = await res.json();
+          console.log(
+            data[0]
+          );
           setProductsData(data);
         } catch (error) {
           console.log(error.message)
