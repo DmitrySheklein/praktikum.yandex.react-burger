@@ -6,6 +6,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 
 const BurgerConstructor = ({ productsData }) => {
@@ -68,7 +69,7 @@ const BurgerConstructor = ({ productsData }) => {
         </Button>
         {startedOrder && (
           <Modal visible={startedOrder} setStatedOrder={setStatedOrder}>
-            hello Order
+            <OrderDetails />
           </Modal>
         )}
       </div>
