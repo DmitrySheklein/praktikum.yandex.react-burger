@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
+import PropTypes from "prop-types";
 
 const IngredientDetails = ({ product }) => {
   const statProductMap = {
@@ -22,7 +23,7 @@ const IngredientDetails = ({ product }) => {
             <span
               className={`${styles.statName} text text_type_main-default text_color_inactive`}
             >
-              {statProductMap[type]}
+              {name}
             </span>
             <span
               className={`text text_type_digits-default text_color_inactive`}
@@ -35,4 +36,16 @@ const IngredientDetails = ({ product }) => {
     </div>
   );
 };
+
+IngredientDetails.propTypes = {
+  product: PropTypes.shape({
+    calories: PropTypes.number,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    name: PropTypes.string,
+    image_large: PropTypes.string,
+  }).isRequired,
+};
+
 export default IngredientDetails;

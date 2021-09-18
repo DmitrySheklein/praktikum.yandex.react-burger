@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./modal-overlay";
 import styles from "./modal.module.css";
+import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 const Modal = ({ children, headerTitle, visible, setFunc }) => {
@@ -49,4 +50,11 @@ const Modal = ({ children, headerTitle, visible, setFunc }) => {
     modalRoot
   );
 };
+Modal.propTypes = {
+  visible: PropTypes.bool,
+  headerTitle: PropTypes.string,
+  setFunc: PropTypes.func,
+  children: PropTypes.node,
+};
+
 export default Modal;

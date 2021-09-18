@@ -6,6 +6,7 @@ import {
 import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import PropTypes from "prop-types";
 
 const BurgerIngredient = ({ product }) => {
   const [modalShow, setModalShow] = useState(false);
@@ -42,4 +43,13 @@ const BurgerIngredient = ({ product }) => {
     </li>
   );
 };
+
+BurgerIngredient.propTypes = {
+  product: PropTypes.shape({
+    price: PropTypes.number,
+    name: PropTypes.string,
+    image_large: PropTypes.string,
+  }).isRequired,
+};
+
 export default BurgerIngredient;

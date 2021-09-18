@@ -8,6 +8,7 @@ import {
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
+import PropTypes from "prop-types";
 
 const BurgerConstructor = ({ productsData }) => {
   const bunSampleObj = productsData.find(el => el.type === "bun");
@@ -75,4 +76,21 @@ const BurgerConstructor = ({ productsData }) => {
     </div>
   );
 };
+
+const productPropTypes = {
+  _id: PropTypes.string,
+  type: PropTypes.string,
+  calories: PropTypes.number,
+  proteins: PropTypes.number,
+  fat: PropTypes.number,
+  carbohydrates: PropTypes.number,
+  name: PropTypes.string,
+  image: PropTypes.string,
+  image_large: PropTypes.string,
+};
+
+BurgerConstructor.propTypes = {
+  productsData: PropTypes.arrayOf(productPropTypes.isRequired).isRequired,
+};
+
 export default BurgerConstructor;
