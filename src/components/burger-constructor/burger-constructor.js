@@ -16,7 +16,6 @@ const BurgerConstructor = ({ productsData }) => {
   const [startedOrder, setStatedOrder] = useState(false);
   const handleOrder = () => {
     setStatedOrder(!startedOrder);
-    console.log("click");
   };
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
