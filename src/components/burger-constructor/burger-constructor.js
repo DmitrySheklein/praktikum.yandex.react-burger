@@ -77,9 +77,9 @@ const BurgerConstructor = ({ productsData }) => {
   );
 };
 
-const productPropTypes = {
-  _id: PropTypes.string,
-  type: PropTypes.string,
+const productPropTypes = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   calories: PropTypes.number,
   proteins: PropTypes.number,
   fat: PropTypes.number,
@@ -87,7 +87,7 @@ const productPropTypes = {
   name: PropTypes.string,
   image: PropTypes.string,
   image_large: PropTypes.string,
-};
+});
 
 BurgerConstructor.propTypes = {
   productsData: PropTypes.arrayOf(productPropTypes.isRequired).isRequired,
