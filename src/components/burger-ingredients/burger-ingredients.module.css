@@ -1,39 +1,48 @@
 .mainBlock {
   max-width: 600px;
 }
+
 .tabs {
   display: flex;
 }
+
 .categoryBlock {
   display: flex;
   flex-direction: column;
   max-height: 716px;
   overflow-y: auto;
 }
+
 .categoryBlockItem {
   display: block;
 }
+
 .List {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 .ListItem {
   position: relative;
   width: 272px;
   cursor: pointer;
 }
+
 .ListImgWrap {
   text-align: center;
 }
+
 .ListItemPriceWrap {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .ListItemPrice {
   margin-right: 9px;
 }
+
 .ListItemName {
   height: 48px;
   text-align: center;

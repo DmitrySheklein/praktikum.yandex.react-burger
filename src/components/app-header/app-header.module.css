@@ -4,6 +4,7 @@
     0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04),
     0px 0px 1px rgba(0, 0, 0, 0.04);
 }
+
 .headerContainer {
   display: flex;
   align-items: center;
@@ -11,6 +12,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 .headerLink {
   composes: pt-4 pb-4 pr-5 pl-5 from global;
   display: flex;
@@ -18,21 +20,26 @@
   /* color: #8585ad; */
   transition: all 0.3s ease;
 }
+
 .headerLink svg {
   fill: #8585ad;
   transition: all 0.3s ease;
 }
+
 .headerLink.active,
 .headerLink:hover {
   color: #f2f2f3;
 }
+
 .headerLink:hover svg,
 .headerLink.active svg {
   fill: #f2f2f3;
 }
+
 .headerMenu {
   display: flex;
 }
+
 .logoWrap {
   margin-left: 112px;
   margin-right: auto;
