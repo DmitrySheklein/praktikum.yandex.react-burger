@@ -33,11 +33,8 @@ const BurgerConstructor = ({ productsData }) => {
           </div>
           <div className={`${styles.constructorSubList} pr-4 custom-scroll`}>
             {sampleIngredientsArr &&
-              sampleIngredientsArr.map(product => (
-                <div
-                  className={`${styles.constructorSubListItem}`}
-                  key={product._id}
-                >
+              sampleIngredientsArr.map((product, index) => (
+                <div className={`${styles.constructorSubListItem}`} key={index}>
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={product.name}

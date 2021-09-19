@@ -7,15 +7,15 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 const Modal = ({ children, headerTitle, visible, setFunc }) => {
-  const documentHandler = evt => {
+  const handleEscClose = evt => {
     if (evt.key === "Escape") {
       setFunc(false);
     }
   };
   useEffect(() => {
-    document.addEventListener("keydown", documentHandler);
+    document.addEventListener("keydown", handleEscClose);
     return () => {
-      document.removeEventListener("keydown", documentHandler);
+      document.removeEventListener("keydown", handleEscClose);
     };
   });
   return ReactDOM.createPortal(
