@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
+import PropTypes from "prop-types";
 
 const BurgerConstructor = ({ productsData }) => {
   const bunSampleObj = productsData.find(el => el.type === "bun");
   const sampleIngredientsArr = productsData.filter(el => el.type !== "bun");
 
+  const [startedOrder, setStatedOrder] = useState(false);
+  const handleOrder = () => {
+    setStatedOrder(!startedOrder);
+  };
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
       {productsData.length && bunSampleObj ? (
@@ -26,11 +33,8 @@ const BurgerConstructor = ({ productsData }) => {
           </div>
           <div className={`${styles.constructorSubList} pr-4 custom-scroll`}>
             {sampleIngredientsArr &&
-              sampleIngredientsArr.map(product => (
-                <div
-                  className={`${styles.constructorSubListItem}`}
-                  key={product._id}
-                >
+              sampleIngredientsArr.map((product, index) => (
+                <div className={`${styles.constructorSubListItem}`} key={index}>
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={product.name}
@@ -57,11 +61,33 @@ const BurgerConstructor = ({ productsData }) => {
           <p className="text text_type_digits-medium">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handleOrder}>
           Оформить заказ
         </Button>
+        {startedOrder && (
+          <Modal visible={startedOrder} setFunc={setStatedOrder}>
+            <OrderDetails />
+          </Modal>
+        )}
       </div>
     </div>
   );
 };
+
+const productPropTypes = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  calories: PropTypes.number,
+  proteins: PropTypes.number,
+  fat: PropTypes.number,
+  carbohydrates: PropTypes.number,
+  name: PropTypes.string,
+  image: PropTypes.string,
+  image_large: PropTypes.string,
+});
+
+BurgerConstructor.propTypes = {
+  productsData: PropTypes.arrayOf(productPropTypes.isRequired).isRequired,
+};
+
 export default BurgerConstructor;
