@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 const Modal = ({ children, headerTitle, visible, setFunc }) => {
-  const handleEscClose = evt => {
+  const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
       setFunc(false);
     }
@@ -26,7 +26,10 @@ const Modal = ({ children, headerTitle, visible, setFunc }) => {
             setFunc(false);
           }}
         />
-        <div className={`${styles.modalBody} pl-10 pr-10 pt-10 pb-10`}>
+        <div
+          className={`${styles.modalBody} pl-10 pr-10 pt-10 pb-10`}
+          onClick={(evt) => evt.stopPropagation()}
+        >
           <div className={styles.modalHeader}>
             <strong className={"text text_type_main-large"}>
               {headerTitle}
