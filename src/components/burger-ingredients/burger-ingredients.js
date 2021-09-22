@@ -7,7 +7,6 @@ import { ProductsContext } from "../../services/productsContext";
 
 const BurgerIngredients = () => {
   const { productsData } = useContext(ProductsContext);
-  console.log(productsData);
   const [currentTab, setCurrentTab] = useState("bun");
   const categoryType = Array.from(new Set(productsData.map((el) => el?.type)));
   const categoryTypeMap = {
@@ -60,20 +59,20 @@ const BurgerIngredients = () => {
     </div>
   );
 };
-const productPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  calories: PropTypes.number,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  name: PropTypes.string,
-  image: PropTypes.string,
-  image_large: PropTypes.string,
-});
+// const productPropTypes = PropTypes.shape({
+//   _id: PropTypes.string.isRequired,
+//   type: PropTypes.string.isRequired,
+//   calories: PropTypes.number,
+//   proteins: PropTypes.number,
+//   fat: PropTypes.number,
+//   carbohydrates: PropTypes.number,
+//   name: PropTypes.string,
+//   image: PropTypes.string,
+//   image_large: PropTypes.string,
+// });
 
-BurgerIngredients.propTypes = {
-  productsData: PropTypes.arrayOf(productPropTypes.isRequired).isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   productsData: PropTypes.arrayOf(productPropTypes.isRequired).isRequired,
+// };
 
 export default BurgerIngredients;
