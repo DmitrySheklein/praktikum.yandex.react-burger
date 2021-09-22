@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -9,10 +9,12 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
+import { ProductsContext } from "../../services/productsContext";
 
-const BurgerConstructor = ({ productsData }) => {
-  const bunSampleObj = productsData.find(el => el.type === "bun");
-  const sampleIngredientsArr = productsData.filter(el => el.type !== "bun");
+const BurgerConstructor = () => {
+  const { productsData } = useContext(ProductsContext);
+  const bunSampleObj = productsData.find((el) => el.type === "bun");
+  const sampleIngredientsArr = productsData.filter((el) => el.type !== "bun");
 
   const [startedOrder, setStatedOrder] = useState(false);
   const handleOrder = () => {

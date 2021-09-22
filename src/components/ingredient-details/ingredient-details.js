@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const IngredientDetails = ({ product }) => {
   const statProductMap = {
@@ -14,10 +15,12 @@ const IngredientDetails = ({ product }) => {
       <div className={`${styles.ImgWrap} mb-4`}>
         <img src={product.image_large} alt={product.name} />
       </div>
+
       <strong className={`mb-8 text text_type_main-medium`}>
         {product.name}
       </strong>
-      <ul className={`${styles.statList}`}>
+
+      <ul className={`${styles.statList} mb-4`}>
         {Object.entries(statProductMap).map(([type, name]) => (
           <li className={`${styles.statItem} mr-5`} key={type}>
             <span
@@ -33,6 +36,10 @@ const IngredientDetails = ({ product }) => {
           </li>
         ))}
       </ul>
+
+      <Button type="primary" size="large" onClick={() => console.log("click")}>
+        Добавить в бургер
+      </Button>
     </div>
   );
 };
