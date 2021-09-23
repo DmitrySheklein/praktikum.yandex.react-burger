@@ -8,20 +8,36 @@ import {
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { ProductsContext } from "../../services/productsContext";
 import { OrderContext } from "../../services/orderContext";
 
 const BurgerConstructor = () => {
   const { orderState, orderDispatcher } = useContext(OrderContext);
   const { productsData } = useContext(ProductsContext);
-  const bunSampleObj = productsData.find(el => el._id === orderState.bun);
-  const sampleIngredientsArr = productsData.filter(el => el.type !== "bun");
-  const totalSampleArray = [bunSampleObj, ...sampleIngredientsArr];
-  console.log(bunSampleObj, "bunSampleObj");
+
+  const bunSampleObj = productsData.find((el) => el._id === orderState.bun);
+  const sampleIngredientsArr = orderState.ingredients.map((id) =>
+    productsData.find((el) => el._id === id)
+  );
+  // const totalSampleArray = [bunSampleObj, ...sampleIngredientsArr];
   const [startedOrder, setStatedOrder] = useState(false);
   const handleOrder = () => {
     setStatedOrder(!startedOrder);
+  };
+  const removeItemHandler = (id) => {
+    orderDispatcher({ type: "remove", payload: id });
+  };
+  const emptyConstructorElement = () => {
+    return (
+      <div className={`${styles.constructorListItem} pr-8 pl-6`}>
+        <div
+          className={`${styles.noBuns} ${styles.noBunsTop} text text_type_main-default`}
+        >
+          Выберите булки
+        </div>
+      </div>
+    );
   };
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
@@ -46,20 +62,36 @@ const BurgerConstructor = () => {
           </div>
         )}
 
-        <div className={`${styles.constructorSubList} pr-8 pl-6 custom-scroll`}>
-          <div className={`${styles.constructorSubListItem}`}>
-            <div
-              className={`${styles.noBuns} ${styles.noBunsMiddle} text text_type_main-default`}
-            >
-              Выберите начинку
+        {sampleIngredientsArr.length ? (
+          sampleIngredientsArr.map((product, index) => (
+            <div className={`${styles.constructorSubListItem}`} key={index}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={product.name}
+                price={product.price}
+                thumbnail={product.image}
+                handleClose={() => removeItemHandler(product._id)}
+              />
+            </div>
+          ))
+        ) : (
+          <div
+            className={`${styles.constructorSubList} pr-8 pl-6 custom-scroll`}
+          >
+            <div className={`${styles.constructorSubListItem}`}>
+              <div
+                className={`${styles.noBuns} ${styles.noBunsMiddle} text text_type_main-default`}
+              >
+                Выберите начинку
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {!bunSampleObj ? (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <div
-              className={`${styles.noBuns} ${styles.noBunsTop} text text_type_main-default`}
+              className={`${styles.noBuns} ${styles.noBunsButtom} text text_type_main-default`}
             >
               Выберите булки
             </div>

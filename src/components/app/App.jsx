@@ -6,13 +6,32 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { ProductsContext } from "../../services/productsContext";
 import { OrderContext } from "../../services/orderContext";
 
-const orderInitialState = { bun: null, ingredients: [] }; 
+const orderInitialState = { bun: null, ingredients: [], totalSum: 0 };
 function reducer(state, action) {
+  // console.log(action.payload);
   switch (action.type) {
     case "bun":
+      console.log("булка");
       return { ...state, bun: action.payload };
     case "ingredients":
-      return { ...state, ingredients: action.payload }
+      console.log("начинка");
+      return { ...state, ingredients: [...state.ingredients, action.payload] };
+    case "remove":
+      console.log("удалить");
+      const dublicateArr = state.ingredients.filter(
+        (el) => el === action.payload
+      );
+      let newArr = [];
+      if (dublicateArr.length > 1) {
+        newArr = [...new Set(state.ingredients)];
+      } else {
+        newArr = state.ingredients.filter((el) => el !== action.payload);
+      }
+
+      return {
+        ...state,
+        ingredients: newArr,
+      };
     default:
       throw new Error(`Wrong type of action: ${action.type}`);
   }
@@ -38,7 +57,7 @@ function App() {
         }
         const { data } = await res.json();
         setProductsData(data);
-        orderDispatcher({type: 'bun', payload: '60d3b41abdacab0026a733c6'})
+        // orderDispatcher({ type: "bun", payload: "60d3b41abdacab0026a733c6" });
       } catch (error) {
         console.log(error.message);
       }

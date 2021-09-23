@@ -37,7 +37,7 @@ const BurgerIngredient = ({ product }) => {
           setFunc={setModalShow}
           headerTitle="Детали ингредиента"
         >
-          <IngredientDetails product={product} />
+          <IngredientDetails product={product} setFunc={setModalShow} />
         </Modal>
       )}
     </li>

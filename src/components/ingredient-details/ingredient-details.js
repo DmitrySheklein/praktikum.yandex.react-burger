@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { OrderContext } from "../../services/orderContext";
 
-const IngredientDetails = ({ product }) => {
+const IngredientDetails = ({ product, setFunc }) => {
+  const { orderDispatcher } = useContext(OrderContext);
   const statProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",
     fat: "Жиры,г",
     carbohydrates: "Углеводы,г",
+  };
+  const addOnOrderHandler = () => {
+    const dispatherType = product.type === "bun" ? product.type : "ingredients";
+    orderDispatcher({ type: dispatherType, payload: product._id });
+    setFunc(false);
   };
   return (
     <div className={`${styles.container}`}>
@@ -37,7 +44,7 @@ const IngredientDetails = ({ product }) => {
         ))}
       </ul>
 
-      <Button type="primary" size="large" onClick={() => console.log("click")}>
+      <Button type="primary" size="large" onClick={addOnOrderHandler}>
         Добавить в бургер
       </Button>
     </div>

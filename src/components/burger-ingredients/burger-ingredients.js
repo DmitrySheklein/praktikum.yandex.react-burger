@@ -2,11 +2,13 @@ import { React, useContext, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import BurgerIngredient from "./burger-ingredient";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { ProductsContext } from "../../services/productsContext";
+// import { OrderContext } from "../../services/orderContext";
 
 const BurgerIngredients = () => {
   const { productsData } = useContext(ProductsContext);
+  // const { orderState, orderDispatcher } = useContext(OrderContext);
   const [currentTab, setCurrentTab] = useState("bun");
   const categoryType = Array.from(new Set(productsData.map((el) => el?.type)));
   const categoryTypeMap = {

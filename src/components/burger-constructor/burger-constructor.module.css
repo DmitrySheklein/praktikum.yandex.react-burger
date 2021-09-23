@@ -30,10 +30,16 @@
 
 .constructorSubListItem {
   width: 100%;
+  position: relative;
 }
 
-.constructorSubListItem svg {
+.constructorSubListItem > svg {
   flex-shrink: 0;
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: 10px;
 }
 
 .constructorTotal {
