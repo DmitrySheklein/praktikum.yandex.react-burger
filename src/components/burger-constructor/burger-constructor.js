@@ -9,6 +9,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 // import PropTypes from "prop-types";
+import EmptyConstructorElement from "./empty-contstructor-element";
 import { ProductsContext } from "../../services/productsContext";
 import { OrderContext } from "../../services/orderContext";
 
@@ -16,11 +17,11 @@ const BurgerConstructor = () => {
   const { orderState, orderDispatcher } = useContext(OrderContext);
   const { productsData } = useContext(ProductsContext);
 
-  const bunSampleObj = productsData.find((el) => el._id === orderState.bun);
+  const bunIngredient = productsData.find((el) => el._id === orderState.bun);
   const sampleIngredientsArr = orderState.ingredients.map((id) =>
     productsData.find((el) => el._id === id)
   );
-  // const totalSampleArray = [bunSampleObj, ...sampleIngredientsArr];
+  // const totalSampleArray = [bunIngredient, ...sampleIngredientsArr];
   const [startedOrder, setStatedOrder] = useState(false);
   const handleOrder = () => {
     setStatedOrder(!startedOrder);
@@ -28,36 +29,20 @@ const BurgerConstructor = () => {
   const removeItemHandler = (id) => {
     orderDispatcher({ type: "remove", payload: id });
   };
-  const emptyConstructorElement = () => {
-    return (
-      <div className={`${styles.constructorListItem} pr-8 pl-6`}>
-        <div
-          className={`${styles.noBuns} ${styles.noBunsTop} text text_type_main-default`}
-        >
-          Выберите булки
-        </div>
-      </div>
-    );
-  };
+
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
       <div className={`${styles.constructorList} mb-10`}>
-        {!bunSampleObj ? (
-          <div className={`${styles.constructorListItem} pr-8 pl-6`}>
-            <div
-              className={`${styles.noBuns} ${styles.noBunsTop} text text_type_main-default`}
-            >
-              Выберите булки
-            </div>
-          </div>
+        {!bunIngredient ? (
+          <EmptyConstructorElement name="Выберите булки" postions="noBunsTop" />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={bunSampleObj.name}
-              price={bunSampleObj.price}
-              thumbnail={bunSampleObj.image}
+              text={bunIngredient.name}
+              price={bunIngredient.price}
+              thumbnail={bunIngredient.image}
             />
           </div>
         )}
@@ -75,42 +60,32 @@ const BurgerConstructor = () => {
             </div>
           ))
         ) : (
-          <div
-            className={`${styles.constructorSubList} pr-8 pl-6 custom-scroll`}
-          >
-            <div className={`${styles.constructorSubListItem}`}>
-              <div
-                className={`${styles.noBuns} ${styles.noBunsMiddle} text text_type_main-default`}
-              >
-                Выберите начинку
-              </div>
-            </div>
-          </div>
+          <EmptyConstructorElement
+            name="Выберите начинку"
+            postions="noBunsMiddle"
+          />
         )}
 
-        {!bunSampleObj ? (
-          <div className={`${styles.constructorListItem} pr-8 pl-6`}>
-            <div
-              className={`${styles.noBuns} ${styles.noBunsButtom} text text_type_main-default`}
-            >
-              Выберите булки
-            </div>
-          </div>
+        {!bunIngredient ? (
+          <EmptyConstructorElement
+            name="Выберите булки"
+            postions="noBunsButtom"
+          />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bunSampleObj.name}
-              price={bunSampleObj.price}
-              thumbnail={bunSampleObj.image}
+              text={bunIngredient.name}
+              price={bunIngredient.price}
+              thumbnail={bunIngredient.image}
             />
           </div>
         )}
       </div>
 
       {/*  OLD */}
-      {false && productsData.length && bunSampleObj ? (
+      {false && productsData.length && bunIngredient ? (
         <div className={`${styles.constructorList} mb-10`}>
           <div className={`${styles.constructorSubList} pr-4 custom-scroll`}>
             {sampleIngredientsArr &&
@@ -129,9 +104,9 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bunSampleObj.name}
-              price={bunSampleObj.price}
-              thumbnail={bunSampleObj.image}
+              text={bunIngredient.name}
+              price={bunIngredient.price}
+              thumbnail={bunIngredient.image}
             />
           </div>
         </div>
