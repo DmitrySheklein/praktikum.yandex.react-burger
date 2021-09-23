@@ -1,5 +1,6 @@
 .block {
   max-width: 600px;
+  width: 100%;
 }
 
 .constructorList,
@@ -11,6 +12,8 @@
 }
 
 .constructorSubList {
+  width: 100%;
+  box-sizing: border-box;
   max-height: 440px;
   overflow-y: auto;
 }
@@ -50,6 +53,7 @@
   height: 33px;
 }
 .noBuns {
+  width: 100%;
   box-sizing: border-box;
   padding: 16px 24px;
   display: flex;
@@ -70,4 +74,7 @@
 
 .noBunsBottom {
   border-radius: var(--bottom-constructor-item-border-radius);
+}
+.noBunsMiddle {
+  border-radius: var(--common-border-radius-s);
 }

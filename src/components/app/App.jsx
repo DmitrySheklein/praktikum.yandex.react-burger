@@ -1,12 +1,26 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useReducer, useEffect } from "react";
 import "./App.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { ProductsContext } from "../../services/productsContext";
+import { OrderContext } from "../../services/orderContext";
+
+const orderInitialState = { bun: null, ingredients: [] }; 
+function reducer(state, action) {
+  switch (action.type) {
+    case "bun":
+      return { ...state, bun: action.payload };
+    case "ingredients":
+      return { ...state, ingredients: action.payload }
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 function App() {
   const [productsData, setProductsData] = useState([]);
+  const [orderState, orderDispatcher] = useReducer(reducer, orderInitialState);
 
   const FETCH_URL = `https://norma.nomoreparties.space/api/ingredients`;
 
@@ -24,6 +38,7 @@ function App() {
         }
         const { data } = await res.json();
         setProductsData(data);
+        orderDispatcher({type: 'bun', payload: '60d3b41abdacab0026a733c6'})
       } catch (error) {
         console.log(error.message);
       }
@@ -36,10 +51,12 @@ function App() {
     <div className="App">
       <AppHeader />
       <main className="container flex">
-        <ProductsContext.Provider value={{ productsData }}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </ProductsContext.Provider>
+        <OrderContext.Provider value={{ orderState, orderDispatcher }}>
+          <ProductsContext.Provider value={{ productsData }}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </ProductsContext.Provider>
+        </OrderContext.Provider>
       </main>
     </div>
   );
