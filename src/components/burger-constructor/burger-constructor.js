@@ -83,35 +83,6 @@ const BurgerConstructor = () => {
           </div>
         )}
       </div>
-
-      {/*  OLD */}
-      {false && productsData.length && bunIngredient ? (
-        <div className={`${styles.constructorList} mb-10`}>
-          <div className={`${styles.constructorSubList} pr-4 custom-scroll`}>
-            {sampleIngredientsArr &&
-              sampleIngredientsArr.map((product, index) => (
-                <div className={`${styles.constructorSubListItem}`} key={index}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={product.name}
-                    price={product.price}
-                    thumbnail={product.image}
-                  />
-                </div>
-              ))}
-          </div>
-          <div className={`${styles.constructorListItem} pr-8 pl-6`}>
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={bunIngredient.name}
-              price={bunIngredient.price}
-              thumbnail={bunIngredient.image}
-            />
-          </div>
-        </div>
-      ) : null}
-      {/*  */}
       <div className={`${styles.constructorTotal}`}>
         <div className={`${styles.constructorTotalPrice} mr-10`}>
           <p className="text text_type_digits-medium">0</p>
