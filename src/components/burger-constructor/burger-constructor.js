@@ -18,16 +18,16 @@ const BurgerConstructor = () => {
   const { productsData } = useContext(ProductsContext);
 
   const bunIngredient = productsData.find((el) => el._id === orderState.bun);
-  const sampleIngredientsArr = orderState.ingredients.map((id) =>
+  const burgerIngredientsArr = orderState.ingredients.map((id) =>
     productsData.find((el) => el._id === id)
   );
-  // const totalSampleArray = [bunIngredient, ...sampleIngredientsArr];
+  // const totalSampleArray = [bunIngredient, ...burgerIngredientsArr];
   const [startedOrder, setStatedOrder] = useState(false);
   const handleOrder = () => {
     setStatedOrder(!startedOrder);
   };
-  const removeItemHandler = (id) => {
-    orderDispatcher({ type: "remove", payload: id });
+  const removeItemHandler = (id, index) => {
+    orderDispatcher({ type: "remove", payload: {id, index} });
   };
 
   return (
@@ -47,15 +47,15 @@ const BurgerConstructor = () => {
           </div>
         )}
 
-        {sampleIngredientsArr.length ? (
-          sampleIngredientsArr.map((product, index) => (
+        {burgerIngredientsArr.length ? (
+          burgerIngredientsArr.map((product, index) => (
             <div className={`${styles.constructorSubListItem}`} key={index}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={product.name}
                 price={product.price}
                 thumbnail={product.image}
-                handleClose={() => removeItemHandler(product._id)}
+                handleClose={() => removeItemHandler(product._id, index)}
               />
             </div>
           ))

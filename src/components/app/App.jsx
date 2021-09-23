@@ -18,14 +18,15 @@ function reducer(state, action) {
       return { ...state, ingredients: [...state.ingredients, action.payload] };
     case "remove":
       console.log("удалить");
-      const dublicateArr = state.ingredients.filter(
-        (el) => el === action.payload
-      );
+      const { id, index } = action.payload;
+      const dublicateArr = state.ingredients.filter((el) => el === id);
+      // console.log("dublicateArr", dublicateArr.length);
+      // console.log(id, index);
       let newArr = [];
       if (dublicateArr.length > 1) {
-        newArr = [...new Set(state.ingredients)];
+        newArr = [...state.ingredients].splice(index, 1);
       } else {
-        newArr = state.ingredients.filter((el) => el !== action.payload);
+        newArr = state.ingredients.filter((_id) => _id !== id);
       }
 
       return {
