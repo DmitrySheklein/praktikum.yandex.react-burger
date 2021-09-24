@@ -6,33 +6,25 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { ProductsContext } from "../../services/productsContext";
 import { OrderContext } from "../../services/orderContext";
 
-const orderInitialState = { bun: null, ingredients: [], totalSum: 0 };
+const orderInitialState = { bun: null, ingredients: [] };
 function reducer(state, action) {
   // console.log(action.payload);
   switch (action.type) {
     case "bun":
-      console.log("булка");
       return { ...state, bun: action.payload };
     case "ingredients":
-      console.log("начинка");
       return { ...state, ingredients: [...state.ingredients, action.payload] };
     case "remove":
-      console.log("удалить");
-      const { id, index } = action.payload;
-      const dublicateArr = state.ingredients.filter((el) => el === id);
-      // console.log("dublicateArr", dublicateArr.length);
-      // console.log(id, index);
-      let newArr = [];
-      if (dublicateArr.length > 1) {
-        newArr = [...state.ingredients].splice(index, 1);
-      } else {
-        newArr = state.ingredients.filter((_id) => _id !== id);
-      }
+      const { _id } = action.payload;
+      let deleted = false
+      return {...state, ingredients: state.ingredients.filter(el=>{
+        if(el._id === _id && !deleted){
+          deleted = true;
+          return false 
+        }
+        return true
+      })};
 
-      return {
-        ...state,
-        ingredients: newArr,
-      };
     default:
       throw new Error(`Wrong type of action: ${action.type}`);
   }

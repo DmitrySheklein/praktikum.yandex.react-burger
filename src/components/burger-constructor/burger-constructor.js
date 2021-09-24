@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -8,54 +8,59 @@ import {
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
-// import PropTypes from "prop-types";
+
 import EmptyConstructorElement from "./empty-contstructor-element";
-import { ProductsContext } from "../../services/productsContext";
 import { OrderContext } from "../../services/orderContext";
 
 const BurgerConstructor = () => {
   const { orderState, orderDispatcher } = useContext(OrderContext);
-  const { productsData } = useContext(ProductsContext);
-
-  const bunIngredient = productsData.find((el) => el._id === orderState.bun);
-  const burgerIngredientsArr = orderState.ingredients.map((id) =>
-    productsData.find((el) => el._id === id)
-  );
-  // const totalSampleArray = [bunIngredient, ...burgerIngredientsArr];
+  const { bun, ingredients } = orderState;
   const [startedOrder, setStatedOrder] = useState(false);
   const handleOrder = () => {
     setStatedOrder(!startedOrder);
   };
-  const removeItemHandler = (id, index) => {
-    orderDispatcher({ type: "remove", payload: {id, index} });
-  };
-
+  const totalOrderSum = useMemo(() => {
+    if (!orderState.bun && !orderState.ingredients.length) return 0;
+    return [orderState.bun, ...orderState.ingredients].reduce(
+      (prev, current) => {
+        if (current && current.type) {
+          const currentSum =
+            prev + (current.type === "bun" ? current.price * 2 : current.price);
+          return currentSum;
+        }
+        return prev + 0;
+      },
+      0
+    );
+  }, [orderState]);
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
       <div className={`${styles.constructorList} mb-10`}>
-        {!bunIngredient ? (
+        {!bun ? (
           <EmptyConstructorElement name="Выберите булки" postions="noBunsTop" />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={bunIngredient.name}
-              price={bunIngredient.price}
-              thumbnail={bunIngredient.image}
+              text={bun.name}
+              price={bun.price}
+              thumbnail={bun.image}
             />
           </div>
         )}
 
-        {burgerIngredientsArr.length ? (
-          burgerIngredientsArr.map((product, index) => (
+        {ingredients.length ? (
+          ingredients.map((product, index) => (
             <div className={`${styles.constructorSubListItem}`} key={index}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={product.name}
                 price={product.price}
                 thumbnail={product.image}
-                handleClose={() => removeItemHandler(product._id, index)}
+                handleClose={() =>
+                  orderDispatcher({ type: "remove", payload: product })
+                }
               />
             </div>
           ))
@@ -66,7 +71,7 @@ const BurgerConstructor = () => {
           />
         )}
 
-        {!bunIngredient ? (
+        {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
             postions="noBunsButtom"
@@ -76,16 +81,16 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bunIngredient.name}
-              price={bunIngredient.price}
-              thumbnail={bunIngredient.image}
+              text={bun.name}
+              price={bun.price}
+              thumbnail={bun.image}
             />
           </div>
         )}
       </div>
       <div className={`${styles.constructorTotal}`}>
         <div className={`${styles.constructorTotalPrice} mr-10`}>
-          <p className="text text_type_digits-medium">0</p>
+          <p className="text text_type_digits-medium">{totalOrderSum}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={handleOrder}>

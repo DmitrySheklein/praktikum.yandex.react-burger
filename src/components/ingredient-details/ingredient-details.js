@@ -14,7 +14,7 @@ const IngredientDetails = ({ product, setFunc }) => {
   };
   const addOnOrderHandler = () => {
     const dispatherType = product.type === "bun" ? product.type : "ingredients";
-    orderDispatcher({ type: dispatherType, payload: product._id });
+    orderDispatcher({ type: dispatherType, payload: product });
     setFunc(false);
   };
   return (

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useContext, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -7,16 +7,27 @@ import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
+import { OrderContext } from "../../services/orderContext";
 
 const BurgerIngredient = ({ product }) => {
+  const { orderState } = useContext(OrderContext);
   const [modalShow, setModalShow] = useState(false);
   const handleItemClick = () => {
     setModalShow(!modalShow);
   };
-
+  const getCurrentCount = useMemo(() => {
+    return [orderState.bun, ...orderState.ingredients].filter(el => {
+      if (el) {
+        return el._id === product._id;
+      }
+      return false;
+    }).length;
+  }, [orderState, product._id]);
   return (
     <li className={`${styles.ListItem} mb-8`} onClick={handleItemClick}>
-      {product.count && <Counter count={1} size="default" />}
+      {getCurrentCount !== 0 && (
+        <Counter count={getCurrentCount} size="default" />
+      )}
       <div className={`${styles.ListImgWrap} pl-4 pr-4`}>
         <img src={product.image_large} alt={product.name} />
       </div>
