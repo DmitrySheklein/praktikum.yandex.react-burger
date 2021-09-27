@@ -1,5 +1,6 @@
 .block {
   max-width: 600px;
+  width: 100%;
 }
 
 .constructorList,
@@ -11,6 +12,8 @@
 }
 
 .constructorSubList {
+  width: 100%;
+  box-sizing: border-box;
   max-height: 440px;
   overflow-y: auto;
 }
@@ -20,13 +23,23 @@
   display: flex;
   align-items: center;
 }
+.constructorListItem {
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .constructorSubListItem {
   width: 100%;
+  position: relative;
 }
 
-.constructorSubListItem svg {
+.constructorSubListItem > svg {
   flex-shrink: 0;
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: 10px;
 }
 
 .constructorTotal {
@@ -44,4 +57,30 @@
   margin-left: 10px;
   width: 33px;
   height: 33px;
+}
+.noBuns {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  min-height: 80px;
+  font-family: "Jet Brains Mono";
+  font-size: 16px;
+  line-height: 24px;
+  color: #f2f2f3;
+}
+
+.noBunsTop {
+  border-radius: var(--top-constructor-item-border-radius);
+}
+
+.noBunsBottom {
+  border-radius: var(--bottom-constructor-item-border-radius);
+}
+.noBunsMiddle {
+  border-radius: var(--common-border-radius-s);
 }
