@@ -47,6 +47,7 @@ const BurgerConstructor = () => {
       if (json.success) {
         setStatedOrder(!startedOrder);
         setOrderInfo(json);
+        orderDispatcher({ type: "reset" });
       }
     } catch (error) {
       console.log(error.message);
@@ -129,7 +130,7 @@ const BurgerConstructor = () => {
           </div>
         ) : null}
 
-        {totalOrderSum ? (
+        {totalOrderSum && bun ? (
           <Button type="primary" size="large" onClick={startOrderHandle}>
             Оформить заказ
           </Button>

@@ -10,6 +10,8 @@ const orderInitialState = { bun: null, ingredients: [] };
 function reducer(state, action) {
   // console.log(action.payload);
   switch (action.type) {
+    case "reset":
+      return { bun: null, ingredients: [] };
     case "bun":
       return { ...state, bun: action.payload };
     case "ingredients":
