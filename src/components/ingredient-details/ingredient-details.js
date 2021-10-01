@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderContext } from "../../services/orderContext";
+// import { OrderContext } from "../../services/orderContext";
 
 const IngredientDetails = ({ product, setFunc }) => {
-  const { orderDispatcher } = useContext(OrderContext);
+  // const { orderDispatcher } = useContext(OrderContext);
+  const { orderDispatcher } = {};
   const statProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",

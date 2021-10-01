@@ -1,4 +1,4 @@
-import { React, useState, useContext, useMemo } from "react";
+import { React, useState, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -7,15 +7,17 @@ import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
-import { OrderContext } from "../../services/orderContext";
+// import { OrderContext } from "../../services/orderContext";
 
 const BurgerIngredient = ({ product }) => {
-  const { orderState } = useContext(OrderContext);
+  // const { orderState } = useContext(OrderContext);
+  const orderState = { bun: null, ingredients: [] };
   const [modalShow, setModalShow] = useState(false);
   const handleItemClick = () => {
     setModalShow(!modalShow);
   };
   const getCurrentCount = useMemo(() => {
+    if (!orderState.bun) return 0;
     return [orderState.bun, ...orderState.ingredients].filter(el => {
       if (el) {
         return el._id === product._id;

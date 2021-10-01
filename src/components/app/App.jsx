@@ -3,8 +3,8 @@ import "./App.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { ProductsContext } from "../../services/productsContext";
-import { OrderContext } from "../../services/orderContext";
+import { useDispatch } from 'react-redux';
+import { ADD_ITEMS } from "../../services/ingredients/actions";
 
 const orderInitialState = { bun: null, ingredients: [] };
 function reducer(state, action) {
@@ -33,6 +33,8 @@ function reducer(state, action) {
 }
 
 function App() {
+  const dispatch = useDispatch();
+
   const [productsData, setProductsData] = useState([]);
   const [orderState, orderDispatcher] = useReducer(reducer, orderInitialState);
 
@@ -51,7 +53,11 @@ function App() {
           throw new Error("Ответ сети не json");
         }
         const { data } = await res.json();
-        setProductsData(data);
+        dispatch({
+          type: ADD_ITEMS,
+          data
+        })
+        // setProductsData(data);
         // orderDispatcher({ type: "bun", payload: "60d3b41abdacab0026a733c6" });
       } catch (error) {
         console.log(error.message);
@@ -65,12 +71,8 @@ function App() {
     <div className="App">
       <AppHeader />
       <main className="container flex">
-        <OrderContext.Provider value={{ orderState, orderDispatcher }}>
-          <ProductsContext.Provider value={{ productsData }}>
             <BurgerIngredients />
             <BurgerConstructor />
-          </ProductsContext.Provider>
-        </OrderContext.Provider>
       </main>
     </div>
   );

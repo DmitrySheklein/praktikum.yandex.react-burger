@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -10,10 +10,13 @@ import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
-import { OrderContext } from "../../services/orderContext";
+// import { OrderContext } from "../../services/orderContext";
 
 const BurgerConstructor = () => {
-  const { orderState, orderDispatcher } = useContext(OrderContext);
+  // const { orderState, orderDispatcher } = useContext(OrderContext);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const orderState = { bun: null, ingredients: [] };
+  // const { bun, ingredients } = orderState;
   const { bun, ingredients } = orderState;
   const [startedOrder, setStatedOrder] = useState(false);
   const [orderInfo, setOrderInfo] = useState();
@@ -47,7 +50,7 @@ const BurgerConstructor = () => {
       if (json.success) {
         setStatedOrder(!startedOrder);
         setOrderInfo(json);
-        orderDispatcher({ type: "reset" });
+        // orderDispatcher({ type: "reset" });
       }
     } catch (error) {
       console.log(error.message);
@@ -71,7 +74,7 @@ const BurgerConstructor = () => {
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
       <div className={`${styles.constructorList} mb-10`}>
         {!bun ? (
-          <EmptyConstructorElement name="Выберите булки" postions="noBunsTop" />
+          <EmptyConstructorElement name="Выберите булки" position="noBunsTop" />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
@@ -92,8 +95,9 @@ const BurgerConstructor = () => {
                 text={product.name}
                 price={product.price}
                 thumbnail={product.image}
-                handleClose={() =>
-                  orderDispatcher({ type: "remove", payload: product })
+                handleClose={
+                  () => {}
+                  // orderDispatcher({ type: "remove", payload: product })
                 }
               />
             </div>
@@ -101,14 +105,14 @@ const BurgerConstructor = () => {
         ) : (
           <EmptyConstructorElement
             name="Выберите начинку"
-            postions="noBunsMiddle"
+            position="noBunsMiddle"
           />
         )}
 
         {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
-            postions="noBunsButtom"
+            position="noBunsButtom"
           />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
