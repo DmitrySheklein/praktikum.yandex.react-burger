@@ -11,24 +11,30 @@ import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
 // import { OrderContext } from "../../services/orderContext";
+import { useSelector, useDispatch } from "react-redux";
+import { getConstructorItems } from "../../services/constructor/selectors";
+import {
+  REMOVE_INGREDIENT,
+  RESET_CONSTRUCTOR,
+} from "../../services/constructor/actions";
+import { CREATE_ORDER } from "../../services/order/actions";
 
 const BurgerConstructor = () => {
   // const { orderState, orderDispatcher } = useContext(OrderContext);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const orderState = { bun: null, ingredients: [] };
-  // const { bun, ingredients } = orderState;
+  const dispatch = useDispatch();
+  const orderState = useSelector(getConstructorItems);
   const { bun, ingredients } = orderState;
   const [startedOrder, setStatedOrder] = useState(false);
-  const [orderInfo, setOrderInfo] = useState();
+  // const [orderInfo, setOrderInfo] = useState();
   const startOrderHandle = () => {
-    const ingredientsId = [...orderState.ingredients.map(el => el._id)];
+    const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
     const bunId = orderState.bun?._id || null;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
     };
     createOrder(orderData);
   };
-  const createOrder = async data => {
+  const createOrder = async (data) => {
     const FETCH_URL = "https://norma.nomoreparties.space/api/orders";
     try {
       const res = await fetch(FETCH_URL, {
@@ -49,7 +55,14 @@ const BurgerConstructor = () => {
       const json = await res.json();
       if (json.success) {
         setStatedOrder(!startedOrder);
-        setOrderInfo(json);
+        // setOrderInfo(json);
+        dispatch({
+          type: CREATE_ORDER,
+          payload: json,
+        });
+        dispatch({
+          type: RESET_CONSTRUCTOR,
+        });
         // orderDispatcher({ type: "reset" });
       }
     } catch (error) {
@@ -96,7 +109,12 @@ const BurgerConstructor = () => {
                 price={product.price}
                 thumbnail={product.image}
                 handleClose={
-                  () => {}
+                  () => {
+                    dispatch({
+                      type: REMOVE_INGREDIENT,
+                      payload: product,
+                    });
+                  }
                   // orderDispatcher({ type: "remove", payload: product })
                 }
               />
@@ -140,9 +158,9 @@ const BurgerConstructor = () => {
           </Button>
         ) : null}
 
-        {startedOrder && orderInfo && (
+        {startedOrder && (
           <Modal visible={startedOrder} setFunc={setStatedOrder}>
-            <OrderDetails orderInfo={orderInfo} />
+            <OrderDetails />
           </Modal>
         )}
       </div>

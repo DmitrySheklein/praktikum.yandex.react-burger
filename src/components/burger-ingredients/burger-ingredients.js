@@ -5,21 +5,19 @@ import BurgerIngredient from "./burger-ingredient";
 // import PropTypes from "prop-types";
 // import { ProductsContext } from "../../services/productsContext";
 import { useSelector } from "react-redux";
+import { getIngredients } from "../../services/ingredients/selectors";
 
 const BurgerIngredients = () => {
   // const { productsData } = useContext(ProductsContext);
-  const store = useSelector(store => store.ingredients);
-  const { ingredients: productsData } = store;
-  console.log(store);
-  // const { productsData } = {};
+  const productsData = useSelector(getIngredients);
   const [currentTab, setCurrentTab] = useState("bun");
-  const categoryType = Array.from(new Set(productsData.map(el => el?.type)));
+  const categoryType = Array.from(new Set(productsData.map((el) => el?.type)));
   const categoryTypeMap = {
     bun: "Булки",
     sauce: "Соусы",
     main: "Начинки",
   };
-  const setTab = tab => {
+  const setTab = (tab) => {
     setCurrentTab(tab);
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: "smooth" });
@@ -41,7 +39,7 @@ const BurgerIngredients = () => {
       </div>
       <ul className={`${styles.categoryBlock} custom-scroll`}>
         {categoryType.length
-          ? categoryType.map(type => (
+          ? categoryType.map((type) => (
               <li
                 className={`${styles.categoryBlockItem} mb-10`}
                 id={type}
@@ -52,8 +50,8 @@ const BurgerIngredients = () => {
                 </strong>
                 <ul className={`${styles.List} pl-4 pr-4`}>
                   {productsData
-                    .filter(el => el.type === type)
-                    .map(product => (
+                    .filter((el) => el.type === type)
+                    .map((product) => (
                       <BurgerIngredient product={product} key={product._id} />
                     ))}
                 </ul>

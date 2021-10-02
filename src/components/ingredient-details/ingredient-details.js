@@ -3,10 +3,15 @@ import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 // import { OrderContext } from "../../services/orderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
+import { getCurrentIngredient } from "../../services/currentIngredient/selectors";
 
-const IngredientDetails = ({ product, setFunc }) => {
+const IngredientDetails = ({ setFunc }) => {
   // const { orderDispatcher } = useContext(OrderContext);
-  const { orderDispatcher } = {};
+  const dispatch = useDispatch();
+  const product = useSelector(getCurrentIngredient);
+  // const { orderDispatcher } = {};
   const statProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",
@@ -14,8 +19,21 @@ const IngredientDetails = ({ product, setFunc }) => {
     carbohydrates: "Углеводы,г",
   };
   const addOnOrderHandler = () => {
-    const dispatherType = product.type === "bun" ? product.type : "ingredients";
-    orderDispatcher({ type: dispatherType, payload: product });
+    const productType = product.type;
+
+    if (productType === "bun") {
+      dispatch({
+        type: ADD_BUN,
+        payload: product,
+      });
+    } else {
+      dispatch({
+        type: ADD_INGREDIENT,
+        payload: product,
+      });
+    }
+    // const dispatherType = product.type === "bun" ? product.type : "ingredients";
+    // orderDispatcher({ type: dispatherType, payload: product });
     setFunc(false);
   };
   return (

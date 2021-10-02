@@ -1,12 +1,12 @@
-import { React, useState, useReducer, useEffect } from "react";
+import { React, useEffect } from "react";
 import "./App.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { useDispatch } from 'react-redux';
-import { ADD_ITEMS } from "../../services/ingredients/actions";
+import { useDispatch } from "react-redux";
+import { LOAD_ITEMS } from "../../services/ingredients/actions";
 
-const orderInitialState = { bun: null, ingredients: [] };
+/* const orderInitialState = { bun: null, ingredients: [] };
 function reducer(state, action) {
   // console.log(action.payload);
   switch (action.type) {
@@ -18,25 +18,28 @@ function reducer(state, action) {
       return { ...state, ingredients: [...state.ingredients, action.payload] };
     case "remove":
       const { _id } = action.payload;
-      let deleted = false
-      return {...state, ingredients: state.ingredients.filter(el=>{
-        if(el._id === _id && !deleted){
-          deleted = true;
-          return false 
-        }
-        return true
-      })};
+      let deleted = false;
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((el) => {
+          if (el._id === _id && !deleted) {
+            deleted = true;
+            return false;
+          }
+          return true;
+        }),
+      };
 
     default:
       throw new Error(`Wrong type of action: ${action.type}`);
   }
-}
+} */
 
 function App() {
   const dispatch = useDispatch();
 
-  const [productsData, setProductsData] = useState([]);
-  const [orderState, orderDispatcher] = useReducer(reducer, orderInitialState);
+  // const [productsData, setProductsData] = useState([]);
+  // const [orderState, orderDispatcher] = useReducer(reducer, orderInitialState);
 
   const FETCH_URL = `https://norma.nomoreparties.space/api/ingredients`;
 
@@ -54,9 +57,9 @@ function App() {
         }
         const { data } = await res.json();
         dispatch({
-          type: ADD_ITEMS,
-          data
-        })
+          type: LOAD_ITEMS,
+          data,
+        });
         // setProductsData(data);
         // orderDispatcher({ type: "bun", payload: "60d3b41abdacab0026a733c6" });
       } catch (error) {
@@ -65,14 +68,14 @@ function App() {
     };
 
     getProductData();
-  }, [FETCH_URL]);
+  }, [FETCH_URL, dispatch]);
 
   return (
     <div className="App">
       <AppHeader />
       <main className="container flex">
-            <BurgerIngredients />
-            <BurgerConstructor />
+        <BurgerIngredients />
+        <BurgerConstructor />
       </main>
     </div>
   );

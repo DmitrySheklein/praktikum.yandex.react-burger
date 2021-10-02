@@ -8,23 +8,33 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 // import { OrderContext } from "../../services/orderContext";
+import { useSelector, useDispatch } from "react-redux";
+import { getConstructorItems } from "../../services/constructor/selectors";
+import { SET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
 
 const BurgerIngredient = ({ product }) => {
   // const { orderState } = useContext(OrderContext);
-  const orderState = { bun: null, ingredients: [] };
+  // const orderState = { bun: null, ingredients: [] };
+  const dispatch = useDispatch();
+  const orderState = useSelector(getConstructorItems);
   const [modalShow, setModalShow] = useState(false);
   const handleItemClick = () => {
+    dispatch({
+      type: SET_CURRENT_INGREDIENT,
+      payload: product,
+    });
     setModalShow(!modalShow);
   };
   const getCurrentCount = useMemo(() => {
-    if (!orderState.bun) return 0;
-    return [orderState.bun, ...orderState.ingredients].filter(el => {
+    if (!orderState.bun || !orderState.ingredients.length) return 0;
+    return [orderState.bun, ...orderState.ingredients].filter((el) => {
       if (el) {
         return el._id === product._id;
       }
       return false;
     }).length;
   }, [orderState, product._id]);
+
   return (
     <li className={`${styles.ListItem} mb-8`} onClick={handleItemClick}>
       {getCurrentCount !== 0 && (
@@ -50,7 +60,7 @@ const BurgerIngredient = ({ product }) => {
           setFunc={setModalShow}
           headerTitle="Детали ингредиента"
         >
-          <IngredientDetails product={product} setFunc={setModalShow} />
+          <IngredientDetails setFunc={setModalShow} />
         </Modal>
       )}
     </li>
