@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 import { getCurrentIngredient } from "../../services/currentIngredient/selectors";
+import { RESET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
 
 const IngredientDetails = ({ setFunc }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,13 @@ const IngredientDetails = ({ setFunc }) => {
     }
     setFunc(false);
   };
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: RESET_CURRENT_INGREDIENT,
+      });
+    };
+  });
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.ImgWrap} mb-4`}>
