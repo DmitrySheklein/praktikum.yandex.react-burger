@@ -7,14 +7,11 @@ import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
-// import { OrderContext } from "../../services/orderContext";
 import { useSelector, useDispatch } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { SET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
 
 const BurgerIngredient = ({ product }) => {
-  // const { orderState } = useContext(OrderContext);
-  // const orderState = { bun: null, ingredients: [] };
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
   const [modalShow, setModalShow] = useState(false);

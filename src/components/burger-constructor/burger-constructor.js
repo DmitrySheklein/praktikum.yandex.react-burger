@@ -10,7 +10,6 @@ import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
-// import { OrderContext } from "../../services/orderContext";
 import { useSelector, useDispatch } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import {
@@ -20,12 +19,10 @@ import {
 import { CREATE_ORDER } from "../../services/order/actions";
 
 const BurgerConstructor = () => {
-  // const { orderState, orderDispatcher } = useContext(OrderContext);
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
   const { bun, ingredients } = orderState;
   const [startedOrder, setStatedOrder] = useState(false);
-  // const [orderInfo, setOrderInfo] = useState();
   const startOrderHandle = () => {
     const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
     const bunId = orderState.bun?._id || null;
@@ -55,7 +52,6 @@ const BurgerConstructor = () => {
       const json = await res.json();
       if (json.success) {
         setStatedOrder(!startedOrder);
-        // setOrderInfo(json);
         dispatch({
           type: CREATE_ORDER,
           payload: json,
@@ -63,7 +59,6 @@ const BurgerConstructor = () => {
         dispatch({
           type: RESET_CONSTRUCTOR,
         });
-        // orderDispatcher({ type: "reset" });
       }
     } catch (error) {
       console.log(error.message);
@@ -108,15 +103,12 @@ const BurgerConstructor = () => {
                 text={product.name}
                 price={product.price}
                 thumbnail={product.image}
-                handleClose={
-                  () => {
-                    dispatch({
-                      type: REMOVE_INGREDIENT,
-                      payload: product,
-                    });
-                  }
-                  // orderDispatcher({ type: "remove", payload: product })
-                }
+                handleClose={() => {
+                  dispatch({
+                    type: REMOVE_INGREDIENT,
+                    payload: product,
+                  });
+                }}
               />
             </div>
           ))

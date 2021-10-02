@@ -2,16 +2,13 @@ import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-// import { OrderContext } from "../../services/orderContext";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 import { getCurrentIngredient } from "../../services/currentIngredient/selectors";
 
 const IngredientDetails = ({ setFunc }) => {
-  // const { orderDispatcher } = useContext(OrderContext);
   const dispatch = useDispatch();
   const product = useSelector(getCurrentIngredient);
-  // const { orderDispatcher } = {};
   const statProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",
@@ -32,8 +29,6 @@ const IngredientDetails = ({ setFunc }) => {
         payload: product,
       });
     }
-    // const dispatherType = product.type === "bun" ? product.type : "ingredients";
-    // orderDispatcher({ type: dispatherType, payload: product });
     setFunc(false);
   };
   return (
