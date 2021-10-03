@@ -4,17 +4,18 @@ import styles from "./burger-ingredients.module.css";
 import BurgerIngredient from "./burger-ingredient";
 import { useSelector } from "react-redux";
 import { getIngredients } from "../../services/ingredients/selectors";
+import { InView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
   const productsData = useSelector(getIngredients);
   const [currentTab, setCurrentTab] = useState("bun");
-  const categoryType = Array.from(new Set(productsData.map((el) => el?.type)));
+  const categoryType = Array.from(new Set(productsData.map(el => el?.type)));
   const categoryTypeMap = {
     bun: "Булки",
     sauce: "Соусы",
     main: "Начинки",
   };
-  const setTab = (tab) => {
+  const setTab = tab => {
     setCurrentTab(tab);
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: "smooth" });
@@ -36,23 +37,36 @@ const BurgerIngredients = () => {
       </div>
       <ul className={`${styles.categoryBlock} custom-scroll`}>
         {categoryType.length
-          ? categoryType.map((type) => (
-              <li
+          ? categoryType.map(type => (
+              <InView
+                as="li"
+                onChange={inView => {
+                  if (inView) {
+                    setCurrentTab(type);
+                  }
+                }}
+                key={type}
                 className={`${styles.categoryBlockItem} mb-10`}
                 id={type}
-                key={type}
               >
-                <strong className={`mb-6 text text_type_main-medium`}>
-                  {categoryTypeMap[type]}
-                </strong>
-                <ul className={`${styles.List} pl-4 pr-4`}>
-                  {productsData
-                    .filter((el) => el.type === type)
-                    .map((product) => (
-                      <BurgerIngredient product={product} key={product._id} />
-                    ))}
-                </ul>
-              </li>
+                {({ ref }) => (
+                  <div ref={ref}>
+                    <strong className={`mb-6 text text_type_main-medium`}>
+                      {categoryTypeMap[type]}
+                    </strong>
+                    <ul className={`${styles.List} pl-4 pr-4`}>
+                      {productsData
+                        .filter(el => el.type === type)
+                        .map(product => (
+                          <BurgerIngredient
+                            product={product}
+                            key={product._id}
+                          />
+                        ))}
+                    </ul>
+                  </div>
+                )}
+              </InView>
             ))
           : null}
       </ul>
