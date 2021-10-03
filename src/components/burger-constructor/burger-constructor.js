@@ -12,57 +12,21 @@ import styles from "./burger-constructor.module.css";
 import EmptyConstructorElement from "./empty-contstructor-element";
 import { useSelector, useDispatch } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
-import {
-  REMOVE_INGREDIENT,
-  RESET_CONSTRUCTOR,
-} from "../../services/constructor/actions";
-import { CREATE_ORDER } from "../../services/order/actions";
+import { REMOVE_INGREDIENT } from "../../services/constructor/actions";
+import { createOrder } from "../../services/order/actions";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
   const { bun, ingredients } = orderState;
-  const [startedOrder, setStatedOrder] = useState(false);
+  const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
-    const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
+    const ingredientsId = [...orderState.ingredients.map(el => el._id)];
     const bunId = orderState.bun?._id || null;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
     };
-    createOrder(orderData);
-  };
-  const createOrder = async (data) => {
-    const FETCH_URL = "https://norma.nomoreparties.space/api/orders";
-    try {
-      const res = await fetch(FETCH_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const isJson =
-        res.headers.get("content-type").indexOf("application/json") !== -1;
-      if (!res.ok) {
-        throw new Error("Ответ сети не ok");
-      }
-      if (!isJson) {
-        throw new Error("Ответ сети не json");
-      }
-      const json = await res.json();
-      if (json.success) {
-        setStatedOrder(!startedOrder);
-        dispatch({
-          type: CREATE_ORDER,
-          payload: json,
-        });
-        dispatch({
-          type: RESET_CONSTRUCTOR,
-        });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+    dispatch(createOrder(orderData, setStartedOrder));
   };
   const totalOrderSum = useMemo(() => {
     if (!orderState.bun && !orderState.ingredients.length) return 0;
@@ -151,7 +115,7 @@ const BurgerConstructor = () => {
         ) : null}
 
         {startedOrder && (
-          <Modal visible={startedOrder} setFunc={setStatedOrder}>
+          <Modal visible={startedOrder} setFunc={setStartedOrder}>
             <OrderDetails />
           </Modal>
         )}

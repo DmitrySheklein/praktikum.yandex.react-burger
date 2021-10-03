@@ -74,14 +74,7 @@ const IngredientDetails = ({ setFunc }) => {
 };
 
 IngredientDetails.propTypes = {
-  product: PropTypes.shape({
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    name: PropTypes.string,
-    image_large: PropTypes.string,
-  }).isRequired,
+  setFunc: PropTypes.func,
 };
 
 export default IngredientDetails;
