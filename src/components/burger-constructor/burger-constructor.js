@@ -14,6 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { REMOVE_INGREDIENT } from "../../services/constructor/actions";
 import { createOrder } from "../../services/order/actions";
+import { useDrop } from "react-dnd";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -42,11 +44,42 @@ const BurgerConstructor = () => {
       0
     );
   }, [orderState]);
+
+  const [{ isHoverBun }, dropTargetBun] = useDrop({
+    accept: "bun",
+    drop(item) {
+      console.log(item);
+      dispatch({
+        type: item.type === "bun" ? ADD_BUN : ADD_INGREDIENT,
+        payload: item,
+      });
+    },
+    collect: monitor => ({
+      isHoverBun: monitor.isOver(),
+    }),
+  });
+  const outlineBun = isHoverBun ? "1px solid #fff" : "none";
+
+  const [{ isHoverItem }, dropTargetItem] = useDrop({
+    accept: "bun",
+    drop(itemId) {
+      console.log(itemId);
+    },
+    collect: monitor => ({
+      isHoverBun: monitor.isOver(),
+    }),
+  });
+  const outlineItem = isHoverItem ? "1px solid #fff" : "none";
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
       <div className={`${styles.constructorList} mb-10`}>
         {!bun ? (
-          <EmptyConstructorElement name="Выберите булки" position="noBunsTop" />
+          <EmptyConstructorElement
+            name="Выберите булки"
+            position="noBunsTop"
+            ref={dropTargetBun}
+            style={{ outline: outlineBun }}
+          />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
@@ -80,6 +113,8 @@ const BurgerConstructor = () => {
           <EmptyConstructorElement
             name="Выберите начинку"
             position="noBunsMiddle"
+            ref={dropTargetItem}
+            style={{ outline: outlineItem }}
           />
         )}
 
@@ -87,6 +122,8 @@ const BurgerConstructor = () => {
           <EmptyConstructorElement
             name="Выберите булки"
             position="noBunsButtom"
+            ref={dropTargetBun}
+            style={{ outline: outlineBun }}
           />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>

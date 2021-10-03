@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { SET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
+import { useDrag } from "react-dnd";
 
 const BurgerIngredient = ({ product }) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const BurgerIngredient = ({ product }) => {
   };
   const getCurrentCount = useMemo(() => {
     if (!orderState.bun || !orderState.ingredients.length) return 0;
-    return [orderState.bun, ...orderState.ingredients].filter((el) => {
+    return [orderState.bun, ...orderState.ingredients].filter(el => {
       if (el) {
         return el._id === product._id;
       }
@@ -32,8 +33,16 @@ const BurgerIngredient = ({ product }) => {
     }).length;
   }, [orderState, product._id]);
 
+  const [, dragRef] = useDrag({
+    type: product.type,
+    item: { ...product },
+  });
   return (
-    <li className={`${styles.ListItem} mb-8`} onClick={handleItemClick}>
+    <li
+      className={`${styles.ListItem} mb-8`}
+      onClick={handleItemClick}
+      ref={dragRef}
+    >
       {getCurrentCount !== 0 && (
         <Counter count={getCurrentCount} size="default" />
       )}
