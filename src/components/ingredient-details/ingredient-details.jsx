@@ -38,7 +38,7 @@ const IngredientDetails = ({ setFunc }) => {
         type: RESET_CURRENT_INGREDIENT,
       });
     };
-  });
+  }, [dispatch]);
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.ImgWrap} mb-4`}>
