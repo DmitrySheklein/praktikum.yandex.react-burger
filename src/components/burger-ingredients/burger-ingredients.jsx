@@ -1,10 +1,10 @@
-import { React, useState } from "react";
+import { React, useState, useEffect} from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import BurgerIngredient from "./burger-ingredient.jsx";
 import { useSelector } from "react-redux";
 import { getIngredients } from "../../services/ingredients/selectors";
-import { InView } from "react-intersection-observer";
+import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
   const productsData = useSelector(getIngredients);
@@ -20,6 +20,31 @@ const BurgerIngredients = () => {
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
+  const inViewOptions = {
+    threshold: 0,
+    trackVisibility: true,
+    delay: 100
+  };
+  const [bunRef, inViewBun] = useInView(inViewOptions);
+  const [mainRef, inViewMain] = useInView(inViewOptions);
+  const [sauceRef, inViewSauce] = useInView(inViewOptions);  
+  const categoryRefMap = {
+    bun: bunRef,
+    sauce: sauceRef,
+    main: mainRef,
+  };
+  useEffect(() => {
+    if (inViewBun) {
+      setCurrentTab('bun');
+    }
+    else if (inViewSauce) {
+      setCurrentTab('sauce');
+    }
+     else if (inViewMain) {
+      setCurrentTab('main');
+    }
+   }, [inViewBun, inViewMain, inViewSauce]);
+  
   return (
     <div className={`${styles.mainBlock} mr-10`}>
       <h2 className={`text text_type_main-large mb-5`}>Соберите бургер</h2>
@@ -38,19 +63,12 @@ const BurgerIngredients = () => {
       <ul className={`${styles.categoryBlock} custom-scroll`}>
         {categoryType.length
           ? categoryType.map(type => (
-              <InView
-                as="li"
-                onChange={inView => {
-                  if (inView) {
-                    setCurrentTab(type);
-                  }
-                }}
-                key={type}
-                className={`${styles.categoryBlockItem} mb-10`}
-                id={type}
-              >
-                {({ ref }) => (
-                  <div ref={ref}>
+                  <li 
+                  key={type}
+                  className={`${styles.categoryBlockItem} mb-10`}
+                  id={type}
+                  ref={categoryRefMap[type]}
+                  >
                     <strong className={`mb-6 text text_type_main-medium`}>
                       {categoryTypeMap[type]}
                     </strong>
@@ -64,9 +82,7 @@ const BurgerIngredients = () => {
                           />
                         ))}
                     </ul>
-                  </div>
-                )}
-              </InView>
+                  </li>
             ))
           : null}
       </ul>
