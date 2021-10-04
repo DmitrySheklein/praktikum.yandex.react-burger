@@ -4,7 +4,6 @@ import styles from "./burger-constructor.module.css";
 
 const EmptyConstructorElement = React.forwardRef(
   ({ name, position, style }, ref) => {
-    console.log(style);
     return (
       <div className={`${styles.constructorListItem} pr-8 pl-6`} ref={ref}>
         <div
