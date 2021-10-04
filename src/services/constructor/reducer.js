@@ -3,7 +3,10 @@ import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   RESET_CONSTRUCTOR,
+  UPDATE_CONSTRUCTOR,
 } from "./actions";
+import { v4 as uuidv4 } from "uuid";
+import update from "immutability-helper";
 
 const initialState = {
   bun: null,
@@ -15,13 +18,16 @@ export const consturctorReducer = (state = initialState, action) => {
     case ADD_BUN: {
       return {
         ...state,
-        bun: action.payload,
+        bun: { ...action.payload, uuid: uuidv4() },
       };
     }
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload],
+        ingredients: [
+          ...state.ingredients,
+          { ...action.payload, uuid: uuidv4() },
+        ],
       };
     }
     case REMOVE_INGREDIENT: {
@@ -29,7 +35,7 @@ export const consturctorReducer = (state = initialState, action) => {
       let deleted = false;
       return {
         ...state,
-        ingredients: state.ingredients.filter((el) => {
+        ingredients: state.ingredients.filter(el => {
           if (el._id === _id && !deleted) {
             deleted = true;
             return false;
@@ -42,6 +48,20 @@ export const consturctorReducer = (state = initialState, action) => {
       return {
         bun: null,
         ingredients: [],
+      };
+    }
+    case UPDATE_CONSTRUCTOR: {
+      const { dragIndex, hoverIndex } = action.payload;
+      const dragCard = state.ingredients[dragIndex];
+      console.log("ids", dragIndex, hoverIndex);
+      return {
+        ...state,
+        ingredients: update(state.ingredients, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragCard],
+          ],
+        }),
       };
     }
     default: {

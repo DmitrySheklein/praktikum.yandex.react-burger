@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import {
   ConstructorElement,
-  DragIcon,
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -10,9 +9,9 @@ import OrderDetails from "../order-details/order-details.jsx";
 import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
+import ConstructorSubElement from "./contstructor-element";
 import { useSelector, useDispatch } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
-import { REMOVE_INGREDIENT } from "../../services/constructor/actions";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
@@ -48,7 +47,6 @@ const BurgerConstructor = () => {
   const [{ canDrop, dragItem }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      console.log(item);
       dispatch({
         type: item.type === "bun" ? ADD_BUN : ADD_INGREDIENT,
         payload: item,
@@ -65,6 +63,7 @@ const BurgerConstructor = () => {
   const dragBuns = canDrop && dragItem && dragItem.type === "bun";
   const dragIngredients = canDrop && dragItem && dragItem.type !== "bun";
   const outline = "1px solid #fff";
+
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
       <div className={`${styles.constructorList} mb-10`} ref={dropTarget}>
@@ -88,22 +87,10 @@ const BurgerConstructor = () => {
         )}
         <div className={`${styles.constructorSubList} custom-scroll`}>
         {ingredients.length ? (
-          ingredients.map((product, index) => (
-            <div className={`${styles.constructorSubListItem}`} key={index}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={product.name}
-                price={product.price}
-                thumbnail={product.image}
-                handleClose={() => {
-                  dispatch({
-                    type: REMOVE_INGREDIENT,
-                    payload: product,
-                  });
-                }}
-              />
-            </div>
-          ))
+          ingredients.map((product) => {
+            console.log('product.uuid', product);
+            return (<ConstructorSubElement product={product} key={product.uuid} index={product.uuid}/>)
+          })
         ) : (
           <EmptyConstructorElement
             name="Выберите начинку"
