@@ -45,8 +45,8 @@ const BurgerConstructor = () => {
     );
   }, [orderState]);
 
-  const [{ isHoverBun }, dropTargetBun] = useDrop({
-    accept: "bun",
+  const [{ canDrop, dragItem }, dropTarget] = useDrop({
+    accept: "ingredient",
     drop(item) {
       console.log(item);
       dispatch({
@@ -54,31 +54,25 @@ const BurgerConstructor = () => {
         payload: item,
       });
     },
-    collect: monitor => ({
-      isHoverBun: monitor.isOver(),
-    }),
-  });
-  const outlineBun = isHoverBun ? "1px solid #fff" : "none";
-
-  const [{ isHoverItem }, dropTargetItem] = useDrop({
-    accept: "bun",
-    drop(itemId) {
-      console.log(itemId);
+    collect: monitor => {
+      return {
+        canDrop: monitor.canDrop(),
+        dragItem: monitor.getItem(),        
+        isHover: monitor.isOver()
+      }
     },
-    collect: monitor => ({
-      isHoverBun: monitor.isOver(),
-    }),
   });
-  const outlineItem = isHoverItem ? "1px solid #fff" : "none";
+  const dragBuns = canDrop && dragItem && dragItem.type === "bun";
+  const dragIngredients = canDrop && dragItem && dragItem.type !== "bun";
+  const outline = "1px solid #fff";
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
-      <div className={`${styles.constructorList} mb-10`}>
+      <div className={`${styles.constructorList} mb-10`} ref={dropTarget}>
         {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
             position="noBunsTop"
-            ref={dropTargetBun}
-            style={{ outline: outlineBun }}
+            style={(dragBuns) ? { outline } : {}}
           />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
@@ -88,10 +82,11 @@ const BurgerConstructor = () => {
               text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}
+              
             />
           </div>
         )}
-
+        <div className={`${styles.constructorSubList} custom-scroll`}>
         {ingredients.length ? (
           ingredients.map((product, index) => (
             <div className={`${styles.constructorSubListItem}`} key={index}>
@@ -113,17 +108,16 @@ const BurgerConstructor = () => {
           <EmptyConstructorElement
             name="Выберите начинку"
             position="noBunsMiddle"
-            ref={dropTargetItem}
-            style={{ outline: outlineItem }}
+            style={(dragIngredients) ? { outline } : {}}
           />
         )}
+        </div>
 
         {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
             position="noBunsButtom"
-            ref={dropTargetBun}
-            style={{ outline: outlineBun }}
+            style={(dragBuns) ? { outline } : {}}
           />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>

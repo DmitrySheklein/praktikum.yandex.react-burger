@@ -13,9 +13,11 @@
 
 .constructorSubList {
   width: 100%;
+  max-width: 568px;  
   box-sizing: border-box;
   max-height: 440px;
   overflow-y: auto;
+  margin: 0 auto;
 }
 
 .constructorListItem,
@@ -35,11 +37,10 @@
 
 .constructorSubListItem > svg {
   flex-shrink: 0;
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
   margin-right: 10px;
+}
+.constructorSubListItem > div {
+  max-width: calc(100%);
 }
 
 .constructorTotal {

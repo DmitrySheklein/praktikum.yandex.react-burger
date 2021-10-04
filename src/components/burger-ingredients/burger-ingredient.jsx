@@ -24,7 +24,6 @@ const BurgerIngredient = ({ product }) => {
     setModalShow(!modalShow);
   };
   const getCurrentCount = useMemo(() => {
-    if (!orderState.bun || !orderState.ingredients.length) return 0;
     return [orderState.bun, ...orderState.ingredients].filter(el => {
       if (el) {
         return el._id === product._id;
@@ -34,8 +33,11 @@ const BurgerIngredient = ({ product }) => {
   }, [orderState, product._id]);
 
   const [, dragRef] = useDrag({
-    type: product.type,
+    type: 'ingredient',
     item: { ...product },
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+  })    
   });
   return (
     <li
