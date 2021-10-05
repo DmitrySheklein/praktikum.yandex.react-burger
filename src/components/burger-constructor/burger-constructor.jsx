@@ -87,9 +87,8 @@ const BurgerConstructor = () => {
         )}
         <div className={`${styles.constructorSubList} custom-scroll`}>
         {ingredients.length ? (
-          ingredients.map((product) => {
-            console.log('product.uuid', product);
-            return (<ConstructorSubElement product={product} key={product.uuid} index={product.uuid}/>)
+          ingredients.map((product, index) => {
+            return (<ConstructorSubElement product={product} key={product.uuid} index={index}/>)
           })
         ) : (
           <EmptyConstructorElement

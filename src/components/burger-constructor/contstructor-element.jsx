@@ -80,7 +80,7 @@ const ConstructorSubElement =
       cursor: 'move',
     };
     return (
-      <div className={`${styles.constructorSubListItem}`} ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
+      <div className={`${styles.constructorSubListItem} pr-4`} ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
         <DragIcon type="primary" />
         <ConstructorElement
           text={product.name}

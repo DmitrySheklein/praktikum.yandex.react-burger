@@ -53,7 +53,6 @@ export const consturctorReducer = (state = initialState, action) => {
     case UPDATE_CONSTRUCTOR: {
       const { dragIndex, hoverIndex } = action.payload;
       const dragCard = state.ingredients[dragIndex];
-      console.log("ids", dragIndex, hoverIndex);
       return {
         ...state,
         ingredients: update(state.ingredients, {
