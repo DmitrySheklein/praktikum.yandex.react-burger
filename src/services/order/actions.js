@@ -1,3 +1,4 @@
+import { SERVER_URL } from "../../utils/constants";
 import { RESET_CONSTRUCTOR } from "../constructor/actions";
 export const name = "order";
 export const CREATE_ORDER_REQUEST = "CREATE_ORDER";
@@ -6,12 +7,11 @@ export const CREATE_ORDER_FAILED = "CREATE_ORDER_FAILED";
 
 export const createOrder = (data, setStartedOrder) => {
   return async function (dispatch) {
-    const FETCH_URL = "https://norma.nomoreparties.space/api/orders";
     try {
       dispatch({
         type: CREATE_ORDER_REQUEST,
       });
-      const res = await fetch(FETCH_URL, {
+      const res = await fetch(`${SERVER_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
