@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderContext } from "../../services/orderContext";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
+import { getCurrentIngredient } from "../../services/currentIngredient/selectors";
+import { RESET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
 
-const IngredientDetails = ({ product, setFunc }) => {
-  const { orderDispatcher } = useContext(OrderContext);
+const IngredientDetails = ({ setFunc }) => {
+  const dispatch = useDispatch();
+  const product = useSelector(getCurrentIngredient);
   const statProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",
@@ -13,10 +17,28 @@ const IngredientDetails = ({ product, setFunc }) => {
     carbohydrates: "Углеводы,г",
   };
   const addOnOrderHandler = () => {
-    const dispatherType = product.type === "bun" ? product.type : "ingredients";
-    orderDispatcher({ type: dispatherType, payload: product });
+    const productType = product.type;
+
+    if (productType === "bun") {
+      dispatch({
+        type: ADD_BUN,
+        payload: product,
+      });
+    } else {
+      dispatch({
+        type: ADD_INGREDIENT,
+        payload: product,
+      });
+    }
     setFunc(false);
   };
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: RESET_CURRENT_INGREDIENT,
+      });
+    };
+  }, [dispatch]);
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.ImgWrap} mb-4`}>
@@ -52,14 +74,7 @@ const IngredientDetails = ({ product, setFunc }) => {
 };
 
 IngredientDetails.propTypes = {
-  product: PropTypes.shape({
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    name: PropTypes.string,
-    image_large: PropTypes.string,
-  }).isRequired,
+  setFunc: PropTypes.func,
 };
 
 export default IngredientDetails;

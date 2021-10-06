@@ -1,56 +1,33 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ConstructorElement,
-  DragIcon,
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal.jsx";
+import OrderDetails from "../order-details/order-details.jsx";
 import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
-import { OrderContext } from "../../services/orderContext";
+import ConstructorSubElement from "./contstructor-element";
+import { useSelector, useDispatch } from "react-redux";
+import { getConstructorItems } from "../../services/constructor/selectors";
+import { createOrder } from "../../services/order/actions";
+import { useDrop } from "react-dnd";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 
 const BurgerConstructor = () => {
-  const { orderState, orderDispatcher } = useContext(OrderContext);
+  const dispatch = useDispatch();
+  const orderState = useSelector(getConstructorItems);
   const { bun, ingredients } = orderState;
-  const [startedOrder, setStatedOrder] = useState(false);
-  const [orderInfo, setOrderInfo] = useState();
+  const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
     const ingredientsId = [...orderState.ingredients.map(el => el._id)];
     const bunId = orderState.bun?._id || null;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
     };
-    createOrder(orderData);
-  };
-  const createOrder = async data => {
-    const FETCH_URL = "https://norma.nomoreparties.space/api/orders";
-    try {
-      const res = await fetch(FETCH_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const isJson =
-        res.headers.get("content-type").indexOf("application/json") !== -1;
-      if (!res.ok) {
-        throw new Error("Ответ сети не ok");
-      }
-      if (!isJson) {
-        throw new Error("Ответ сети не json");
-      }
-      const json = await res.json();
-      if (json.success) {
-        setStatedOrder(!startedOrder);
-        setOrderInfo(json);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+    dispatch(createOrder(orderData, setStartedOrder));
   };
   const totalOrderSum = useMemo(() => {
     if (!orderState.bun && !orderState.ingredients.length) return 0;
@@ -66,55 +43,74 @@ const BurgerConstructor = () => {
       0
     );
   }, [orderState]);
+
+  const [{ canDrop, dragItem }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      dispatch({
+        type: item.type === "bun" ? ADD_BUN : ADD_INGREDIENT,
+        payload: item,
+      });
+    },
+    collect: monitor => {
+      return {
+        canDrop: monitor.canDrop(),
+        dragItem: monitor.getItem(),        
+        isHover: monitor.isOver()
+      }
+    },
+  });
+  const dragBuns = canDrop && dragItem && dragItem.type === "bun";
+  const dragIngredients = canDrop && dragItem && dragItem.type !== "bun";
+  const outline = "1px solid #fff";
+
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
-      <div className={`${styles.constructorList} mb-10`}>
+      <div className={`${styles.constructorList} mb-10`} ref={dropTarget}>
         {!bun ? (
-          <EmptyConstructorElement name="Выберите булки" postions="noBunsTop" />
+          <EmptyConstructorElement
+            name="Выберите булки"
+            position="noBunsTop"
+            style={(dragBuns) ? { outline } : {}}
+          />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={bun.name}
+              text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}
+              
             />
           </div>
         )}
-
+        <div className={`${styles.constructorSubList} custom-scroll`}>
         {ingredients.length ? (
-          ingredients.map((product, index) => (
-            <div className={`${styles.constructorSubListItem}`} key={index}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={product.name}
-                price={product.price}
-                thumbnail={product.image}
-                handleClose={() =>
-                  orderDispatcher({ type: "remove", payload: product })
-                }
-              />
-            </div>
-          ))
+          ingredients.map((product, index) => {
+            return (<ConstructorSubElement product={product} key={product.uuid} index={index}/>)
+          })
         ) : (
           <EmptyConstructorElement
             name="Выберите начинку"
-            postions="noBunsMiddle"
+            position="noBunsMiddle"
+            style={(dragIngredients) ? { outline } : {}}
           />
         )}
+        </div>
 
         {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
-            postions="noBunsButtom"
+            position="noBunsButtom"
+            style={(dragBuns) ? { outline } : {}}
           />
         ) : (
           <div className={`${styles.constructorListItem} pr-8 pl-6`}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={bun.name}
+              text={`${bun.name} (низ)`}
               price={bun.price}
               thumbnail={bun.image}
             />
@@ -129,15 +125,15 @@ const BurgerConstructor = () => {
           </div>
         ) : null}
 
-        {totalOrderSum ? (
+        {totalOrderSum && bun ? (
           <Button type="primary" size="large" onClick={startOrderHandle}>
             Оформить заказ
           </Button>
         ) : null}
 
-        {startedOrder && orderInfo && (
-          <Modal visible={startedOrder} setFunc={setStatedOrder}>
-            <OrderDetails orderInfo={orderInfo} />
+        {startedOrder && (
+          <Modal visible={startedOrder} setFunc={setStartedOrder}>
+            <OrderDetails />
           </Modal>
         )}
       </div>

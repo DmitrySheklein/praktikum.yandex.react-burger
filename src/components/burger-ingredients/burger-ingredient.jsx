@@ -1,18 +1,26 @@
-import { React, useState, useContext, useMemo } from "react";
+import { React, useState, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal.jsx";
+import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import PropTypes from "prop-types";
-import { OrderContext } from "../../services/orderContext";
+import { useSelector, useDispatch } from "react-redux";
+import { getConstructorItems } from "../../services/constructor/selectors";
+import { SET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
+import { useDrag } from "react-dnd";
 
 const BurgerIngredient = ({ product }) => {
-  const { orderState } = useContext(OrderContext);
+  const dispatch = useDispatch();
+  const orderState = useSelector(getConstructorItems);
   const [modalShow, setModalShow] = useState(false);
   const handleItemClick = () => {
+    dispatch({
+      type: SET_CURRENT_INGREDIENT,
+      payload: product,
+    });
     setModalShow(!modalShow);
   };
   const getCurrentCount = useMemo(() => {
@@ -23,8 +31,20 @@ const BurgerIngredient = ({ product }) => {
       return false;
     }).length;
   }, [orderState, product._id]);
+
+  const [, dragRef] = useDrag({
+    type: 'ingredient',
+    item: { ...product },
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+  })    
+  });
   return (
-    <li className={`${styles.ListItem} mb-8`} onClick={handleItemClick}>
+    <li
+      className={`${styles.ListItem} mb-8`}
+      onClick={handleItemClick}
+      ref={dragRef}
+    >
       {getCurrentCount !== 0 && (
         <Counter count={getCurrentCount} size="default" />
       )}
@@ -48,7 +68,7 @@ const BurgerIngredient = ({ product }) => {
           setFunc={setModalShow}
           headerTitle="Детали ингредиента"
         >
-          <IngredientDetails product={product} setFunc={setModalShow} />
+          <IngredientDetails setFunc={setModalShow} />
         </Modal>
       )}
     </li>
