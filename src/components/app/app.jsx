@@ -5,6 +5,8 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
 import { useDispatch } from "react-redux";
 import { getItems } from "../../services/ingredients/actions";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { LoginPage } from "../pages";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,6 +17,11 @@ function App() {
 
   return (
     <>
+      <Router>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+      </Router>
       <AppHeader />
       <main className={`${appStyles.container} ${appStyles.flex}`}>
         <BurgerIngredients />
