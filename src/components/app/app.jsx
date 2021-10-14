@@ -5,8 +5,14 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
 import { useDispatch } from "react-redux";
 import { getItems } from "../../services/ingredients/actions";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { LoginPage } from "../pages";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  LoginPage,
+  RegisterPage,
+  ProfilePage,
+  ResetPassword,
+  ForgotPassword,
+} from "../../pages";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,15 +23,31 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-      </Router>
       <AppHeader />
       <main className={`${appStyles.container} ${appStyles.flex}`}>
-        <BurgerIngredients />
-        <BurgerConstructor />
+        <Router>
+          <Switch>
+            <Route path="/" exact={true}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </Route>
+            <Route path="/login" exact={true}>
+              <LoginPage />
+            </Route>
+            <Route path="/register" exact={true}>
+              <RegisterPage />
+            </Route>
+            <Route path="/forgot-password" exact={true}>
+              <ForgotPassword />
+            </Route>
+            <Route path="/reset-password" exact={true}>
+              <ResetPassword />
+            </Route>
+            <Route path="/profile" exact={true}>
+              <ProfilePage />
+            </Route>
+          </Switch>
+        </Router>
       </main>
     </>
   );
