@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import {
   Button,
   Input,
-  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
-  const [password, setPassword] = useState("");
-  const [emailText, setEmailText] = useState("");
-  const inputRef = useRef(null);
+  const [name, setName] = useState("Марк");
+  const [password, setPassword] = useState("123456");
+  const [emailText, setEmailText] = useState("mail@stellar.burgers");
+
   // const { name, loginUserError } = useSelector((state) => state.user);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,24 +21,32 @@ const ProfilePage = () => {
     <div className={styles.profileContainer}>
       <aside className={`${styles.profileSidebar}  mr-15`}>
         <ul className={`${styles.sidebar} mb-20`}>
-          <li className={`${styles.sidebarItem} text text_type_main-medium`}>
-            Профиль
+          <li className={`${styles.sidebarItem}`}>
+            <Link
+              className={`${styles.sidebarLink} ${styles.sidebarLinkCurrent} text text_type_main-medium`}
+            >
+              Профиль
+            </Link>
           </li>
-          <li
-            className={`${styles.sidebarItem} text text_type_main-medium text_color_inactive`}
-          >
-            История заказов
+          <li className={`${styles.sidebarItem}`}>
+            <Link
+              className={`${styles.sidebarLink} text text_type_main-medium text_color_inactive`}
+            >
+              История заказов
+            </Link>
           </li>
-          <li
-            className={`${styles.sidebarItem} text text_type_main-medium text_color_inactive`}
-          >
-            Выход
+          <li className={`${styles.sidebarItem}`}>
+            <button
+              className={`${styles.sidebarExitLink} reset-btn text text_type_main-medium text_color_inactive`}
+            >
+              Выход
+            </button>
           </li>
         </ul>
         <p
           className={`${styles.sidebarSubText} text text_type_main-default text_color_inactive`}
         >
-          В этом разделе вы можете изменить свои персональные данные
+          В этом разделе вы можете <br /> изменить свои персональные данные
         </p>
       </aside>
       <div className={`${styles.wrap} ${styles.profileWrap}`}>
@@ -47,15 +55,15 @@ const ProfilePage = () => {
             <Input
               type={"text"}
               placeholder={"Имя"}
-              onChange={(e) => setEmailText(e.target.value)}
-              value={emailText}
+              onChange={(e) => setName(e.target.value)}
+              value={name}
               name={"name"}
               icon={"EditIcon"}
               error={false}
               errorText={"Ошибка"}
               size={"default"}
             />
-          </div>{" "}
+          </div>
           <div className={`${styles.formField} mb-6`}>
             <Input
               type={"email"}
@@ -70,13 +78,24 @@ const ProfilePage = () => {
             />
           </div>
           <div className={`${styles.formField} mb-6`}>
-            <PasswordInput
+            <Input
+              type={"password"}
+              placeholder={"Пароль"}
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               name={"password"}
+              icon={"EditIcon"}
+              error={false}
+              errorText={"Ошибка"}
+              size={"default"}
             />
           </div>
-          <div className={`${styles.formButton} mb-20`}>
+          <div className={`${styles.formButtonsContainer}`}>
+            <button
+              className={`${styles.formResetBtn} reset-btn text text_type_main-default mr-5`}
+            >
+              Отмена
+            </button>
             <Button type="primary" size="medium">
               Сохранить
             </Button>

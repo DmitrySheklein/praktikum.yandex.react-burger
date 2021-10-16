@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +41,6 @@ const LoginPage = () => {
             type={"email"}
             placeholder={"E-mail"}
             onChange={(e) => setEmail(e.target.value)}
-            icon={"CurrencyIcon"}
             value={email}
             name={"email"}
             error={false}

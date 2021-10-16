@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email] = useState("");
   const inputRef = useRef(null);
   // const { name, loginUserError } = useSelector((state) => state.user);
   const handleSubmit = (e) => {

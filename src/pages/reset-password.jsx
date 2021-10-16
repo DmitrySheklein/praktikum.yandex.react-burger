@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import {
   Button,
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [emailText, setEmailText] = useState("");
-  const inputRef = useRef(null);
+
   // const { name, loginUserError } = useSelector((state) => state.user);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +26,6 @@ const ResetPassword = () => {
           />
         );
       }*/
-  // useEffect(() => inputRef.current.focus(), []);
 
   return (
     <div className={styles.wrap}>
