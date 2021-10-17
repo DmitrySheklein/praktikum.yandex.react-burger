@@ -11,7 +11,7 @@ export const createOrder = (data, setStartedOrder) => {
       dispatch({
         type: CREATE_ORDER_REQUEST,
       });
-      const res = await fetch(`${SERVER_URL}/api/orders`, {
+      const res = await fetch(`${SERVER_URL}/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

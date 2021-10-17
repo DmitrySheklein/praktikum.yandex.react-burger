@@ -14,12 +14,14 @@ import {
   ForgotPassword,
   ErrorPage404,
 } from "../../pages";
+import { checkAuth } from "../../services/auth/actions";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getItems());
+    dispatch(checkAuth());
   }, [dispatch]);
 
   return (

@@ -12,7 +12,6 @@ import { useDrop, useDrag } from "react-dnd";
 import styles from "./burger-constructor.module.css";
 
 const ConstructorSubElement = ({ product, index, ingredientsLength }) => {
-  console.log(ingredientsLength);
   const dispatch = useDispatch();
   const id = product._id;
   const ref = useRef(null);
@@ -74,7 +73,7 @@ const ConstructorSubElement = ({ product, index, ingredientsLength }) => {
     item: () => {
       return { id, index };
     },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });

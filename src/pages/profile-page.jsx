@@ -1,27 +1,44 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../services/auth/selectors";
+import { signOut } from "../services/auth/actions";
 
 const ProfilePage = () => {
-  const history = useHistory();
-  const [name, setName] = useState("Марк");
-  const [password, setPassword] = useState("123456");
-  const [emailText, setEmailText] = useState("mail@stellar.burgers");
-
-  // const { name, loginUserError } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector(getUser);
+  const [form, setValue] = useState({
+    name: user?.name,
+    email: user?.email,
+    password: "",
+  });
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(loginUser(email, password));
-    console.log(password, emailText);
+    console.log(form.name, form.email, form.password);
   };
-  const logout = useCallback(() => {
-    history.replace({ pathname: "/" });
-  }, [history]);
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setValue({ ...user, password: "" });
+  };
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    console.log("logout");
+    dispatch(signOut());
+  };
 
+  if (!user) {
+    const { from } = location.state || { from: { pathname: "/login" } };
+    return <Redirect to={from} />;
+  }
   return (
     <div className={styles.profileContainer}>
       <aside className={`${styles.profileSidebar}  mr-15`}>
@@ -43,7 +60,7 @@ const ProfilePage = () => {
           </li>
           <li className={`${styles.sidebarItem}`}>
             <button
-              onClick={logout}
+              onClick={logoutHandler}
               className={`${styles.sidebarLink} reset-btn text text_type_main-medium text_color_inactive`}
             >
               Выход
@@ -62,8 +79,8 @@ const ProfilePage = () => {
             <Input
               type={"text"}
               placeholder={"Имя"}
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={onChange}
+              value={form.name}
               name={"name"}
               icon={"EditIcon"}
               error={false}
@@ -75,9 +92,9 @@ const ProfilePage = () => {
             <Input
               type={"email"}
               placeholder={"Логин"}
-              onChange={(e) => setEmailText(e.target.value)}
-              value={emailText}
-              name={"name"}
+              onChange={onChange}
+              value={form.email}
+              name={"email"}
               icon={"EditIcon"}
               error={false}
               errorText={"Ошибка"}
@@ -88,8 +105,8 @@ const ProfilePage = () => {
             <Input
               type={"password"}
               placeholder={"Пароль"}
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
+              onChange={onChange}
+              value={form.password}
               name={"password"}
               icon={"EditIcon"}
               error={false}
@@ -99,6 +116,7 @@ const ProfilePage = () => {
           </div>
           <div className={`${styles.formButtonsContainer}`}>
             <button
+              onClick={handleCancel}
               className={`${styles.formResetBtn} reset-btn text text_type_main-default mr-5`}
             >
               Отмена

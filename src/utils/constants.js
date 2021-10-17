@@ -1,1 +1,1 @@
-export const SERVER_URL = "https://norma.nomoreparties.space";
+export const SERVER_URL = "https://norma.nomoreparties.space/api";
