@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./page.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const ProfilePage = () => {
+  const history = useHistory();
   const [name, setName] = useState("Марк");
   const [password, setPassword] = useState("123456");
   const [emailText, setEmailText] = useState("mail@stellar.burgers");
@@ -17,19 +18,24 @@ const ProfilePage = () => {
     // dispatch(loginUser(email, password));
     console.log(password, emailText);
   };
+  const logout = useCallback(() => {
+    history.replace({ pathname: "/" });
+  }, [history]);
+
   return (
     <div className={styles.profileContainer}>
       <aside className={`${styles.profileSidebar}  mr-15`}>
         <ul className={`${styles.sidebar} mb-20`}>
           <li className={`${styles.sidebarItem}`}>
-            <Link
+            <span
               className={`${styles.sidebarLink} ${styles.sidebarLinkCurrent} text text_type_main-medium`}
             >
               Профиль
-            </Link>
+            </span>
           </li>
           <li className={`${styles.sidebarItem}`}>
             <Link
+              to="/profile/orders"
               className={`${styles.sidebarLink} text text_type_main-medium text_color_inactive`}
             >
               История заказов
@@ -37,7 +43,8 @@ const ProfilePage = () => {
           </li>
           <li className={`${styles.sidebarItem}`}>
             <button
-              className={`${styles.sidebarExitLink} reset-btn text text_type_main-medium text_color_inactive`}
+              onClick={logout}
+              className={`${styles.sidebarLink} reset-btn text text_type_main-medium text_color_inactive`}
             >
               Выход
             </button>

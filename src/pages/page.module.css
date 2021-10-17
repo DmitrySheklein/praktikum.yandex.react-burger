@@ -67,13 +67,14 @@
   display: flex;
   align-items: center;
 }
-.sidebarExitLink {
-  width: 100%;
-  text-align: left;
-}
+
 .sidebarLink {
   width: 100%;
+  text-align: left;
   transition: all 0.3s;
+}
+.sidebarLink:hover {
+  color: #fff;
 }
 .sidebarLinkCurrent {
   color: #fff;

@@ -12,6 +12,7 @@ import {
   ProfilePage,
   ResetPassword,
   ForgotPassword,
+  ErrorPage404,
 } from "../../pages";
 
 function App() {
@@ -23,9 +24,9 @@ function App() {
 
   return (
     <>
-      <AppHeader />
-      <main className={`${appStyles.container} ${appStyles.flex}`}>
-        <Router>
+      <Router>
+        <AppHeader />
+        <main className={`${appStyles.container} ${appStyles.flex}`}>
           <Switch>
             <Route path="/" exact={true}>
               <BurgerIngredients />
@@ -46,9 +47,12 @@ function App() {
             <Route path="/profile" exact={true}>
               <ProfilePage />
             </Route>
+            <Route path="*">
+              <ErrorPage404 />
+            </Route>
           </Switch>
-        </Router>
-      </main>
+        </main>
+      </Router>
     </>
   );
 }
