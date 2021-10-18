@@ -4,29 +4,34 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { forgotPassword } from "../services/auth/actions";
+import { getForgotPassword } from "../services/auth/selectors";
 
 const ForgotPassword = () => {
-  const [name, setName] = useState("");
-  const [email] = useState("");
+  const forgotPasswordObj = useSelector(getForgotPassword);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [form, setValue] = useState({
+    email: "",
+  });
   const inputRef = useRef(null);
-  // const { name, loginUserError } = useSelector((state) => state.user);
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    // dispatch(loginUser(email, password));
-    console.log(name, email);
+    dispatch(forgotPassword(form));
   };
-  /*  if (name) {
-          const { from } = location.state || { from: { pathname: "/" } };
-          return (
-            <Redirect
-              // Если объект state не является undefined, вернём пользователя назад.
-              to={from}
-            />
-          );
-        }*/
-  useEffect(() => inputRef.current.focus(), []);
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
 
+  useEffect(() => inputRef.current.focus(), []);
+  if (forgotPasswordObj.emailSend) {
+    history.replace({
+      pathname: "/reset-password",
+      state: { fromForgotPage: true },
+    });
+  }
   return (
     <div className={styles.wrap}>
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -38,14 +43,22 @@ const ForgotPassword = () => {
             ref={inputRef}
             type={"email"}
             placeholder={"Укажите e-mail"}
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            onChange={onChange}
+            value={form.email}
             name={"email"}
             error={false}
             errorText={"Ошибка"}
             size={"default"}
+            required
           />
         </div>
+        {forgotPasswordObj.status && (
+          <p
+            className={`${styles.formErrorMsg} pt-2 pb-5 text text_type_main-small`}
+          >
+            {forgotPasswordObj.message}
+          </p>
+        )}
         <div className={`${styles.formButton} mb-20`}>
           <Button type="primary" size="medium">
             Восстановить
@@ -60,9 +73,6 @@ const ForgotPassword = () => {
           </Link>
         </p>
       </form>
-      {/*      {loginUserError ? (
-        <p className="pt-5 text text_type_main-default">{loginUserError}</p>
-      ) : null}*/}
     </div>
   );
 };

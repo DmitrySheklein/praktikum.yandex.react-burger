@@ -10,6 +10,9 @@ export const ActionTypes = {
   SET_REGISTER_SEND_ERROR: `${name}/SET_REGISTER_SEND_ERROR`,
   SET_LOGIN_SENDING: `${name}/SET_LOGIN_SENDING`,
   SET_LOGIN_SEND_ERROR: `${name}/SET_LOGIN_SEND_ERROR`,
+  SET_PASSWORD_FORGOT_EMAIL_SEND: `${name}/SET_PASSWORD_FORGOT_EMAIL_SEND`,
+  SET_PASSWORD_FORGOT_PASSWORD_CHANGED: `${name}/SET_PASSWORD_FORGOT_PASSWORD_CHANGED`,
+  RESET_PASSWORD_FORGOT: `${name}/RESET_PASSWORD_FORGOT`,
 };
 
 export function register({ name, password, email }) {
@@ -147,7 +150,7 @@ export function checkAuth() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getCookie("accessToken")}`,
         },
-      }).then((res) => {
+      }).then(res => {
         const { user } = res;
         dispatch({
           type: ActionTypes.SET_USER_DATA,
@@ -160,6 +163,48 @@ export function checkAuth() {
         payload: false,
       });
       return Promise.resolve();
+    }
+  };
+}
+export function forgotPassword({ email, password, emailText }) {
+  return async function (dispatch) {
+    const isPasswordChange = password && emailText;
+    const REQUEST_URL = isPasswordChange
+      ? `${SERVER_URL}/password-reset/reset`
+      : `${SERVER_URL}/password-reset`;
+    // Запрашиваем данные у сервера
+    try {
+      const res = await fetch(REQUEST_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, emailText }),
+      });
+      const isJson =
+        res.headers.get("content-type").indexOf("application/json") !== -1;
+      if (!isJson) {
+        throw new Error("Ответ сети не json");
+      }
+      if (!res.ok) {
+        const { message } = await res.json();
+        throw new Error(`Ответ сети не ok. Ошибка: ${message}`);
+      }
+      const { success, message } = await res.json();
+      if (isPasswordChange) {
+        dispatch({
+          type: ActionTypes.SET_PASSWORD_FORGOT_PASSWORD_CHANGED,
+          payload: { passwordChanged: success, message },
+        });
+      } else {
+        dispatch({
+          type: ActionTypes.SET_PASSWORD_FORGOT_EMAIL_SEND,
+          payload: { emailSend: success, message },
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 }

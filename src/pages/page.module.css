@@ -46,7 +46,9 @@
 .formLink:hover {
   color: #fff;
 }
-
+.formErrorMsg {
+  text-align: center;
+}
 .profileContainer {
   max-width: 860px;
   width: 100%;

@@ -5,27 +5,37 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getForgotPassword } from "../services/auth/selectors";
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState("");
-  const [emailText, setEmailText] = useState("");
-
-  // const { name, loginUserError } = useSelector((state) => state.user);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // dispatch(loginUser(email, password));
-    console.log(password, emailText);
+  const forgotPasswordObj = useSelector(getForgotPassword);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [form, setValue] = useState({
+    password: "",
+    emailText: "",
+  });
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
-  /*  if (name) {
-        const { from } = location.state || { from: { pathname: "/" } };
-        return (
-          <Redirect
-            // Если объект state не является undefined, вернём пользователя назад.
-            to={from}
-          />
-        );
-      }*/
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch();
+  };
+
+  console.log(history.location);
+  const fromForgotPage = history.location.state?.fromForgotPage;
+
+  if (!fromForgotPage) {
+    return (
+      <Redirect
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={{ pathname: "/forgot-password" }}
+      />
+    );
+  }
 
   return (
     <div className={styles.wrap}>
@@ -37,8 +47,8 @@ const ResetPassword = () => {
           className={`${styles.formField} ${styles.formFieldNewPassword} mb-6`}
         >
           <PasswordInput
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={onChange}
+            value={form.password}
             name={"password"}
           />
         </div>
@@ -46,8 +56,8 @@ const ResetPassword = () => {
           <Input
             type={"text"}
             placeholder={"Введите код из письма"}
-            onChange={(e) => setEmailText(e.target.value)}
-            value={emailText}
+            onChange={onChange}
+            value={form.emailText}
             name={"email"}
             error={false}
             errorText={"Ошибка"}
@@ -68,9 +78,6 @@ const ResetPassword = () => {
           </Link>
         </p>
       </form>
-      {/*      {loginUserError ? (
-        <p className="pt-5 text text_type_main-default">{loginUserError}</p>
-      ) : null}*/}
     </div>
   );
 };
