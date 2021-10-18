@@ -12,20 +12,23 @@ import {
   ProfilePage,
   ResetPassword,
   ForgotPassword,
+  ErrorPage404,
 } from "../../pages";
+import { checkAuth } from "../../services/auth/actions";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getItems());
+    dispatch(checkAuth());
   }, [dispatch]);
 
   return (
     <>
-      <AppHeader />
-      <main className={`${appStyles.container} ${appStyles.flex}`}>
-        <Router>
+      <Router>
+        <AppHeader />
+        <main className={`${appStyles.container} ${appStyles.flex}`}>
           <Switch>
             <Route path="/" exact={true}>
               <BurgerIngredients />
@@ -46,9 +49,12 @@ function App() {
             <Route path="/profile" exact={true}>
               <ProfilePage />
             </Route>
+            <Route path="*">
+              <ErrorPage404 />
+            </Route>
           </Switch>
-        </Router>
-      </main>
+        </main>
+      </Router>
     </>
   );
 }

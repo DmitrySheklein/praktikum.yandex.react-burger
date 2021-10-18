@@ -5,29 +5,35 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { register } from "../services/auth/actions";
+import { useSelector } from "react-redux";
+import { getUser, getRegisterError } from "../services/auth/selectors";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const inputRef = useRef(null);
-  const [password, setPassword] = useState("");
+  const registerError = useSelector(getRegisterError);
+  const user = useSelector(getUser);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const [form, setValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   // const { name, loginUserError } = useSelector((state) => state.user);
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(loginUser(email, password));
-    console.log(name, email, password);
+    dispatch(register(form));
   };
-  /*  if (name) {
-      const { from } = location.state || { from: { pathname: "/" } };
-      return (
-        <Redirect
-          // Если объект state не является undefined, вернём пользователя назад.
-          to={from}
-        />
-      );
-    }*/
-  useEffect(() => inputRef.current.focus(), []);
+
+  if (user) {
+    const { from } = location.state || { from: { pathname: "/login" } };
+    return <Redirect to={from} />;
+  }
 
   return (
     <div className={styles.wrap}>
@@ -37,11 +43,10 @@ const RegisterPage = () => {
         </h1>
         <div className={`${styles.formField} mb-6`}>
           <Input
-            ref={inputRef}
             type={"text"}
             placeholder={"Имя"}
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            onChange={onChange}
+            value={form.name}
             name={"name"}
             error={false}
             errorText={"Ошибка"}
@@ -52,8 +57,8 @@ const RegisterPage = () => {
           <Input
             type={"email"}
             placeholder={"E-mail"}
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={onChange}
+            value={form.email}
             name={"email"}
             error={false}
             errorText={"Ошибка"}
@@ -62,11 +67,19 @@ const RegisterPage = () => {
         </div>
         <div className={`${styles.formField} mb-6`}>
           <PasswordInput
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={onChange}
+            value={form.password}
             name={"password"}
           />
         </div>
+        {registerError && (
+          <p
+            className="pt-2 pb-5 text text_type_main-small"
+            style={{ textAlign: "center" }}
+          >
+            {registerError}
+          </p>
+        )}
         <div className={`${styles.formButton} mb-20`}>
           <Button type="primary" size="medium">
             Зарегистрироваться
@@ -81,9 +94,6 @@ const RegisterPage = () => {
           </Link>
         </p>
       </form>
-      {/*      {loginUserError ? (
-        <p className="pt-5 text text_type_main-default">{loginUserError}</p>
-      ) : null}*/}
     </div>
   );
 };

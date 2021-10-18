@@ -6,37 +6,45 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
+import { Link, NavLink } from "react-router-dom";
 
 const AppHeader = () => {
   return (
     <header className={`${styles.header} mb-10 pb-4 pt-4`}>
       <div className={styles.headerContainer}>
         <nav className={styles.headerMenu}>
-          <a
-            href="#!"
-            className={`${styles.headerLink} ${styles.active} text text_type_main-default`}
+          <NavLink
+            to="/"
+            exact={true}
+            className={`${styles.headerLink} text text_type_main-default text_color_inactive`}
+            activeClassName={styles.active}
           >
             <BurgerIcon type="primary" />
             <span className="ml-4">Конструктор</span>
-          </a>
-          <a
-            href="#!"
+          </NavLink>
+          <NavLink
+            to="/profile/orders"
             className={`${styles.headerLink} text text_type_main-default text_color_inactive`}
+            activeClassName={styles.active}
           >
             <ListIcon type="primary" />
             <span className="ml-4">Лента заказов</span>
-          </a>
+          </NavLink>
         </nav>
         <div className={styles.logoWrap}>
-          <Logo className={styles.logo} />
+          <Link to="/">
+            <Logo className={styles.logo} />
+          </Link>
         </div>
-        <a
-          href="#!"
+        <NavLink
+          to="/profile"
           className={`${styles.headerLink} text text_type_main-default text_color_inactive`}
+          activeClassName={styles.active}
+          exact={true}
         >
           <ProfileIcon type="primary" />
           <span className="ml-4">Личный кабинет</span>
-        </a>
+        </NavLink>
       </div>
     </header>
   );

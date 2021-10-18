@@ -1,5 +1,4 @@
 import { SERVER_URL } from "../../utils/constants";
-
 export const name = "ingredients";
 export const LOAD_ITEMS = "LOAD_ITEMS";
 export const LOAD_ITEMS_SUCCESS = "LOAD_ITEMS_SUCCESS";
@@ -12,7 +11,7 @@ export function getItems() {
     });
     // Запрашиваем данные у сервера
     try {
-      const res = await fetch(`${SERVER_URL}/api/ingredients`);
+      const res = await fetch(`${SERVER_URL}/ingredients`);
       const isJson =
         res.headers.get("content-type").indexOf("application/json") !== -1;
       if (!res.ok) {

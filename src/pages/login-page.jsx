@@ -5,29 +5,34 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, Redirect, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../services/auth/actions";
+import { getLoginError, getUser } from "../services/auth/selectors";
+// import { useSelector } from "react-redux";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const inputRef = useRef(null);
-  const [password, setPassword] = useState("");
+  const loginError = useSelector(getLoginError);
+  const user = useSelector(getUser);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const [form, setValue] = useState({
+    email: "",
+    password: "",
+  });
   // const { name, loginUserError } = useSelector((state) => state.user);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(loginUser(email, password));
-    console.log(email, password);
+    dispatch(login(form));
   };
-  /*  if (name) {
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  if (user) {
     const { from } = location.state || { from: { pathname: "/" } };
-    return (
-      <Redirect
-        // Если объект state не является undefined, вернём пользователя назад.
-        to={from}
-      />
-    );
-  }*/
-  useEffect(() => inputRef.current.focus(), []);
+    return <Redirect to={from} />;
+  }
 
   return (
     <div className={styles.wrap}>
@@ -37,12 +42,10 @@ const LoginPage = () => {
         </h1>
         <div className={`${styles.formField} ${styles.formEmail} mb-6`}>
           <Input
-            ref={inputRef}
             type={"email"}
             placeholder={"E-mail"}
-            onChange={(e) => setEmail(e.target.value)}
-            icon={"CurrencyIcon"}
-            value={email}
+            onChange={onChange}
+            value={form.email}
             name={"email"}
             error={false}
             errorText={"Ошибка"}
@@ -51,11 +54,19 @@ const LoginPage = () => {
         </div>
         <div className={`${styles.formField} mb-6`}>
           <PasswordInput
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={onChange}
+            value={form.password}
             name={"password"}
           />
         </div>
+        {loginError && (
+          <p
+            className="pt-2 pb-5 text text_type_main-small"
+            style={{ textAlign: "center" }}
+          >
+            {loginError}
+          </p>
+        )}
         <div className={`${styles.formButton} mb-20`}>
           <Button type="primary" size="medium">
             Войти
@@ -78,9 +89,6 @@ const LoginPage = () => {
           </Link>
         </p>
       </form>
-      {/*      {loginUserError ? (
-        <p className="pt-5 text text_type_main-default">{loginUserError}</p>
-      ) : null}*/}
     </div>
   );
 };

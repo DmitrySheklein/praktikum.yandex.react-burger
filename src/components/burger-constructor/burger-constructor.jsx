@@ -22,7 +22,7 @@ const BurgerConstructor = () => {
   const { bun, ingredients } = orderState;
   const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
-    const ingredientsId = [...orderState.ingredients.map(el => el._id)];
+    const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
     const bunId = orderState.bun?._id || null;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
@@ -52,7 +52,7 @@ const BurgerConstructor = () => {
         payload: item,
       });
     },
-    collect: monitor => {
+    collect: (monitor) => {
       return {
         canDrop: monitor.canDrop(),
         dragItem: monitor.getItem(),

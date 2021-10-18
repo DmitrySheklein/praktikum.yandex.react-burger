@@ -1,44 +1,76 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import {
   Button,
   Input,
-  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../services/auth/selectors";
+import { signOut } from "../services/auth/actions";
 
 const ProfilePage = () => {
-  const [password, setPassword] = useState("");
-  const [emailText, setEmailText] = useState("");
-  const inputRef = useRef(null);
-  // const { name, loginUserError } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector(getUser);
+  const [form, setValue] = useState({
+    name: user?.name,
+    email: user?.email,
+    password: "",
+  });
+  const onChange = (e) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(loginUser(email, password));
-    console.log(password, emailText);
+    console.log(form.name, form.email, form.password);
   };
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setValue({ ...user, password: "" });
+  };
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    console.log("logout");
+    dispatch(signOut());
+  };
+
+  if (!user) {
+    const { from } = location.state || { from: { pathname: "/login" } };
+    return <Redirect to={from} />;
+  }
   return (
     <div className={styles.profileContainer}>
       <aside className={`${styles.profileSidebar}  mr-15`}>
         <ul className={`${styles.sidebar} mb-20`}>
-          <li className={`${styles.sidebarItem} text text_type_main-medium`}>
-            Профиль
+          <li className={`${styles.sidebarItem}`}>
+            <span
+              className={`${styles.sidebarLink} ${styles.sidebarLinkCurrent} text text_type_main-medium`}
+            >
+              Профиль
+            </span>
           </li>
-          <li
-            className={`${styles.sidebarItem} text text_type_main-medium text_color_inactive`}
-          >
-            История заказов
+          <li className={`${styles.sidebarItem}`}>
+            <Link
+              to="/profile/orders"
+              className={`${styles.sidebarLink} text text_type_main-medium text_color_inactive`}
+            >
+              История заказов
+            </Link>
           </li>
-          <li
-            className={`${styles.sidebarItem} text text_type_main-medium text_color_inactive`}
-          >
-            Выход
+          <li className={`${styles.sidebarItem}`}>
+            <button
+              onClick={logoutHandler}
+              className={`${styles.sidebarLink} reset-btn text text_type_main-medium text_color_inactive`}
+            >
+              Выход
+            </button>
           </li>
         </ul>
         <p
           className={`${styles.sidebarSubText} text text_type_main-default text_color_inactive`}
         >
-          В этом разделе вы можете изменить свои персональные данные
+          В этом разделе вы можете <br /> изменить свои персональные данные
         </p>
       </aside>
       <div className={`${styles.wrap} ${styles.profileWrap}`}>
@@ -47,22 +79,22 @@ const ProfilePage = () => {
             <Input
               type={"text"}
               placeholder={"Имя"}
-              onChange={(e) => setEmailText(e.target.value)}
-              value={emailText}
+              onChange={onChange}
+              value={form.name}
               name={"name"}
               icon={"EditIcon"}
               error={false}
               errorText={"Ошибка"}
               size={"default"}
             />
-          </div>{" "}
+          </div>
           <div className={`${styles.formField} mb-6`}>
             <Input
               type={"email"}
               placeholder={"Логин"}
-              onChange={(e) => setEmailText(e.target.value)}
-              value={emailText}
-              name={"name"}
+              onChange={onChange}
+              value={form.email}
+              name={"email"}
               icon={"EditIcon"}
               error={false}
               errorText={"Ошибка"}
@@ -70,13 +102,25 @@ const ProfilePage = () => {
             />
           </div>
           <div className={`${styles.formField} mb-6`}>
-            <PasswordInput
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
+            <Input
+              type={"password"}
+              placeholder={"Пароль"}
+              onChange={onChange}
+              value={form.password}
               name={"password"}
+              icon={"EditIcon"}
+              error={false}
+              errorText={"Ошибка"}
+              size={"default"}
             />
           </div>
-          <div className={`${styles.formButton} mb-20`}>
+          <div className={`${styles.formButtonsContainer}`}>
+            <button
+              onClick={handleCancel}
+              className={`${styles.formResetBtn} reset-btn text text_type_main-default mr-5`}
+            >
+              Отмена
+            </button>
             <Button type="primary" size="medium">
               Сохранить
             </Button>
