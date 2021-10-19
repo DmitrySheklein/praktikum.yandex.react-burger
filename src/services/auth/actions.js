@@ -11,7 +11,8 @@ export const ActionTypes = {
   SET_LOGIN_SENDING: `${name}/SET_LOGIN_SENDING`,
   SET_LOGIN_SEND_ERROR: `${name}/SET_LOGIN_SEND_ERROR`,
   SET_PASSWORD_FORGOT_EMAIL_SEND: `${name}/SET_PASSWORD_FORGOT_EMAIL_SEND`,
-  SET_PASSWORD_FORGOT_PASSWORD_CHANGED: `${name}/SET_PASSWORD_FORGOT_PASSWORD_CHANGED`,
+  SET_PASSWORD_FORGOT_CHANGED: `${name}/SET_PASSWORD_FORGOT_CHANGED`,
+  SET_RESET_PASSWORD_FORGOT_ERROR: `${name}/SET_RESET_PASSWORD_FORGOT_ERROR`,
   RESET_PASSWORD_FORGOT: `${name}/RESET_PASSWORD_FORGOT`,
 };
 
@@ -40,7 +41,10 @@ export function register({ name, password, email }) {
         const { message } = await res.json();
         throw new Error(`Ответ сети не ok. Ошибка: ${message}`);
       }
-      const { user } = await res.json();
+      const { user, accessToken, refreshToken } = await res.json();
+      setCookie("accessToken", accessToken.split("Bearer ")[1]);
+      localStorage.setItem("refreshToken", refreshToken);
+
       dispatch({
         type: ActionTypes.SET_USER_DATA,
         payload: user,
@@ -150,7 +154,7 @@ export function checkAuth() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getCookie("accessToken")}`,
         },
-      }).then(res => {
+      }).then((res) => {
         const { user } = res;
         dispatch({
           type: ActionTypes.SET_USER_DATA,
@@ -166,9 +170,9 @@ export function checkAuth() {
     }
   };
 }
-export function forgotPassword({ email, password, emailText }) {
+export function forgotPassword({ email, password, token }) {
   return async function (dispatch) {
-    const isPasswordChange = password && emailText;
+    const isPasswordChange = password && token;
     const REQUEST_URL = isPasswordChange
       ? `${SERVER_URL}/password-reset/reset`
       : `${SERVER_URL}/password-reset`;
@@ -180,7 +184,7 @@ export function forgotPassword({ email, password, emailText }) {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, emailText }),
+        body: JSON.stringify({ email, password, token }),
       });
       const isJson =
         res.headers.get("content-type").indexOf("application/json") !== -1;
@@ -194,7 +198,7 @@ export function forgotPassword({ email, password, emailText }) {
       const { success, message } = await res.json();
       if (isPasswordChange) {
         dispatch({
-          type: ActionTypes.SET_PASSWORD_FORGOT_PASSWORD_CHANGED,
+          type: ActionTypes.SET_PASSWORD_FORGOT_CHANGED,
           payload: { passwordChanged: success, message },
         });
       } else {
@@ -205,6 +209,10 @@ export function forgotPassword({ email, password, emailText }) {
       }
     } catch (error) {
       console.error(error);
+      dispatch({
+        type: ActionTypes.SET_RESET_PASSWORD_FORGOT_ERROR,
+        payload: { errorMessage: error.toString() },
+      });
     }
   };
 }

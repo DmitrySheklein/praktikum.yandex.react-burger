@@ -7,7 +7,12 @@ const initialState = {
   registerError: "",
   loginSending: false,
   loginError: "",
-  forgotPassword: { emailSend: false, passwordChanged: false, message: "" },
+  forgotPassword: {
+    emailSend: false,
+    passwordChanged: false,
+    message: "",
+    errorMessage: "",
+  },
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -29,17 +34,19 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         forgotPassword: {
           ...state.forgotPassword,
-          emailSend: action.payload,
+          emailSend: action.payload.emailSend,
           passwordChanged: false,
+          message: action.payload.message,
         },
       };
-    case ActionTypes.SET_PASSWORD_FORGOT_PASSWORD_CHANGED:
+    case ActionTypes.SET_PASSWORD_FORGOT_CHANGED:
       return {
         ...state,
         forgotPassword: {
           ...state.forgotPassword,
           emailSend: false,
-          passwordChanged: action.payload,
+          passwordChanged: action.payload.passwordChanged,
+          message: action.payload.message,
         },
       };
     case ActionTypes.RESET_PASSWORD_FORGOT:
@@ -48,6 +55,15 @@ export const authReducer = (state = initialState, action) => {
         forgotPassword: {
           message: "",
           emailSend: false,
+          passwordChanged: false,
+        },
+      };
+    case ActionTypes.SET_RESET_PASSWORD_FORGOT_ERROR:
+      return {
+        ...state,
+        forgotPassword: {
+          ...state.forgotPassword,
+          errorMessage: action.payload.errorMessage,
           passwordChanged: false,
         },
       };

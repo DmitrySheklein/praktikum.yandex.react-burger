@@ -17,11 +17,11 @@ const ForgotPassword = () => {
     email: "",
   });
   const inputRef = useRef(null);
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(forgotPassword(form));
   };
-  const onChange = e => {
+  const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -36,7 +36,7 @@ const ForgotPassword = () => {
     <div className={styles.wrap}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className={`${styles.formTitle} text text_type_main-medium mb-6 `}>
-          Восстановление пароля
+          1. Восстановление пароля
         </h1>
         <div className={`${styles.formField} mb-6`}>
           <Input
@@ -52,18 +52,21 @@ const ForgotPassword = () => {
             required
           />
         </div>
-        {forgotPasswordObj.status && (
+        {(forgotPasswordObj.emailSend || forgotPasswordObj.errorMessage) && (
           <p
             className={`${styles.formErrorMsg} pt-2 pb-5 text text_type_main-small`}
           >
-            {forgotPasswordObj.message}
+            {forgotPasswordObj.message || forgotPasswordObj.errorMessage}
           </p>
         )}
-        <div className={`${styles.formButton} mb-20`}>
-          <Button type="primary" size="medium">
-            Восстановить
-          </Button>
-        </div>
+        {form.email && (
+          <div className={`${styles.formButton} mb-20`}>
+            <Button type="primary" size="medium">
+              Восстановить
+            </Button>
+          </div>
+        )}
+
         <p
           className={`${styles.formLinkItem} text text_type_main-default text_color_inactive mb-4`}
         >
