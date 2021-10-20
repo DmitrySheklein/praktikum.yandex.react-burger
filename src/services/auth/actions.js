@@ -127,8 +127,7 @@ export function signOut() {
         const { message } = await res.json();
         throw new Error(`Ответ сети не ok. Ошибка: ${message}`);
       }
-      const response = await res.json();
-      console.log(response);
+      // const response = await res.json();
       dispatch({
         type: ActionTypes.SET_USER_DATA,
         payload: null,

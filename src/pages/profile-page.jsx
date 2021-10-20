@@ -8,14 +8,24 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../services/auth/selectors";
 import { signOut } from "../services/auth/actions";
+import { updateUser } from "../services/user/actions";
+import {
+  getUpdatedUser,
+  getUserUpdateError,
+  getUserUpdateSending,
+} from "../services/user/selectors";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const user = useSelector(getUser);
+  const updatedUser = useSelector(getUpdatedUser);
+  const userUpdateSending = useSelector(getUserUpdateSending);
+  const userUpdateError = useSelector(getUserUpdateError);
+
   const [form, setValue] = useState({
-    name: user?.name,
-    email: user?.email,
+    name: updatedUser?.user?.name || user?.name,
+    email: updatedUser?.user?.email || user?.email,
     password: "",
   });
   const onChange = (e) => {
@@ -24,6 +34,7 @@ const ProfilePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form.name, form.email, form.password);
+    dispatch(updateUser(form));
   };
   const handleCancel = (e) => {
     e.preventDefault();
@@ -31,7 +42,6 @@ const ProfilePage = () => {
   };
   const logoutHandler = (e) => {
     e.preventDefault();
-    console.log("logout");
     dispatch(signOut());
   };
 
@@ -114,8 +124,20 @@ const ProfilePage = () => {
               size={"default"}
             />
           </div>
+          {!userUpdateSending &&
+            !userUpdateError &&
+            updatedUser &&
+            updatedUser.status && (
+              <p
+                className="pt-2 pb-5 text text_type_main-small"
+                style={{ textAlign: "center" }}
+              >
+                Пользователь успешно обновлён
+              </p>
+            )}
           <div className={`${styles.formButtonsContainer}`}>
             <button
+              type={"reset"}
               onClick={handleCancel}
               className={`${styles.formResetBtn} reset-btn text text_type_main-default mr-5`}
             >
@@ -126,9 +148,6 @@ const ProfilePage = () => {
             </Button>
           </div>
         </form>
-        {/*      {loginUserError ? (
-        <p className="pt-5 text text_type_main-default">{loginUserError}</p>
-      ) : null}*/}
       </div>
     </div>
   );
