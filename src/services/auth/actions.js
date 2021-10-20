@@ -10,6 +10,10 @@ export const ActionTypes = {
   SET_REGISTER_SEND_ERROR: `${name}/SET_REGISTER_SEND_ERROR`,
   SET_LOGIN_SENDING: `${name}/SET_LOGIN_SENDING`,
   SET_LOGIN_SEND_ERROR: `${name}/SET_LOGIN_SEND_ERROR`,
+  SET_PASSWORD_FORGOT_EMAIL_SEND: `${name}/SET_PASSWORD_FORGOT_EMAIL_SEND`,
+  SET_PASSWORD_FORGOT_CHANGED: `${name}/SET_PASSWORD_FORGOT_CHANGED`,
+  SET_RESET_PASSWORD_FORGOT_ERROR: `${name}/SET_RESET_PASSWORD_FORGOT_ERROR`,
+  RESET_PASSWORD_FORGOT: `${name}/RESET_PASSWORD_FORGOT`,
 };
 
 export function register({ name, password, email }) {
@@ -37,7 +41,10 @@ export function register({ name, password, email }) {
         const { message } = await res.json();
         throw new Error(`Ответ сети не ok. Ошибка: ${message}`);
       }
-      const { user } = await res.json();
+      const { user, accessToken, refreshToken } = await res.json();
+      setCookie("accessToken", accessToken.split("Bearer ")[1]);
+      localStorage.setItem("refreshToken", refreshToken);
+
       dispatch({
         type: ActionTypes.SET_USER_DATA,
         payload: user,
@@ -160,6 +167,52 @@ export function checkAuth() {
         payload: false,
       });
       return Promise.resolve();
+    }
+  };
+}
+export function forgotPassword({ email, password, token }) {
+  return async function (dispatch) {
+    const isPasswordChange = password && token;
+    const REQUEST_URL = isPasswordChange
+      ? `${SERVER_URL}/password-reset/reset`
+      : `${SERVER_URL}/password-reset`;
+    // Запрашиваем данные у сервера
+    try {
+      const res = await fetch(REQUEST_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, token }),
+      });
+      const isJson =
+        res.headers.get("content-type").indexOf("application/json") !== -1;
+      if (!isJson) {
+        throw new Error("Ответ сети не json");
+      }
+      if (!res.ok) {
+        const { message } = await res.json();
+        throw new Error(`Ответ сети не ok. Ошибка: ${message}`);
+      }
+      const { success, message } = await res.json();
+      if (isPasswordChange) {
+        dispatch({
+          type: ActionTypes.SET_PASSWORD_FORGOT_CHANGED,
+          payload: { passwordChanged: success, message },
+        });
+      } else {
+        dispatch({
+          type: ActionTypes.SET_PASSWORD_FORGOT_EMAIL_SEND,
+          payload: { emailSend: success, message },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: ActionTypes.SET_RESET_PASSWORD_FORGOT_ERROR,
+        payload: { errorMessage: error.toString() },
+      });
     }
   };
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import {
   Button,
@@ -20,12 +20,11 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  // const { name, loginUserError } = useSelector((state) => state.user);
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     dispatch(login(form));
   };
-  const onChange = (e) => {
+  const onChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -61,8 +60,7 @@ const LoginPage = () => {
         </div>
         {loginError && (
           <p
-            className="pt-2 pb-5 text text_type_main-small"
-            style={{ textAlign: "center" }}
+            className={`${styles.formErrorMsg} pt-2 pb-5 text text_type_main-small`}
           >
             {loginError}
           </p>
