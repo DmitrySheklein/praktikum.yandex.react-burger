@@ -24,20 +24,23 @@ const BurgerIngredient = ({ product }) => {
     setModalShow(!modalShow);
   };
   const getCurrentCount = useMemo(() => {
-    return [orderState.bun, ...orderState.ingredients].filter(el => {
-      if (el) {
-        return el._id === product._id;
-      }
-      return false;
-    }).length;
+    return [orderState.bun, ...orderState.ingredients].reduce(
+      (acc, current) => {
+        if (current?._id === product?._id) {
+          return current.type === "bun" ? (acc += 2) : (acc += 1);
+        }
+        return acc;
+      },
+      0
+    );
   }, [orderState, product._id]);
 
   const [, dragRef] = useDrag({
-    type: 'ingredient',
+    type: "ingredient",
     item: { ...product },
-    collect: monitor => ({
-      isDrag: monitor.isDragging()
-  })    
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
   });
   return (
     <li
