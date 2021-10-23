@@ -3,22 +3,30 @@ import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getItems } from "../../services/ingredients/actions";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import {
   LoginPage,
   RegisterPage,
   ProfilePage,
-  ResetPassword,
-  ForgotPassword,
+  ResetPasswordPage,
+  ForgotPasswordPage,
   ErrorPage404,
 } from "../../pages";
 import { checkAuth } from "../../services/auth/actions";
+import ProtectedRoute from "../ProtectedRoute";
+import { getIsAuth } from "../../services/auth/selectors";
 
 function App() {
   const dispatch = useDispatch();
-
+  const isAuth = useSelector(getIsAuth);
+  console.log(isAuth, "isAuth");
   useEffect(() => {
     dispatch(getItems());
     dispatch(checkAuth());
@@ -41,15 +49,15 @@ function App() {
               <RegisterPage />
             </Route>
             <Route path="/forgot-password" exact={true}>
-              <ForgotPassword />
+              <ForgotPasswordPage />
             </Route>
             <Route path="/reset-password" exact={true}>
-              <ResetPassword />
+              <ResetPasswordPage />
             </Route>
-            <Route path="/profile" exact={true}>
+            <ProtectedRoute path="/profile">
               <ProfilePage />
-            </Route>
-            <Route path="*">
+            </ProtectedRoute>
+            <Route>
               <ErrorPage404 />
             </Route>
           </Switch>

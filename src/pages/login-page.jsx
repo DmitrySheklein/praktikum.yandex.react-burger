@@ -9,7 +9,6 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../services/auth/actions";
 import { getLoginError, getUser } from "../services/auth/selectors";
-// import { useSelector } from "react-redux";
 
 const LoginPage = () => {
   const loginError = useSelector(getLoginError);
@@ -20,14 +19,13 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login(form));
   };
-  const onChange = e => {
+  const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-
   if (user) {
     const { from } = location.state || { from: { pathname: "/" } };
     return <Redirect to={from} />;

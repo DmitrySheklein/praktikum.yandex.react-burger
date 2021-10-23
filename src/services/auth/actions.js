@@ -159,6 +159,10 @@ export function checkAuth() {
           type: ActionTypes.SET_USER_DATA,
           payload: user,
         });
+        dispatch({
+          type: ActionTypes.SET_AUTH_CHECKING,
+          payload: false,
+        });
       });
     } else {
       dispatch({

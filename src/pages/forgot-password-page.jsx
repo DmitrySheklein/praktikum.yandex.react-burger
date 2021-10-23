@@ -4,15 +4,16 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../services/auth/actions";
-import { getForgotPassword } from "../services/auth/selectors";
+import { getForgotPassword, getUser } from "../services/auth/selectors";
 
-const ForgotPassword = () => {
+const ForgotPasswordPage = () => {
+  const user = useSelector(getUser);
+  const location = useLocation();
   const forgotPasswordObj = useSelector(getForgotPassword);
   const dispatch = useDispatch();
-  const history = useHistory();
   const [form, setValue] = useState({
     email: "",
   });
@@ -26,11 +27,20 @@ const ForgotPassword = () => {
   };
 
   useEffect(() => inputRef.current.focus(), []);
+
   if (forgotPasswordObj.emailSend) {
-    history.replace({
-      pathname: "/reset-password",
-      state: { fromForgotPage: true },
-    });
+    return (
+      <Redirect
+        to={{
+          pathname: "/reset-password",
+          state: { fromForgotPage: true },
+        }}
+      />
+    );
+  }
+  if (user) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    return <Redirect to={from} />;
   }
   return (
     <div className={styles.wrap}>
@@ -80,4 +90,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ForgotPasswordPage;

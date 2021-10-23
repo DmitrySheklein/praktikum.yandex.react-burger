@@ -15,13 +15,21 @@ import { getConstructorItems } from "../../services/constructor/selectors";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
+import { getUser } from "../../services/auth/selectors";
+import { Redirect, useLocation } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const location = useLocation();
+  const user = useSelector(getUser);
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
   const { bun, ingredients } = orderState;
   const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
+    if (!user) {
+      setStartedOrder(true);
+      return;
+    }
     const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
     const bunId = orderState.bun?._id || null;
     const orderData = {
@@ -64,6 +72,16 @@ const BurgerConstructor = () => {
   const dragIngredients = canDrop && dragItem && dragItem.type !== "bun";
   const outline = "1px solid #fff";
 
+  if (startedOrder && !user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+          state: { from: location },
+        }}
+      />
+    );
+  }
   return (
     <div className={`${styles.block} pt-25 pb-15 pl-4`}>
       <div className={`${styles.constructorList} mb-10`} ref={dropTarget}>

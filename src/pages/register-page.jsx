@@ -21,7 +21,6 @@ const RegisterPage = () => {
     email: "",
     password: "",
   });
-  // const { name, loginUserError } = useSelector((state) => state.user);
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };

@@ -1,15 +1,15 @@
 import LoginPage from "./login-page";
 import RegisterPage from "./register-page";
-import ForgotPassword from "./forgot-password";
-import ResetPassword from "./reset-password";
+import ForgotPasswordPage from "./forgot-password-page";
+import ResetPasswordPage from "./reset-password";
 import ProfilePage from "./profile-page";
 import ErrorPage404 from "./404-page";
 
 export {
   LoginPage,
   RegisterPage,
-  ForgotPassword,
-  ResetPassword,
+  ForgotPasswordPage,
+  ResetPasswordPage,
   ProfilePage,
   ErrorPage404,
 };

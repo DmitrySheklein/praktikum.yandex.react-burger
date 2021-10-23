@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getForgotPassword } from "../services/auth/selectors";
 import { forgotPassword } from "../services/auth/actions";
 
-const ResetPassword = () => {
+const ResetPasswordPage = () => {
   const forgotPasswordObj = useSelector(getForgotPassword);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -88,4 +88,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;
