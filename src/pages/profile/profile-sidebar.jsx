@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "../page.module.css";
 import { NavLink } from "react-router-dom";
 import { signOut } from "../../services/auth/actions";
 import { useDispatch } from "react-redux";
+import styles from "./profile-sidebar.module.css";
 
 const ProfileSidebar = () => {
   const dispatch = useDispatch();

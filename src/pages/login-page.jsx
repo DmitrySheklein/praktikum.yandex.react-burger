@@ -24,10 +24,6 @@ const LoginPage = () => {
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-  // if (user) {
-  //   const { from } = location.state || { from: { pathname: "/" } };
-  //   return <Redirect to={from} />;
-  // }
 
   return (
     <div className={styles.wrap}>
