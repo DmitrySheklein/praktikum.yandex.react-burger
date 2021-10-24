@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getIsAuthChecking, getUser } from "../services/auth/selectors";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import Preloader from "./preloader/preloader";
+import PropTypes from "prop-types";
 
 const AuthProtectedRoute = ({ children, path, exact = true }) => {
   const location = useLocation();
@@ -25,5 +26,9 @@ const AuthProtectedRoute = ({ children, path, exact = true }) => {
     />
   );
 };
-
+AuthProtectedRoute.propTypes = {
+  path: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
+  exact: PropTypes.bool,
+};
 export default AuthProtectedRoute;

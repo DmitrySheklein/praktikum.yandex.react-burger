@@ -3,6 +3,7 @@ import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUser } from "../services/auth/selectors";
 import Preloader from "./preloader/preloader";
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children, path, isAuthChecking, exact = false }) => {
   const user = useSelector(getUser);
@@ -27,6 +28,12 @@ const ProtectedRoute = ({ children, path, isAuthChecking, exact = false }) => {
       }
     />
   );
+};
+ProtectedRoute.propTypes = {
+  path: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
+  exact: PropTypes.bool,
+  isAuthChecking: PropTypes.bool,
 };
 
 export default ProtectedRoute;
