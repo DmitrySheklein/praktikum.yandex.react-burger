@@ -45,6 +45,7 @@ export const authReducer = (state = initialState, action) => {
         forgotPassword: {
           ...state.forgotPassword,
           emailSend: false,
+          errorMessage: "",
           passwordChanged: action.payload.passwordChanged,
           message: action.payload.message,
         },

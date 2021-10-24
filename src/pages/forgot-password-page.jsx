@@ -4,14 +4,12 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../services/auth/actions";
-import { getForgotPassword, getUser } from "../services/auth/selectors";
+import { getForgotPassword } from "../services/auth/selectors";
 
 const ForgotPasswordPage = () => {
-  const user = useSelector(getUser);
-  const location = useLocation();
   const forgotPasswordObj = useSelector(getForgotPassword);
   const dispatch = useDispatch();
   const [form, setValue] = useState({
@@ -26,7 +24,7 @@ const ForgotPasswordPage = () => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => inputRef.current.focus(), []);
+  useEffect(() => inputRef.current?.focus(), []);
 
   if (forgotPasswordObj.emailSend) {
     return (
@@ -38,10 +36,7 @@ const ForgotPasswordPage = () => {
       />
     );
   }
-  if (user) {
-    const { from } = location.state || { from: { pathname: "/" } };
-    return <Redirect to={from} />;
-  }
+
   return (
     <div className={styles.wrap}>
       <form className={styles.form} onSubmit={handleSubmit}>

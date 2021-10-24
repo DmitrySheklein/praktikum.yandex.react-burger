@@ -2,24 +2,24 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUser } from "../services/auth/selectors";
+import Preloader from "./preloader/preloader";
 
-const ProtectedRoute = ({ children, path }) => {
+const ProtectedRouter = ({ children, path, isAuthChecking, exact = false }) => {
   const user = useSelector(getUser);
 
   return (
     <Route
-      exact
+      exact={exact}
       path={path}
       render={({ location }) =>
-        user ? (
+        isAuthChecking ? (
+          <Preloader />
+        ) : user ? (
           children
         ) : (
           <Redirect
-            // Передадим в пропс to не строку, а объект.
             to={{
-              // Маршрут, на который произойдёт переадресация
               pathname: "/login",
-              // В from сохраним текущий маршрут
               state: { from: location },
             }}
           />
@@ -29,4 +29,4 @@ const ProtectedRoute = ({ children, path }) => {
   );
 };
 
-export default ProtectedRoute;
+export default ProtectedRouter;

@@ -4,7 +4,7 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../services/auth/selectors";
 import { signOut } from "../services/auth/actions";
@@ -17,7 +17,6 @@ import {
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const user = useSelector(getUser);
   const updatedUser = useSelector(getUpdatedUser);
   const userUpdateSending = useSelector(getUserUpdateSending);
@@ -45,28 +44,29 @@ const ProfilePage = () => {
     dispatch(signOut());
   };
 
-  if (!user) {
-    const { from } = location.state || { from: { pathname: "/login" } };
-    return <Redirect to={from} />;
-  }
   return (
     <div className={styles.profileContainer}>
       <aside className={`${styles.profileSidebar}  mr-15`}>
         <ul className={`${styles.sidebar} mb-20`}>
           <li className={`${styles.sidebarItem}`}>
-            <span
-              className={`${styles.sidebarLink} ${styles.sidebarLinkCurrent} text text_type_main-medium`}
+            <NavLink
+              exact={true}
+              to={"/profile"}
+              className={`${styles.sidebarLink} text text_type_main-medium text_color_inactive`}
+              activeClassName={`${styles.sidebarLinkCurrent}`}
             >
               Профиль
-            </span>
+            </NavLink>
           </li>
           <li className={`${styles.sidebarItem}`}>
-            <Link
+            <NavLink
+              exact={true}
               to="/profile/orders"
               className={`${styles.sidebarLink} text text_type_main-medium text_color_inactive`}
+              activeClassName={`${styles.sidebarLinkCurrent}`}
             >
               История заказов
-            </Link>
+            </NavLink>
           </li>
           <li className={`${styles.sidebarItem}`}>
             <button

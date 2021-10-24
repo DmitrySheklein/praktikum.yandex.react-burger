@@ -5,15 +5,13 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../services/auth/actions";
-import { getLoginError, getUser } from "../services/auth/selectors";
+import { getLoginError } from "../services/auth/selectors";
 
 const LoginPage = () => {
   const loginError = useSelector(getLoginError);
-  const user = useSelector(getUser);
-  const location = useLocation();
   const dispatch = useDispatch();
   const [form, setValue] = useState({
     email: "",
@@ -26,10 +24,10 @@ const LoginPage = () => {
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-  if (user) {
-    const { from } = location.state || { from: { pathname: "/" } };
-    return <Redirect to={from} />;
-  }
+  // if (user) {
+  //   const { from } = location.state || { from: { pathname: "/" } };
+  //   return <Redirect to={from} />;
+  // }
 
   return (
     <div className={styles.wrap}>

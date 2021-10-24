@@ -5,16 +5,14 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { register } from "../services/auth/actions";
 import { useSelector } from "react-redux";
-import { getUser, getRegisterError } from "../services/auth/selectors";
+import { getRegisterError } from "../services/auth/selectors";
 
 const RegisterPage = () => {
   const registerError = useSelector(getRegisterError);
-  const user = useSelector(getUser);
-  const location = useLocation();
   const dispatch = useDispatch();
   const [form, setValue] = useState({
     name: "",
@@ -28,11 +26,6 @@ const RegisterPage = () => {
     e.preventDefault();
     dispatch(register(form));
   };
-
-  if (user) {
-    const { from } = location.state || { from: { pathname: "/login" } };
-    return <Redirect to={from} />;
-  }
 
   return (
     <div className={styles.wrap}>

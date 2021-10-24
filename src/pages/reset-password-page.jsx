@@ -19,7 +19,6 @@ const ResetPasswordPage = () => {
     token: "",
   });
   const onChange = (e) => {
-    console.log(e.target.name, e.target.value);
     setValue({ ...form, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
@@ -28,7 +27,6 @@ const ResetPasswordPage = () => {
   };
 
   const fromForgotPage = history.location.state?.fromForgotPage;
-
   if (!fromForgotPage) {
     return <Redirect to={{ pathname: "/forgot-password" }} />;
   }
@@ -61,11 +59,11 @@ const ResetPasswordPage = () => {
             size={"default"}
           />
         </div>
-        {forgotPasswordObj.errorMessage && (
+        {(forgotPasswordObj.errorMessage || forgotPasswordObj.message) && (
           <p
             className={`${styles.formErrorMsg} pt-2 pb-5 text text_type_main-small`}
           >
-            {forgotPasswordObj.message || forgotPasswordObj.errorMessage}
+            {forgotPasswordObj.errorMessage || forgotPasswordObj.message}
           </p>
         )}
         {form.password && form.token && (

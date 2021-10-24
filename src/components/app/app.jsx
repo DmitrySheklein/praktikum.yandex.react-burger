@@ -3,14 +3,9 @@ import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getItems } from "../../services/ingredients/actions";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   LoginPage,
   RegisterPage,
@@ -20,13 +15,13 @@ import {
   ErrorPage404,
 } from "../../pages";
 import { checkAuth } from "../../services/auth/actions";
-import ProtectedRoute from "../ProtectedRoute";
-import { getIsAuth } from "../../services/auth/selectors";
+import ProtectedRouter from "../protected-router";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import AuthProtectedRouter from "../auth-protected-router";
 
 function App() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(getIsAuth);
-  console.log(isAuth, "isAuth");
+
   useEffect(() => {
     dispatch(getItems());
     dispatch(checkAuth());
@@ -42,21 +37,24 @@ function App() {
               <BurgerIngredients />
               <BurgerConstructor />
             </Route>
-            <Route path="/login" exact={true}>
+            <AuthProtectedRouter path="/login">
               <LoginPage />
-            </Route>
-            <Route path="/register" exact={true}>
+            </AuthProtectedRouter>
+            <AuthProtectedRouter path="/register">
               <RegisterPage />
-            </Route>
-            <Route path="/forgot-password" exact={true}>
+            </AuthProtectedRouter>
+            <AuthProtectedRouter path="/forgot-password">
               <ForgotPasswordPage />
-            </Route>
-            <Route path="/reset-password" exact={true}>
+            </AuthProtectedRouter>
+            <AuthProtectedRouter path="/reset-password">
               <ResetPasswordPage />
-            </Route>
-            <ProtectedRoute path="/profile">
+            </AuthProtectedRouter>
+            <ProtectedRouter path={"/profile"}>
               <ProfilePage />
-            </ProtectedRoute>
+            </ProtectedRouter>
+            <Route path="/ingredients/1" exact={true}>
+              <IngredientDetails />
+            </Route>
             <Route>
               <ErrorPage404 />
             </Route>
