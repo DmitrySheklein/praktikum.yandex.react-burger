@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { getUser } from "../services/auth/selectors";
 import Preloader from "./preloader/preloader";
 
-const ProtectedRouter = ({ children, path, isAuthChecking, exact = false }) => {
+const ProtectedRoute = ({ children, path, isAuthChecking, exact = false }) => {
   const user = useSelector(getUser);
 
   return (
@@ -29,4 +29,4 @@ const ProtectedRouter = ({ children, path, isAuthChecking, exact = false }) => {
   );
 };
 
-export default ProtectedRouter;
+export default ProtectedRoute;

@@ -4,7 +4,7 @@ import { getIsAuthChecking, getUser } from "../services/auth/selectors";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import Preloader from "./preloader/preloader";
 
-const AuthProtectedRouter = ({ children, path, exact = true }) => {
+const AuthProtectedRoute = ({ children, path, exact = true }) => {
   const location = useLocation();
   const isAuthChecking = useSelector(getIsAuthChecking);
   const user = useSelector(getUser);
@@ -26,4 +26,4 @@ const AuthProtectedRouter = ({ children, path, exact = true }) => {
   );
 };
 
-export default AuthProtectedRouter;
+export default AuthProtectedRoute;

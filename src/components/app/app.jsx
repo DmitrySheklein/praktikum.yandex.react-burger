@@ -15,9 +15,9 @@ import {
   ErrorPage404,
 } from "../../pages";
 import { checkAuth } from "../../services/auth/actions";
-import ProtectedRouter from "../protected-router";
+import ProtectedRoute from "../protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import AuthProtectedRouter from "../auth-protected-router";
+import AuthProtectedRoute from "../auth-protected-route";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,21 +37,21 @@ function App() {
               <BurgerIngredients />
               <BurgerConstructor />
             </Route>
-            <AuthProtectedRouter path="/login">
+            <AuthProtectedRoute path="/login">
               <LoginPage />
-            </AuthProtectedRouter>
-            <AuthProtectedRouter path="/register">
+            </AuthProtectedRoute>
+            <AuthProtectedRoute path="/register">
               <RegisterPage />
-            </AuthProtectedRouter>
-            <AuthProtectedRouter path="/forgot-password">
+            </AuthProtectedRoute>
+            <AuthProtectedRoute path="/forgot-password">
               <ForgotPasswordPage />
-            </AuthProtectedRouter>
-            <AuthProtectedRouter path="/reset-password">
+            </AuthProtectedRoute>
+            <AuthProtectedRoute path="/reset-password">
               <ResetPasswordPage />
-            </AuthProtectedRouter>
-            <ProtectedRouter path={"/profile"}>
+            </AuthProtectedRoute>
+            <ProtectedRoute path={"/profile"}>
               <ProfilePage />
-            </ProtectedRouter>
+            </ProtectedRoute>
             <Route path="/ingredients/1" exact={true}>
               <IngredientDetails />
             </Route>
