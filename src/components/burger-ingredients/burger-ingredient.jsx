@@ -1,26 +1,19 @@
-import { React, useState, useMemo } from "react";
+import { React, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
-import { SET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 
 const BurgerIngredient = ({ product }) => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
-  const handleItemClick = () => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      payload: product,
-    });
-  };
+
   const getCurrentCount = useMemo(() => {
     return [orderState.bun, ...orderState.ingredients].reduce(
       (acc, current) => {
@@ -50,7 +43,6 @@ const BurgerIngredient = ({ product }) => {
           // the `background` in location state.
           state: { background: location },
         }}
-        onClick={handleItemClick}
       >
         {getCurrentCount !== 0 && (
           <Counter count={getCurrentCount} size="default" />

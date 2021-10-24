@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("react-modals");
 const Modal = ({ children, headerTitle, visible, setFunc }) => {
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      setFunc(false);
+      setFunc(!visible);
     }
   };
   useEffect(() => {
