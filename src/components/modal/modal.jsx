@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("react-modals");
 const Modal = ({ children, headerTitle, visible, setFunc }) => {
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      setFunc(!visible);
+      setFunc(false);
     }
   };
   useEffect(() => {
@@ -44,7 +44,7 @@ const Modal = ({ children, headerTitle, visible, setFunc }) => {
               <CloseIcon type="primary" />
             </button>
           </div>
-          <div className={styles.content}>{children}</div>
+          <div className={styles.modalContent}>{children}</div>
         </div>
       </div>
     ) : (

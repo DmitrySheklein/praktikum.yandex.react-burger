@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
@@ -28,13 +28,9 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  const [modalShow, setModalShow] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const background = location.state && location.state.background;
-  console.log(background, "background");
   const action = history.action === "PUSH" || history.action === "REPLACE";
-  console.log(action, "action");
   const modalIngredientOpen =
     action && location.state && location.state.background;
   return (
@@ -71,11 +67,14 @@ function App() {
         {modalIngredientOpen && (
           <Route path="/ingredients/:id">
             <Modal
-              visible={true}
-              setFunc={setModalShow}
+              visible={modalIngredientOpen}
+              setFunc={history.goBack}
               headerTitle="Детали ингредиента"
             >
-              <IngredientDetails setFunc={setModalShow} />
+              <IngredientDetails
+                setFunc={history.goBack}
+                withAddButton={true}
+              />
             </Modal>
           </Route>
         )}

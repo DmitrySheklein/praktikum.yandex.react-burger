@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { getIngredients } from "../../services/ingredients/selectors";
 import Preloader from "../preloader/preloader";
 
-const IngredientDetails = ({ setFunc }) => {
+const IngredientDetails = ({ setFunc, withAddButton = false }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const ingredients = useSelector(getIngredients);
@@ -34,7 +34,7 @@ const IngredientDetails = ({ setFunc }) => {
         payload: product,
       });
     }
-    setFunc(false);
+    setFunc();
   };
 
   if (!product) {
@@ -66,16 +66,18 @@ const IngredientDetails = ({ setFunc }) => {
           </li>
         ))}
       </ul>
-
-      <Button type="primary" size="large" onClick={addOnOrderHandler}>
-        Добавить в бургер
-      </Button>
+      {withAddButton && (
+        <Button type="primary" size="large" onClick={addOnOrderHandler}>
+          Добавить в бургер
+        </Button>
+      )}
     </div>
   );
 };
 
 IngredientDetails.propTypes = {
   setFunc: PropTypes.func,
+  withAddButton: PropTypes.bool,
 };
 
 export default IngredientDetails;
