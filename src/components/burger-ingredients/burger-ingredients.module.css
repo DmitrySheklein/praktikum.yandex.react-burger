@@ -28,7 +28,12 @@
   width: 272px;
   cursor: pointer;
 }
-
+.ListItemLink {
+  color: #ffffff;
+}
+.ListItemLink:visited {
+  color: #ccc;
+}
 .ListImgWrap {
   text-align: center;
 }
