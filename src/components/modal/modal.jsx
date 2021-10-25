@@ -44,7 +44,7 @@ const Modal = ({ children, headerTitle, visible, setFunc }) => {
               <CloseIcon type="primary" />
             </button>
           </div>
-          <div className={styles.content}>{children}</div>
+          <div className={styles.modalContent}>{children}</div>
         </div>
       </div>
     ) : (

@@ -1,76 +1,67 @@
-import { React, useState, useMemo } from "react";
+import { React, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import Modal from "../modal/modal.jsx";
-import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
-import { SET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from "react-router-dom";
 
 const BurgerIngredient = ({ product }) => {
-  const dispatch = useDispatch();
+  const location = useLocation();
   const orderState = useSelector(getConstructorItems);
-  const [modalShow, setModalShow] = useState(false);
-  const handleItemClick = () => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      payload: product,
-    });
-    setModalShow(!modalShow);
-  };
+
   const getCurrentCount = useMemo(() => {
-    return [orderState.bun, ...orderState.ingredients].filter(el => {
-      if (el) {
-        return el._id === product._id;
-      }
-      return false;
-    }).length;
+    return [orderState.bun, ...orderState.ingredients].reduce(
+      (acc, current) => {
+        if (current?._id === product?._id) {
+          return current.type === "bun" ? (acc += 2) : (acc += 1);
+        }
+        return acc;
+      },
+      0
+    );
   }, [orderState, product._id]);
 
   const [, dragRef] = useDrag({
-    type: 'ingredient',
+    type: "ingredient",
     item: { ...product },
-    collect: monitor => ({
-      isDrag: monitor.isDragging()
-  })    
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
   });
   return (
-    <li
-      className={`${styles.ListItem} mb-8`}
-      onClick={handleItemClick}
-      ref={dragRef}
-    >
-      {getCurrentCount !== 0 && (
-        <Counter count={getCurrentCount} size="default" />
-      )}
-      <div className={`${styles.ListImgWrap} pl-4 pr-4`}>
-        <img src={product.image_large} alt={product.name} />
-      </div>
-      <div className={`${styles.ListItemPriceWrap} pl-4 pr-4 mt-1 mb-1`}>
-        <span
-          className={`${styles.ListItemPrice} text text_type_digits-default`}
-        >
-          {product.price}
-        </span>
-        <CurrencyIcon type="primary" />
-      </div>
-      <div className={`${styles.ListItemName} text text_type_main-default`}>
-        {product.name}
-      </div>
-      {modalShow && (
-        <Modal
-          visible={modalShow}
-          setFunc={setModalShow}
-          headerTitle="Детали ингредиента"
-        >
-          <IngredientDetails setFunc={setModalShow} />
-        </Modal>
-      )}
+    <li className={`${styles.ListItem} mb-8`} ref={dragRef}>
+      <Link
+        className={`${styles.ListItemLink}`}
+        to={{
+          pathname: `/ingredients/${product._id}`,
+          // This is the trick! This link sets
+          // the `background` in location state.
+          state: { background: location },
+        }}
+      >
+        {getCurrentCount !== 0 && (
+          <Counter count={getCurrentCount} size="default" />
+        )}
+        <div className={`${styles.ListImgWrap} pl-4 pr-4`}>
+          <img src={product.image_large} alt={product.name} />
+        </div>
+        <div className={`${styles.ListItemPriceWrap} pl-4 pr-4 mt-1 mb-1`}>
+          <span
+            className={`${styles.ListItemPrice} text text_type_digits-default`}
+          >
+            {product.price}
+          </span>
+          <CurrencyIcon type="primary" />
+        </div>
+        <div className={`${styles.ListItemName} text text_type_main-default`}>
+          {product.name}
+        </div>
+      </Link>
     </li>
   );
 };

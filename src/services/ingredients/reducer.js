@@ -12,6 +12,8 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.data,
+        ingredientsRequest: false,
+        ingredientsFailed: false,
       };
     }
     case LOAD_ITEMS: {

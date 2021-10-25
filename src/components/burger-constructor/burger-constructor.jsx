@@ -15,14 +15,22 @@ import { getConstructorItems } from "../../services/constructor/selectors";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
+import { getUser } from "../../services/auth/selectors";
+import { Redirect, useLocation } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const location = useLocation();
+  const user = useSelector(getUser);
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
   const { bun, ingredients } = orderState;
   const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
-    const ingredientsId = [...orderState.ingredients.map(el => el._id)];
+    if (!user) {
+      setStartedOrder(true);
+      return;
+    }
+    const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
     const bunId = orderState.bun?._id || null;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
@@ -52,61 +60,77 @@ const BurgerConstructor = () => {
         payload: item,
       });
     },
-    collect: monitor => {
+    collect: (monitor) => {
       return {
         canDrop: monitor.canDrop(),
-        dragItem: monitor.getItem(),        
-        isHover: monitor.isOver()
-      }
+        dragItem: monitor.getItem(),
+        isHover: monitor.isOver(),
+      };
     },
   });
   const dragBuns = canDrop && dragItem && dragItem.type === "bun";
   const dragIngredients = canDrop && dragItem && dragItem.type !== "bun";
   const outline = "1px solid #fff";
 
+  if (startedOrder && !user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+          state: { from: location },
+        }}
+      />
+    );
+  }
   return (
-    <div className={`${styles.block} pt-25 pb-15 pl-4 pr-4`}>
+    <div className={`${styles.block} pt-25 pb-15 pl-4`}>
       <div className={`${styles.constructorList} mb-10`} ref={dropTarget}>
         {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
             position="noBunsTop"
-            style={(dragBuns) ? { outline } : {}}
+            style={dragBuns ? { outline } : {}}
           />
         ) : (
-          <div className={`${styles.constructorListItem} pr-8 pl-6`}>
+          <div className={`${styles.constructorListItem} pr-4 pl-6`}>
             <ConstructorElement
               type="top"
               isLocked={true}
               text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}
-              
             />
           </div>
         )}
         <div className={`${styles.constructorSubList} custom-scroll`}>
-        {ingredients.length ? (
-          ingredients.map((product, index) => {
-            return (<ConstructorSubElement product={product} key={product.uuid} index={index}/>)
-          })
-        ) : (
-          <EmptyConstructorElement
-            name="Выберите начинку"
-            position="noBunsMiddle"
-            style={(dragIngredients) ? { outline } : {}}
-          />
-        )}
+          {ingredients.length ? (
+            ingredients.map((product, index) => {
+              return (
+                <ConstructorSubElement
+                  product={product}
+                  key={product.uuid}
+                  index={index}
+                  ingredientsLength={ingredients.length}
+                />
+              );
+            })
+          ) : (
+            <EmptyConstructorElement
+              name="Выберите начинку"
+              position="noBunsMiddle"
+              style={dragIngredients ? { outline } : {}}
+            />
+          )}
         </div>
 
         {!bun ? (
           <EmptyConstructorElement
             name="Выберите булки"
             position="noBunsButtom"
-            style={(dragBuns) ? { outline } : {}}
+            style={dragBuns ? { outline } : {}}
           />
         ) : (
-          <div className={`${styles.constructorListItem} pr-8 pl-6`}>
+          <div className={`${styles.constructorListItem} pr-4 pl-6`}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -117,7 +141,7 @@ const BurgerConstructor = () => {
           </div>
         )}
       </div>
-      <div className={`${styles.constructorTotal}`}>
+      <div className={`${styles.constructorTotal} mr-4`}>
         {totalOrderSum ? (
           <div className={`${styles.constructorTotalPrice} mr-10`}>
             <p className="text text_type_digits-medium">{totalOrderSum}</p>

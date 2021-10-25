@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
-import { getCurrentIngredient } from "../../services/currentIngredient/selectors";
-import { RESET_CURRENT_INGREDIENT } from "../../services/currentIngredient/actions";
+import { useParams } from "react-router-dom";
+import { getIngredients } from "../../services/ingredients/selectors";
+import Preloader from "../preloader/preloader";
 
-const IngredientDetails = ({ setFunc }) => {
+const IngredientDetails = ({ setFunc, withAddButton = false }) => {
   const dispatch = useDispatch();
-  const product = useSelector(getCurrentIngredient);
+  const { id } = useParams();
+  const ingredients = useSelector(getIngredients);
+  const product = ingredients.find((product) => product._id === id);
+
   const statProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",
@@ -30,15 +34,12 @@ const IngredientDetails = ({ setFunc }) => {
         payload: product,
       });
     }
-    setFunc(false);
+    setFunc();
   };
-  useEffect(() => {
-    return () => {
-      dispatch({
-        type: RESET_CURRENT_INGREDIENT,
-      });
-    };
-  }, [dispatch]);
+
+  if (!product) {
+    return <Preloader />;
+  }
   return (
     <div className={`${styles.container}`}>
       <div className={`${styles.ImgWrap} mb-4`}>
@@ -65,16 +66,18 @@ const IngredientDetails = ({ setFunc }) => {
           </li>
         ))}
       </ul>
-
-      <Button type="primary" size="large" onClick={addOnOrderHandler}>
-        Добавить в бургер
-      </Button>
+      {withAddButton && (
+        <Button type="primary" size="large" onClick={addOnOrderHandler}>
+          Добавить в бургер
+        </Button>
+      )}
     </div>
   );
 };
 
 IngredientDetails.propTypes = {
   setFunc: PropTypes.func,
+  withAddButton: PropTypes.bool,
 };
 
 export default IngredientDetails;

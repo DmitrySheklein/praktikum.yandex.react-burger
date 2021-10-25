@@ -1,0 +1,57 @@
+.wrap {
+  max-width: 480px;
+  width: 100%;
+  margin: auto;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.formTitle {
+  text-align: center;
+}
+.formField {
+  display: flex;
+  justify-content: center;
+}
+.formField div {
+  width: 100%;
+  text-align: right;
+}
+.formFieldNewPassword label {
+  font-size: 0;
+}
+.formFieldNewPassword label:before {
+  content: "Введите новый пароль";
+  font-size: 16px;
+}
+.formButtonsContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.formButton {
+  margin-left: auto;
+  margin-right: auto;
+}
+.formResetBtn {
+  color: #4c4cff;
+}
+.formLinkItem {
+  text-align: center;
+}
+.formLink {
+  margin-left: 8px;
+  color: #4c4cff;
+}
+.formLink:hover {
+  color: #fff;
+}
+.formErrorMsg {
+  text-align: center;
+}
+.profileContainer {
+  max-width: 860px;
+  width: 100%;
+  display: flex;
+  margin-top: 120px;
+}

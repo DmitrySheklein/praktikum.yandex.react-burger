@@ -1,27 +1,28 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
 }
 
 .ImgWrap {
-    text-align: center;
+  text-align: center;
 }
 
 .statList {
-    display: flex;
+  display: flex;
 }
 
 .statItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .statItem:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .statName {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }

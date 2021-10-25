@@ -9,11 +9,14 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { Provider } from "react-redux";
 import store from "./services/store";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <Provider store={store}>
     <DndProvider backend={HTML5Backend}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </DndProvider>
   </Provider>,
   document.getElementById("root")
