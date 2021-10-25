@@ -67,7 +67,7 @@ function App() {
         {modalIngredientOpen && (
           <Route path="/ingredients/:id">
             <Modal
-              visible={modalIngredientOpen}
+              visible={!!modalIngredientOpen}
               setFunc={history.goBack}
               headerTitle="Детали ингредиента"
             >
