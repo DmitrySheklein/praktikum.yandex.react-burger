@@ -1,16 +1,21 @@
-import { React, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import PropTypes from "prop-types";
+
 import { useSelector } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
+import { TProduct } from "../../utils/types";
 
-const BurgerIngredient = ({ product }) => {
+type TBurgerIngredient = {
+  product: TProduct;
+};
+
+const BurgerIngredient: FC<TBurgerIngredient> = ({ product }) => {
   const location = useLocation();
   const orderState = useSelector(getConstructorItems);
 
@@ -18,7 +23,7 @@ const BurgerIngredient = ({ product }) => {
     return [orderState.bun, ...orderState.ingredients].reduce(
       (acc, current) => {
         if (current?._id === product?._id) {
-          return current.type === "bun" ? (acc += 2) : (acc += 1);
+          return current.type === "bun" ? acc + 2 : acc + 1;
         }
         return acc;
       },
@@ -64,14 +69,6 @@ const BurgerIngredient = ({ product }) => {
       </Link>
     </li>
   );
-};
-
-BurgerIngredient.propTypes = {
-  product: PropTypes.shape({
-    price: PropTypes.number,
-    name: PropTypes.string,
-    image_large: PropTypes.string,
-  }).isRequired,
 };
 
 export default BurgerIngredient;

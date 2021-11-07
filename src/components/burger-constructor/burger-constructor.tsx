@@ -1,22 +1,29 @@
 import React, { useMemo, useState } from "react";
 import {
-  ConstructorElement,
   Button,
+  ConstructorElement,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal.jsx";
-import OrderDetails from "../order-details/order-details.jsx";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
 import ConstructorSubElement from "./contstructor-element";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 import { getUser } from "../../services/auth/selectors";
 import { Redirect, useLocation } from "react-router-dom";
+import { TProduct } from "../../utils/types";
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
 
 const BurgerConstructor = () => {
   const location = useLocation();
@@ -30,7 +37,9 @@ const BurgerConstructor = () => {
       setStartedOrder(true);
       return;
     }
-    const ingredientsId = [...orderState.ingredients.map((el) => el._id)];
+    const ingredientsId = [
+      ...orderState.ingredients.map((product: TProduct) => product._id),
+    ];
     const bunId = orderState.bun?._id || null;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
@@ -42,9 +51,9 @@ const BurgerConstructor = () => {
     return [orderState.bun, ...orderState.ingredients].reduce(
       (prev, current) => {
         if (current && current.type) {
-          const currentSum =
-            prev + (current.type === "bun" ? current.price * 2 : current.price);
-          return currentSum;
+          return (
+            prev + (current.type === "bun" ? current.price * 2 : current.price)
+          );
         }
         return prev + 0;
       },
@@ -54,7 +63,7 @@ const BurgerConstructor = () => {
 
   const [{ canDrop, dragItem }, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: DragItem) {
       dispatch({
         type: item.type === "bun" ? ADD_BUN : ADD_INGREDIENT,
         payload: item,
@@ -104,7 +113,7 @@ const BurgerConstructor = () => {
         )}
         <div className={`${styles.constructorSubList} custom-scroll`}>
           {ingredients.length ? (
-            ingredients.map((product, index) => {
+            ingredients.map((product: TProduct, index: number) => {
               return (
                 <ConstructorSubElement
                   product={product}

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { FC, useRef } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -8,13 +8,29 @@ import {
   UPDATE_CONSTRUCTOR,
 } from "../../services/constructor/actions";
 import { useDispatch } from "react-redux";
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop, useDrag, DropTargetMonitor } from "react-dnd";
 import styles from "./burger-constructor.module.css";
+import { TProduct } from "../../utils/types";
+import { XYCoord } from "dnd-core";
+type TConstructorElement = {
+  product: TProduct;
+  index: number;
+  ingredientsLength: number;
+};
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
 
-const ConstructorSubElement = ({ product, index, ingredientsLength }) => {
+const ConstructorSubElement: FC<TConstructorElement> = ({
+  product,
+  index,
+  ingredientsLength,
+}) => {
   const dispatch = useDispatch();
   const id = product._id;
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop({
     accept: "constrElem",
     collect(monitor) {
@@ -22,7 +38,7 @@ const ConstructorSubElement = ({ product, index, ingredientsLength }) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: DragItem, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -40,7 +56,7 @@ const ConstructorSubElement = ({ product, index, ingredientsLength }) => {
       // Determine mouse position
       const clientOffset = monitor.getClientOffset();
       // Get pixels to the top
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
       // Only perform the move when the mouse has crossed half of the items height
       // When dragging downwards, only move when the cursor is below 50%
       // When dragging upwards, only move when the cursor is above 50%

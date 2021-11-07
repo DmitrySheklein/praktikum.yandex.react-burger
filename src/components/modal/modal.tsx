@@ -1,23 +1,33 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./modal-overlay";
 import styles from "./modal.module.css";
-import PropTypes from "prop-types";
 
+type TModalTypes = {
+  headerTitle?: string;
+  visible: boolean;
+  setFunc: (bool: boolean) => void;
+};
 const modalRoot = document.getElementById("react-modals");
-const Modal = ({ children, headerTitle, visible, setFunc }) => {
-  const handleEscClose = (evt) => {
+const Modal: FC<TModalTypes> = ({
+  children,
+  headerTitle,
+  visible,
+  setFunc,
+}) => {
+  const handleEscClose = (evt: KeyboardEvent) => {
     if (evt.key === "Escape") {
       setFunc(false);
     }
   };
   useEffect(() => {
-    document.addEventListener("keydown", handleEscClose);
+    document.addEventListener("keyup", handleEscClose);
     return () => {
-      document.removeEventListener("keydown", handleEscClose);
+      document.removeEventListener("keyup", handleEscClose);
     };
   });
+  if (!modalRoot) return null;
   return ReactDOM.createPortal(
     visible ? (
       <div className={`${styles.modal} ${visible ? styles.show : ""}`}>
@@ -31,9 +41,11 @@ const Modal = ({ children, headerTitle, visible, setFunc }) => {
           onClick={(evt) => evt.stopPropagation()}
         >
           <div className={styles.modalHeader}>
-            <strong className={"text text_type_main-large"}>
-              {headerTitle}
-            </strong>
+            {headerTitle && (
+              <strong className={"text text_type_main-large"}>
+                {headerTitle}
+              </strong>
+            )}
             <button
               title="Закрыть"
               className={`${styles.modalCloseBtn} reset-btn`}
@@ -52,12 +64,6 @@ const Modal = ({ children, headerTitle, visible, setFunc }) => {
     ),
     modalRoot
   );
-};
-Modal.propTypes = {
-  visible: PropTypes.bool,
-  headerTitle: PropTypes.string,
-  setFunc: PropTypes.func,
-  children: PropTypes.node,
 };
 
 export default Modal;
