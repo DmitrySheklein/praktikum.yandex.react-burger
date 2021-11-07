@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.css";
 import {
   Button,
@@ -10,19 +10,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { getForgotPassword } from "../services/auth/selectors";
 import { forgotPassword } from "../services/auth/actions";
 
+type TLocationState = {
+  fromForgotPage: boolean;
+};
 const ResetPasswordPage = () => {
   const forgotPasswordObj = useSelector(getForgotPassword);
-  const history = useHistory();
+  const history = useHistory<TLocationState>();
   const dispatch = useDispatch();
   const [form, setValue] = useState({
     password: "",
     token: "",
   });
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(forgotPassword(form));
   };
 
@@ -51,7 +55,6 @@ const ResetPasswordPage = () => {
             type={"text"}
             placeholder={"Введите код из письма"}
             onChange={onChange}
-            onPaste={onChange}
             value={form.token}
             name={"token"}
             error={false}
