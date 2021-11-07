@@ -17,7 +17,10 @@ export const refreshToken = () => {
   }).then(checkResponse);
 };
 
-export const fetchWithRefresh = async (url: string, options: any) => {
+type MyRequestInit = RequestInit & {
+  headers: Record<string, string>;
+};
+export const fetchWithRefresh = async (url: string, options: MyRequestInit) => {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
