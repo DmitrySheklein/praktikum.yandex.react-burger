@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import styles from "./page.module.css";
 import {
   Button,
@@ -6,45 +6,31 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { register } from "../services/auth/actions";
-import { useSelector } from "react-redux";
-import { getRegisterError } from "../services/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../services/auth/actions";
+import { getLoginError } from "../services/auth/selectors";
 
-const RegisterPage = () => {
-  const registerError = useSelector(getRegisterError);
+const LoginPage = () => {
+  const loginError = useSelector(getLoginError);
   const dispatch = useDispatch();
   const [form, setValue] = useState({
-    name: "",
     email: "",
     password: "",
   });
-  const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(register(form));
+    dispatch(login(form));
+  };
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   return (
     <div className={styles.wrap}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className={`${styles.formTitle} text text_type_main-medium mb-6 `}>
-          Регистрация
+          Вход
         </h1>
-        <div className={`${styles.formField} mb-6`}>
-          <Input
-            type={"text"}
-            placeholder={"Имя"}
-            onChange={onChange}
-            value={form.name}
-            name={"name"}
-            error={false}
-            errorText={"Ошибка"}
-            size={"default"}
-          />
-        </div>
         <div className={`${styles.formField} ${styles.formEmail} mb-6`}>
           <Input
             type={"email"}
@@ -64,25 +50,32 @@ const RegisterPage = () => {
             name={"password"}
           />
         </div>
-        {registerError && (
+        {loginError && (
           <p
-            className="pt-2 pb-5 text text_type_main-small"
-            style={{ textAlign: "center" }}
+            className={`${styles.formErrorMsg} pt-2 pb-5 text text_type_main-small`}
           >
-            {registerError}
+            {loginError}
           </p>
         )}
         <div className={`${styles.formButton} mb-20`}>
           <Button type="primary" size="medium">
-            Зарегистрироваться
+            Войти
           </Button>
         </div>
         <p
           className={`${styles.formLinkItem} text text_type_main-default text_color_inactive mb-4`}
         >
-          Уже зарегистрированы?
-          <Link className={styles.formLink} to={"/login"}>
-            Войти
+          Вы — новый пользователь?
+          <Link className={styles.formLink} to={"/register"}>
+            Зарегистрироваться
+          </Link>
+        </p>
+        <p
+          className={`${styles.formLinkItem} text text_type_main-default text_color_inactive`}
+        >
+          Забыли пароль?
+          <Link className={styles.formLink} to={"/forgot-password"}>
+            Восстановить пароль
           </Link>
         </p>
       </form>
@@ -90,4 +83,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

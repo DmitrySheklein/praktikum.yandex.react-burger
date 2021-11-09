@@ -33,7 +33,7 @@ const AppHeader = () => {
         </nav>
         <div className={styles.logoWrap}>
           <Link to="/">
-            <Logo className={styles.logo} />
+            <Logo />
           </Link>
         </div>
         <NavLink

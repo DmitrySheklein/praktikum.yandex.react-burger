@@ -1,18 +1,26 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 import { useParams } from "react-router-dom";
 import { getIngredients } from "../../services/ingredients/selectors";
 import Preloader from "../preloader/preloader";
+import { TProduct } from "../../utils/types";
 
-const IngredientDetails = ({ setFunc, withAddButton = false }) => {
+type TIngredientDetails = {
+  setFunc?: () => void;
+  withAddButton?: boolean;
+};
+
+const IngredientDetails: FC<TIngredientDetails> = ({
+  setFunc = () => {},
+  withAddButton = false,
+}) => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id } = useParams<{ id?: string }>();
   const ingredients = useSelector(getIngredients);
-  const product = ingredients.find((product) => product._id === id);
+  const product = ingredients.find((product: TProduct) => product._id === id);
 
   const statProductMap = {
     calories: "Калории,ккал",
@@ -73,11 +81,6 @@ const IngredientDetails = ({ setFunc, withAddButton = false }) => {
       )}
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  setFunc: PropTypes.func,
-  withAddButton: PropTypes.bool,
 };
 
 export default IngredientDetails;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
 import { signOut } from "../../services/auth/actions";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import styles from "./profile-sidebar.module.css";
 
 const ProfileSidebar = () => {
   const dispatch = useDispatch();
-  const logoutHandler = (e) => {
+  const logoutHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(signOut());
   };

@@ -1,12 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUser } from "../services/auth/selectors";
+import { getIsAuthChecking, getUser } from "../services/auth/selectors";
 import Preloader from "./preloader/preloader";
-import PropTypes from "prop-types";
 
-const ProtectedRoute = ({ children, path, isAuthChecking, exact = false }) => {
+type TProtectedRoute = {
+  path: string;
+  exact?: boolean;
+};
+const ProtectedRoute: FC<TProtectedRoute> = ({
+  children,
+  path,
+  exact = false,
+}) => {
   const user = useSelector(getUser);
+  const isAuthChecking = useSelector(getIsAuthChecking);
 
   return (
     <Route
@@ -29,11 +37,11 @@ const ProtectedRoute = ({ children, path, isAuthChecking, exact = false }) => {
     />
   );
 };
-ProtectedRoute.propTypes = {
-  path: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
-  exact: PropTypes.bool,
-  isAuthChecking: PropTypes.bool,
-};
+// ProtectedRoute.propTypes = {
+//   path: PropTypes.string.isRequired,
+//   children: PropTypes.element.isRequired,
+//   exact: PropTypes.bool,
+//   isAuthChecking: PropTypes.bool,
+// };
 
 export default ProtectedRoute;

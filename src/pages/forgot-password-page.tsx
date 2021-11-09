@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import styles from "./page.module.css";
 import {
   Button,
@@ -15,12 +21,13 @@ const ForgotPasswordPage = () => {
   const [form, setValue] = useState({
     email: "",
   });
-  const inputRef = useRef(null);
-  const handleSubmit = (e) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(forgotPassword(form));
   };
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -54,7 +61,6 @@ const ForgotPasswordPage = () => {
             error={false}
             errorText={"Ошибка"}
             size={"default"}
-            required
           />
         </div>
         {(forgotPasswordObj.emailSend || forgotPasswordObj.errorMessage) && (

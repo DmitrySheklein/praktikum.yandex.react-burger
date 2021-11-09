@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import styles from "../page.module.css";
 import {
   Button,
@@ -25,15 +25,14 @@ const ProfileEdit = () => {
     email: updatedUser?.user?.email || user?.email,
     password: "",
   });
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log(form.name, form.email, form.password);
     dispatch(updateUser(form));
   };
-  const handleCancel = (e) => {
+  const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setValue({ ...user, password: "" });
   };
