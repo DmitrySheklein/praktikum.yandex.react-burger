@@ -13,6 +13,7 @@ import {
   ResetPasswordPage,
   ForgotPasswordPage,
   ErrorPage404,
+  FeedPage,
 } from "../../pages";
 import { checkAuth } from "../../services/auth/actions";
 import ProtectedRoute from "../protected-route";
@@ -59,6 +60,9 @@ function App() {
           <AuthProtectedRoute path="/reset-password">
             <ResetPasswordPage />
           </AuthProtectedRoute>
+          <Route path="/feed">
+            <FeedPage />
+          </Route>
           <ProtectedRoute path={"/profile"}>
             <ProfilePage />
           </ProtectedRoute>

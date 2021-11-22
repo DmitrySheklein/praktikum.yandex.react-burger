@@ -1,5 +1,6 @@
 import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import styles from "../page.module.css";
+import stylesProfile from "./profile-form.module.css";
 import {
   Button,
   Input,
@@ -38,7 +39,7 @@ const ProfileEdit = () => {
   };
 
   return (
-    <div className={`${styles.wrap} ${styles.profileWrap}`}>
+    <div className={`${styles.wrap} ${stylesProfile.profileWrap}`}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={`${styles.formField} mb-6`}>
           <Input

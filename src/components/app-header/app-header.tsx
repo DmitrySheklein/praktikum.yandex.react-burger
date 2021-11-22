@@ -23,7 +23,7 @@ const AppHeader = () => {
             <span className="ml-4">Конструктор</span>
           </NavLink>
           <NavLink
-            to="/profile/orders"
+            to="/feed"
             className={`${styles.headerLink} text text_type_main-default text_color_inactive`}
             activeClassName={styles.active}
           >
