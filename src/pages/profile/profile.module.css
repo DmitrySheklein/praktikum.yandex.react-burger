@@ -1,0 +1,9 @@
+.profileContainer {
+  width: 100%;
+  display: flex;
+  margin-top: 120px;
+}
+.profileOrders {
+  max-height: 700px;
+  overflow: auto;
+}

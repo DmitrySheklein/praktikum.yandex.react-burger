@@ -1,11 +1,9 @@
 import React from "react";
+import OrderList from "../../components/order-list/order-list";
+import styles from "./profile.module.css";
 
 const ProfileOrders = () => {
-  return (
-    <div>
-      <h1 className="text text_type_main-medium">Страница истории заказов</h1>
-    </div>
-  );
+  return <OrderList className={styles.profileOrders} />;
 };
 
 export default ProfileOrders;

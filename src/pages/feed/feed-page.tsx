@@ -1,51 +1,16 @@
 import React from "react";
-import styles from "./page.module.css";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./feed.module.css";
+import OrderList from "../../components/order-list/order-list";
+import OrderInfo from "../../components/order-info/order-info";
 
 const FeedPage = () => {
+  return <OrderInfo />;
   return (
     <div className={styles.feedPage}>
       <h1 className="text text_type_main-large mb-5">Лента заказов</h1>
       <div className={styles.feedPageContainer}>
         <div className={`${styles.feedPageCol} mr-15`}>
-          <ul
-            className={`${styles.orderList} ${styles.feedPageOrderList} custom-scroll pr-2`}
-          >
-            {Array(10)
-              .fill("")
-              .map(() => (
-                <li className={`${styles.orderItem} pt-6 pr-6 pb-6 pl-6`}>
-                  <div className={`${styles.orderItemHeader} mb-6`}>
-                    <span className={`text text_type_digits-default`}>
-                      #034535
-                    </span>
-                    <span
-                      className={`text text_type_main-default text_color_inactive`}
-                    >
-                      Сегодня, 16:20 i-GMT+3
-                    </span>
-                  </div>
-                  <h2 className={`text text_type_main-medium mb-6`}>
-                    Death Star Starship Main бургер
-                  </h2>
-                  <div className={`${styles.orderItemInfo}`}>
-                    <ul className={`${styles.ingredientsList}`}>
-                      <li className={`${styles.ingredientsListItem}`}>1</li>
-                      <li className={`${styles.ingredientsListItem}`}>2</li>
-                      <li className={`${styles.ingredientsListItem}`}>3</li>
-                    </ul>
-                    <span className={`${styles.orderItemPrice} ml-6`}>
-                      <span
-                        className={`${styles.orderItemPriceNum} text text_type_digits-default`}
-                      >
-                        480
-                      </span>
-                      <CurrencyIcon type="primary" />
-                    </span>
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <OrderList className={styles.orderList} />
         </div>
         <div className={styles.feedPageCol}>
           <div className={`${styles.orders} mb-15`}>

@@ -1,0 +1,41 @@
+.feedPage {
+  width: 100%;
+}
+.feedPageContainer {
+  display: flex;
+}
+.feedPageCol {
+  max-width: 584px;
+  width: 100%;
+}
+.orderList {
+  max-height: 781px;
+  overflow: auto;
+}
+.orders {
+  display: flex;
+}
+.orderCol {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.orderColTitle {
+  position: relative;
+}
+.orderColList {
+  display: flex;
+  flex-direction: column;
+}
+.orderColListItem.ready {
+  color: #00cccc;
+}
+
+.totalBlock {
+  position: relative;
+}
+.totalBlockNum {
+  display: block;
+  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25),
+    0 4px 32px rgba(51, 51, 255, 0.5);
+}

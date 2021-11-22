@@ -4,7 +4,7 @@ import ForgotPasswordPage from "./forgot-password-page";
 import ResetPasswordPage from "./reset-password-page";
 import ProfilePage from "./profile/profile-page";
 import ErrorPage404 from "./404-page";
-import FeedPage from "./feed-page";
+import FeedPage from "./feed/feed-page";
 
 export {
   FeedPage,

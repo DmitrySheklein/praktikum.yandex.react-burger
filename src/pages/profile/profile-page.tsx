@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../page.module.css";
+import styles from "./profile.module.css";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import ProfileSidebar from "./profile-sidebar";
 import ProfileEdit from "./profile-edit";
