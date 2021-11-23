@@ -21,6 +21,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import AuthProtectedRoute from "../auth-protected-route";
 import Modal from "../modal/modal";
 import { Location } from "history";
+import OrderInfo from "../order-info/order-info";
 
 type TLocationState = {
   background: Location;
@@ -39,11 +40,13 @@ function App() {
   const action = history.action === "PUSH" || history.action === "REPLACE";
   const modalIngredientOpen =
     action && location.state && location.state.background;
+  const modalOrderOpen = action && location.state && location.state.background;
+
   return (
     <>
       <AppHeader />
       <main className={`${appStyles.container} ${appStyles.flex}`}>
-        <Switch location={modalIngredientOpen || location}>
+        <Switch location={modalIngredientOpen || modalOrderOpen || location}>
           <Route path="/" exact={true}>
             <BurgerIngredients />
             <BurgerConstructor />
@@ -60,8 +63,11 @@ function App() {
           <AuthProtectedRoute path="/reset-password">
             <ResetPasswordPage />
           </AuthProtectedRoute>
-          <Route path="/feed">
+          <Route path="/feed" exact={true}>
             <FeedPage />
+          </Route>
+          <Route path="/feed/:id" exact={true}>
+            <OrderInfo />
           </Route>
           <ProtectedRoute path={"/profile"}>
             <ProfilePage />
@@ -84,6 +90,13 @@ function App() {
                 setFunc={history.goBack}
                 withAddButton={true}
               />
+            </Modal>
+          </Route>
+        )}
+        {modalOrderOpen && (
+          <Route path="/feed/:id">
+            <Modal visible={!!modalOrderOpen} setFunc={history.goBack}>
+              <OrderInfo isModal />
             </Modal>
           </Route>
         )}

@@ -2,10 +2,17 @@ import React from "react";
 import styles from "./order-info.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const OrderInfo = () => {
+type TOrderInfo = {
+  isModal?: boolean;
+};
+const OrderInfo = ({ isModal = false }) => {
   return (
     <div className={styles.orderWrap}>
-      <p className={`${styles.orderNum} text text_type_digits-default mb-10`}>
+      <p
+        className={`${styles.orderNum} ${
+          isModal ? styles.left : ""
+        } text text_type_digits-default mb-10`}
+      >
         #034533
       </p>
       <h2 className={`${styles.orderName} text text_type_main-medium mb-3`}>
