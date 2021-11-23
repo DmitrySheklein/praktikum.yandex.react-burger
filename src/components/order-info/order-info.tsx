@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./order-info.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 type TOrderInfo = {
   isModal?: boolean;
 };
-const OrderInfo = ({ isModal = false }) => {
+const OrderInfo: FC<TOrderInfo> = ({ isModal = false }) => {
   return (
     <div className={styles.orderWrap}>
       <p

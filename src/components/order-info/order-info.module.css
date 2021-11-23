@@ -34,7 +34,7 @@
   width: 64px;
   height: 64px;
   background: #131316;
-  border-radius: 50%;
+  /*border-radius: 50%;*/
   border: 2px solid;
   border-image-slice: 1;
   border-width: 2px;

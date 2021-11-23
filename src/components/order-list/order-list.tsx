@@ -5,11 +5,11 @@ import styles from "../burger-ingredients/burger-ingredients.module.css";
 import { useLocation, Link } from "react-router-dom";
 type TOrderList = {
   className?: string;
+  path: string;
 };
-const OrderList: FC<TOrderList> = ({ className = "" }) => {
+const OrderList: FC<TOrderList> = ({ className = "", path = "" }) => {
   const [orderStatus] = useState(true);
   const location = useLocation();
-
   return (
     <ul
       className={`${stylesOrderList.orderList} ${className} custom-scroll pr-2`}
@@ -24,7 +24,7 @@ const OrderList: FC<TOrderList> = ({ className = "" }) => {
             <Link
               className={`${styles.ListItemLink}`}
               to={{
-                pathname: `/feed/123`,
+                pathname: path ? `/${path}/123` : "/321",
                 // This is the trick! This link sets
                 // the `background` in location state.
                 state: { background: location },

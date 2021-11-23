@@ -8,7 +8,7 @@ const FeedPage = () => {
       <h1 className="text text_type_main-large mb-5">Лента заказов</h1>
       <div className={styles.feedPageContainer}>
         <div className={`${styles.feedPageCol} mr-15`}>
-          <OrderList className={styles.orderList} />
+          <OrderList className={styles.orderList} path="feed" />
         </div>
         <div className={styles.feedPageCol}>
           <div className={`${styles.orders} mb-15`}>

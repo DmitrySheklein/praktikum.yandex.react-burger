@@ -1,3 +1,5 @@
+import { Location } from "history";
+
 export type TProduct = {
   _id: string;
   uuid?: string;
@@ -6,4 +8,8 @@ export type TProduct = {
   name: string;
   image: string;
   image_large: string;
+};
+
+export type TLocationState = {
+  background: Location;
 };

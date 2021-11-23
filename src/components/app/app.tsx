@@ -20,12 +20,8 @@ import ProtectedRoute from "../protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import AuthProtectedRoute from "../auth-protected-route";
 import Modal from "../modal/modal";
-import { Location } from "history";
 import OrderInfo from "../order-info/order-info";
-
-type TLocationState = {
-  background: Location;
-};
+import { TLocationState } from "../../utils/types";
 
 function App() {
   const dispatch = useDispatch();
