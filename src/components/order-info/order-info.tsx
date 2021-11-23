@@ -24,7 +24,7 @@ const OrderInfo = () => {
               <span
                 className={`${styles.itemName} text text_type_main-default mr-4`}
               >
-                Флюоресцентная булка R2-D3
+                Филе Люминесцентного тетраодонтимформа
               </span>
               <div className={`${styles.itemTotal}`}>
                 <span

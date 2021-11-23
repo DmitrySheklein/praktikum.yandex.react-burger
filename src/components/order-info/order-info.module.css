@@ -6,6 +6,15 @@
 .orderNum {
   text-align: center;
 }
+.orderNum.left {
+  text-align: left;
+}
+.orderStatus {
+  color: #fff;
+}
+.orderStatus.complete {
+  color: #00cccc;
+}
 .orderList {
   display: flex;
   flex-direction: column;
@@ -26,7 +35,17 @@
   height: 64px;
   background: #131316;
   border-radius: 50%;
-  border: 2px solid #801ab2;
+  border: 2px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+  border-image-source: linear-gradient(to left, #801ab2, #4c4cff);
+  /*
+#801AB2 @ 0%
+#4C4CFF @ 100%
+*/
+}
+.itemName {
+  max-width: 320px;
 }
 .itemTotal {
   display: flex;
@@ -43,6 +62,10 @@
 .orderFooter {
   display: flex;
   justify-content: space-between;
+}
+.orderTotal {
+  display: flex;
+  align-items: center;
 }
 .orderTotalPrice {
   margin-right: 4px;

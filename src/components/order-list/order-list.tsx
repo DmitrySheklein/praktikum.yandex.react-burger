@@ -37,16 +37,28 @@ const OrderList: FC<TOrderList> = ({ className = "" }) => {
             )}
             <div className={`${stylesOrderList.orderItemInfo}`}>
               <ul className={`${stylesOrderList.ingredientsList}`}>
-                {Array(7)
+                {Array(10)
                   .fill("")
-                  .map((el, index) => (
-                    <li
-                      className={`${stylesOrderList.ingredientsListItem}`}
-                      key={index}
-                    >
-                      {index}
-                    </li>
-                  ))}
+                  .map((el, index, array) => {
+                    if (index < 6) {
+                      return (
+                        <li
+                          className={`${stylesOrderList.ingredientsListItem}`}
+                          key={index}
+                        >
+                          {/*{index}*/}
+                          {index === 5 && array.length > 6 ? (
+                            <span
+                              className={`${stylesOrderList.ingredientsListItemCount} text text_type_main-default`}
+                            >
+                              +{array.length - (index + 1)}
+                            </span>
+                          ) : null}
+                        </li>
+                      );
+                    }
+                    return null;
+                  })}
               </ul>
               <span className={`${stylesOrderList.orderItemPrice} ml-6`}>
                 <span

@@ -1,10 +1,8 @@
 import React from "react";
 import styles from "./feed.module.css";
 import OrderList from "../../components/order-list/order-list";
-import OrderInfo from "../../components/order-info/order-info";
 
 const FeedPage = () => {
-  return <OrderInfo />;
   return (
     <div className={styles.feedPage}>
       <h1 className="text text_type_main-large mb-5">Лента заказов</h1>
