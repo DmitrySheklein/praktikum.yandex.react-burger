@@ -40,9 +40,10 @@ const FeedPage = () => {
               <ul className={`${styles.orderColList}`}>
                 {Array(5)
                   .fill("")
-                  .map(() => (
+                  .map((_, index) => (
                     <li
                       className={`${styles.orderColListItem} text text_type_digits-default mb-2`}
+                      key={index}
                     >
                       034533
                     </li>
