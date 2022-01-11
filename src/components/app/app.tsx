@@ -90,11 +90,18 @@ function App() {
           </Route>
         )}
         {modalOrderOpen && (
-          <Route path="/feed/:id">
-            <Modal visible={!!modalOrderOpen} setFunc={history.goBack}>
-              <OrderInfo isModal />
-            </Modal>
-          </Route>
+          <>
+            <Route path="/feed/:id">
+              <Modal visible={!!modalOrderOpen} setFunc={history.goBack}>
+                <OrderInfo isModal />
+              </Modal>
+            </Route>
+            <Route path="/profile/orders/:id">
+              <Modal visible={!!modalOrderOpen} setFunc={history.goBack}>
+                <OrderInfo isModal />
+              </Modal>
+            </Route>
+          </>
         )}
       </main>
     </>
