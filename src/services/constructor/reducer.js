@@ -4,7 +4,7 @@ import {
   REMOVE_INGREDIENT,
   RESET_CONSTRUCTOR,
   UPDATE_CONSTRUCTOR,
-} from "./actions";
+} from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import update from "immutability-helper";
 
@@ -35,7 +35,7 @@ export const consturctorReducer = (state = initialState, action) => {
       let deleted = false;
       return {
         ...state,
-        ingredients: state.ingredients.filter(el => {
+        ingredients: state.ingredients.filter((el) => {
           if (el._id === _id && !deleted) {
             deleted = true;
             return false;

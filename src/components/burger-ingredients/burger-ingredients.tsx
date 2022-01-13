@@ -9,7 +9,7 @@ import {
 } from "../../services/ingredients/selectors";
 import { useInView } from "react-intersection-observer";
 import Preloader from "../preloader/preloader";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 
 type TCategoryType = {
   name: string;

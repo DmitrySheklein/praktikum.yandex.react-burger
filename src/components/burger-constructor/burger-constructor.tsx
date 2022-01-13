@@ -14,10 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
-import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/constants";
 import { getUser } from "../../services/auth/selectors";
 import { Redirect, useLocation } from "react-router-dom";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 
 interface DragItem {
   index: number;

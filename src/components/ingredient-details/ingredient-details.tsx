@@ -2,11 +2,11 @@ import React, { FC } from "react";
 import styles from "./ingredient-details.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
+import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/constants";
 import { useParams } from "react-router-dom";
 import { getIngredients } from "../../services/ingredients/selectors";
 import Preloader from "../preloader/preloader";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 
 type TIngredientDetails = {
   setFunc?: () => void;

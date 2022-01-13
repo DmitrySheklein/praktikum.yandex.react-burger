@@ -1,4 +1,4 @@
-import { name } from "./actions";
+import { NAME } from "./constants";
 
-export const getIngredients = (store) => store[name].ingredients;
-export const ingredientsIsLoading = (store) => store[name].ingredientsRequest;
+export const getIngredients = (store) => store[NAME].ingredients;
+export const ingredientsIsLoading = (store) => store[NAME].ingredientsRequest;

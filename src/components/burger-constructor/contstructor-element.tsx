@@ -6,11 +6,11 @@ import {
 import {
   REMOVE_INGREDIENT,
   UPDATE_CONSTRUCTOR,
-} from "../../services/constructor/actions";
+} from "../../services/constructor/constants";
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag, DropTargetMonitor } from "react-dnd";
 import styles from "./burger-constructor.module.css";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 import { XYCoord } from "dnd-core";
 type TConstructorElement = {
   product: TProduct;

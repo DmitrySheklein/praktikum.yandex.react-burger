@@ -21,7 +21,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import AuthProtectedRoute from "../auth-protected-route";
 import Modal from "../modal/modal";
 import OrderInfo from "../order-info/order-info";
-import { TLocationState } from "../../utils/types";
+import { TLocationState } from "../../types/data";
 
 function App() {
   const dispatch = useDispatch();

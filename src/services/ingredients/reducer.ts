@@ -1,12 +1,22 @@
-import { LOAD_ITEMS, LOAD_ITEMS_SUCCESS, LOAD_ITEMS_FAILED } from "./actions";
+import { LOAD_ITEMS, LOAD_ITEMS_SUCCESS, LOAD_ITEMS_FAILED } from "./constants";
+import { TProduct } from "../../types/data";
+import { TIngredient } from "./action-types";
 
-const initialState = {
+type TInitialState = {
+  ingredients: TProduct[];
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+};
+const initialState: TInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (
+  state = initialState,
+  action: TIngredient
+) => {
   switch (action.type) {
     case LOAD_ITEMS_SUCCESS: {
       return {

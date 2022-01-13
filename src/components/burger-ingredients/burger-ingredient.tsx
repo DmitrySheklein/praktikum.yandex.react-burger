@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 
 type TBurgerIngredient = {
   product: TProduct;

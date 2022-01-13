@@ -12,7 +12,7 @@ import ProfileEdit from "./profile-edit";
 import ProfileOrders from "./profile-orders";
 import OrderInfo from "../../components/order-info/order-info";
 import Modal from "../../components/modal/modal";
-import { TLocationState } from "../../utils/types";
+import { TLocationState } from "../../types/data";
 
 const ProfilePage = () => {
   const { path } = useRouteMatch();
