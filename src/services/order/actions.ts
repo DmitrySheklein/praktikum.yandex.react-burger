@@ -1,16 +1,21 @@
 import { SERVER_URL } from "../../utils/constants";
-import { RESET_CONSTRUCTOR } from "../constructor/actions";
-export const name = "order";
-export const CREATE_ORDER_REQUEST = "CREATE_ORDER";
-export const CREATE_ORDER_SUCCESS = "CREATE_ORDER_SUCCESS";
-export const CREATE_ORDER_FAILED = "CREATE_ORDER_FAILED";
+import { resetConstructorAction } from "../constructor/action-type";
+import {
+  createOrderRequestAction,
+  createOrderSuccessAction,
+  createOrderFailedAction,
+} from "./action-type";
+import { AppDispatch } from "../../types";
 
-export const createOrder = (data, setStartedOrder) => {
-  return async function (dispatch) {
+export const createOrder = (
+  data: {
+    ingredients: string[];
+  },
+  setStartedOrder: (status: boolean) => void
+) => {
+  return async function (dispatch: AppDispatch) {
     try {
-      dispatch({
-        type: CREATE_ORDER_REQUEST,
-      });
+      dispatch(createOrderRequestAction());
       const res = await fetch(`${SERVER_URL}/orders`, {
         method: "POST",
         headers: {
@@ -19,6 +24,7 @@ export const createOrder = (data, setStartedOrder) => {
         body: JSON.stringify(data),
       });
       const isJson =
+        // @ts-ignore
         res.headers.get("content-type").indexOf("application/json") !== -1;
       if (!res.ok) {
         throw new Error("Ответ сети не ok");
@@ -28,20 +34,13 @@ export const createOrder = (data, setStartedOrder) => {
       }
       const json = await res.json();
       if (json.success) {
-        dispatch({
-          type: CREATE_ORDER_SUCCESS,
-          payload: json,
-        });
-        dispatch({
-          type: RESET_CONSTRUCTOR,
-        });
+        dispatch(createOrderSuccessAction(json));
+        dispatch(resetConstructorAction());
         setStartedOrder(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.message);
-      dispatch({
-        type: CREATE_ORDER_FAILED,
-      });
+      dispatch(createOrderFailedAction());
     }
   };
 };

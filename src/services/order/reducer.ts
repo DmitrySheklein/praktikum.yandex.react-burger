@@ -2,20 +2,27 @@ import {
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_FAILED,
-} from "./actions";
+} from "./constants";
+import { TOrderInfo } from "../../types/data";
+import { TOrder } from "./action-type";
 
-const initialState = {
+type TInitialState = {
+  orderInfo: TOrderInfo | null;
+  orderRequest: boolean;
+  orderFailed: boolean;
+};
+const initialState: TInitialState = {
   orderInfo: null,
   orderRequest: false,
   orderFailed: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrder) => {
   switch (action.type) {
     case CREATE_ORDER_SUCCESS: {
       return {
         ...state,
-        orderInfo: action.payload,
+        orderInfo: action.order,
       };
     }
     case CREATE_ORDER_REQUEST: {

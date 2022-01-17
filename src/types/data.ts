@@ -13,3 +13,23 @@ export type TProduct = {
 export type TLocationState = {
   background: Location;
 };
+
+export enum EStatus {
+  Done = "done",
+  Created = "created",
+  Pending = "pending",
+}
+export type TOrderInfo = {
+  ingredients: string[];
+  _id: string;
+  status: EStatus;
+  number: number;
+  createdAt: Date;
+  updatedAt: string;
+  name: string;
+};
+export type TUser = {
+  name: string;
+  email: string;
+  password: string;
+};

@@ -12,7 +12,9 @@ export function getItems() {
     // Запрашиваем данные у сервера
     try {
       const res = await fetch(`${SERVER_URL}/ingredients`);
+      // @ts-ignore
       const isJson =
+        // @ts-ignore
         res.headers.get("content-type").indexOf("application/json") !== -1;
       if (!res.ok) {
         dispatch(IngredientsFailedAction());
@@ -24,7 +26,7 @@ export function getItems() {
       }
       const { data } = await res.json();
       dispatch(IngredientsSuccessAction(data));
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.message);
       dispatch(IngredientsFailedAction());
     }
