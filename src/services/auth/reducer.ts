@@ -13,7 +13,7 @@ import {
   RESET_PASSWORD_FORGOT,
 } from "./constants";
 
-type TInitialState = {
+export type TInitialStateAuth = {
   data: TUser | null;
   authChecking: boolean;
   registerSending: boolean;
@@ -27,7 +27,7 @@ type TInitialState = {
     errorMessage: string;
   };
 };
-const initialState: TInitialState = {
+const initialState: TInitialStateAuth = {
   data: null,
   authChecking: true,
   registerSending: false,
@@ -45,7 +45,7 @@ const initialState: TInitialState = {
 export const authReducer = (
   state = initialState,
   action: TAuth
-): TInitialState => {
+): TInitialStateAuth => {
   switch (action.type) {
     case SET_USER_DATA:
       return { ...state, data: action.data };

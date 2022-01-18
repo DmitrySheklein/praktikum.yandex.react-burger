@@ -6,7 +6,7 @@ import {
 import { TUserUnion } from "./actions-type";
 import { TUser } from "../../types/data";
 
-export type TInitialState = {
+export type TInitialStateUser = {
   data: {
     status: boolean;
     user: TUser;
@@ -14,7 +14,7 @@ export type TInitialState = {
   userUpdateSending: boolean;
   userUpdateError: boolean;
 };
-const initialState: TInitialState = {
+const initialState: TInitialStateUser = {
   data: null,
   userUpdateSending: false,
   userUpdateError: false,
@@ -23,7 +23,7 @@ const initialState: TInitialState = {
 export const currentUserReducer = (
   state = initialState,
   action: TUserUnion
-): TInitialState => {
+): TInitialStateUser => {
   switch (action.type) {
     case UPDATE_USER_DATA_SEND:
       return {

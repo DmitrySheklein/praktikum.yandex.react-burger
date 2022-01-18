@@ -6,18 +6,21 @@ import {
 import { TOrderInfo } from "../../types/data";
 import { TOrder } from "./action-type";
 
-type TInitialState = {
+export type TInitialStateOrder = {
   orderInfo: TOrderInfo | null;
   orderRequest: boolean;
   orderFailed: boolean;
 };
-const initialState: TInitialState = {
+const initialState: TInitialStateOrder = {
   orderInfo: null,
   orderRequest: false,
   orderFailed: false,
 };
 
-export const orderReducer = (state = initialState, action: TOrder) => {
+export const orderReducer = (
+  state = initialState,
+  action: TOrder
+): TInitialStateOrder => {
   switch (action.type) {
     case CREATE_ORDER_SUCCESS: {
       return {

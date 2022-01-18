@@ -10,11 +10,11 @@ import update from "immutability-helper";
 import { TProduct } from "../../types/data";
 import { TConstructor } from "./action-type";
 
-export type TInitialState = {
+export type TInitialStateConstructor = {
   bun: TProduct | null;
   ingredients: TProduct[];
 };
-const initialState: TInitialState = {
+const initialState: TInitialStateConstructor = {
   bun: null,
   ingredients: [],
 };
@@ -22,7 +22,7 @@ const initialState: TInitialState = {
 export const constructorReducer = (
   state = initialState,
   action: TConstructor
-): TInitialState => {
+): TInitialStateConstructor => {
   switch (action.type) {
     case ADD_BUN: {
       return {

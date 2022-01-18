@@ -1,4 +1,9 @@
 import { Location } from "history";
+import { TInitialStateAuth } from "../services/auth/reducer";
+import { TInitialStateConstructor } from "../services/constructor/reducer";
+import { TInitialStateIngredients } from "../services/ingredients/reducer";
+import { TInitialStateOrder } from "../services/order/reducer";
+import { TInitialStateUser } from "../services/user/reducer";
 
 export type TProduct = {
   _id: string;
@@ -33,3 +38,10 @@ export type TUser = {
   email: string;
   password: string;
 };
+
+export type TInitialState =
+  | TInitialStateAuth
+  | TInitialStateConstructor
+  | TInitialStateIngredients
+  | TInitialStateOrder
+  | TInitialStateUser;
