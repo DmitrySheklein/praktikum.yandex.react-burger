@@ -2,11 +2,14 @@ import React, { FC } from "react";
 import styles from "./ingredient-details.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/constants";
 import { useParams } from "react-router-dom";
 import { getIngredients } from "../../services/ingredients/selectors";
 import Preloader from "../preloader/preloader";
 import { TProduct } from "../../types/data";
+import {
+  addBunAction,
+  addIngredientAction,
+} from "../../services/constructor/action-type";
 
 type TIngredientDetails = {
   setFunc?: () => void;
@@ -32,15 +35,9 @@ const IngredientDetails: FC<TIngredientDetails> = ({
     const productType = product.type;
 
     if (productType === "bun") {
-      dispatch({
-        type: ADD_BUN,
-        payload: product,
-      });
+      dispatch(addBunAction(product));
     } else {
-      dispatch({
-        type: ADD_INGREDIENT,
-        payload: product,
-      });
+      dispatch(addIngredientAction(product));
     }
     setFunc();
   };

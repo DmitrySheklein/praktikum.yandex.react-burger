@@ -44,7 +44,7 @@ export const constructorReducer = (
       let deleted = false;
       return {
         ...state,
-        ingredients: state.ingredients.filter((el) => {
+        ingredients: state.ingredients.filter(el => {
           if (el._id === _id && !deleted) {
             deleted = true;
             return false;

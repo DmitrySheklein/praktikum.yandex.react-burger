@@ -20,7 +20,7 @@ const ProfilePage = () => {
   const location = useLocation<TLocationState>();
   const action = history.action === "PUSH" || history.action === "REPLACE";
   const modalOrderOpen = action && location.state && location.state.background;
-  //console.log(action, location.state, modalOrderOpen);
+
   return (
     <>
       <div className={styles.profileContainer}>
