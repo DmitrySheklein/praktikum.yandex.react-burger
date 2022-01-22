@@ -13,6 +13,7 @@ import {
   getUserUpdateSending,
 } from "../../services/user/selectors";
 import { updateUser } from "../../services/user/actions";
+import { TUser } from "../../types/data";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
@@ -21,9 +22,9 @@ const ProfileEdit = () => {
   const userUpdateSending = useSelector(getUserUpdateSending);
   const userUpdateError = useSelector(getUserUpdateError);
 
-  const [form, setValue] = useState({
-    name: updatedUser?.user?.name || user?.name,
-    email: updatedUser?.user?.email || user?.email,
+  const [form, setValue] = useState<TUser>({
+    name: updatedUser?.user?.name || user?.name || "",
+    email: updatedUser?.user?.email || user?.email || "",
     password: "",
   });
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +34,13 @@ const ProfileEdit = () => {
     e.preventDefault();
     dispatch(updateUser(form));
   };
+
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
-    setValue({ ...user, password: "" });
+
+    if (user) {
+      setValue({ ...user, password: "" });
+    }
   };
 
   return (

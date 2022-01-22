@@ -1,14 +1,17 @@
 import { NAME } from "./constants";
+import { RootState } from "../../types";
 
-export const getUser = (store: any) => store[NAME].data;
-export const getIsAuth = (store: any) => !!store[NAME].data;
+export const getUser = (store: RootState) => store[NAME].data;
+export const getIsAuth = (store: RootState) => !!store[NAME].data;
 
-export const getIsAuthChecking = (store: any) => store[NAME].authChecking;
+export const getIsAuthChecking = (store: RootState) => store[NAME].authChecking;
 
-export const getRegisterSending = (store: any) => store[NAME].registerSending;
-export const getRegisterError = (store: any) => store[NAME].registerError;
+export const getRegisterSending = (store: RootState) =>
+  store[NAME].registerSending;
+export const getRegisterError = (store: RootState) => store[NAME].registerError;
 
-export const getLoginSending = (store: any) => store[NAME].loginSending;
-export const getLoginError = (store: any) => store[NAME].loginError;
+export const getLoginSending = (store: RootState) => store[NAME].loginSending;
+export const getLoginError = (store: RootState) => store[NAME].loginError;
 
-export const getForgotPassword = (store: any) => store[NAME].forgotPassword;
+export const getForgotPassword = (store: RootState) =>
+  store[NAME].forgotPassword;

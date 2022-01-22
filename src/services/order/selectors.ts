@@ -1,4 +1,5 @@
 import { NAME } from "./constants";
+import { RootState } from "../../types";
 
-export const getFullOrder = (store: any) => store[NAME].orderInfo;
-export const getOrder = (store: any) => store[NAME].orderInfo?.order;
+export const getFullOrder = (store: RootState) => store[NAME].orderInfo;
+export const getOrder = (store: RootState) => store[NAME].orderInfo?.order;

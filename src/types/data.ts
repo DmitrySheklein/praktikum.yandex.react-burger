@@ -29,6 +29,11 @@ export enum EStatus {
   Created = "created",
   Pending = "pending",
 }
+export type TOrderCreated = {
+  name: string;
+  order: { number: boolean };
+  success: boolean;
+};
 export type TOrderInfo = {
   ingredients: string[];
   _id: string;

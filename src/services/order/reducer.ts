@@ -3,11 +3,11 @@ import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_FAILED,
 } from "./constants";
-import { TOrderInfo } from "../../types/data";
+import { TOrderCreated } from "../../types/data";
 import { TOrder } from "./action-type";
 
 export type TInitialStateOrder = {
-  orderInfo: TOrderInfo | null;
+  orderInfo: TOrderCreated | null;
   orderRequest: boolean;
   orderFailed: boolean;
 };
