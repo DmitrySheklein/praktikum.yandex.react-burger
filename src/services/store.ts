@@ -7,10 +7,8 @@ import { socketMiddleware } from "./websoket/socketMiddleware";
 
 const composeEnhancers =
   (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-const enhancer = composeEnhancers(
-  applyMiddleware(thunk),
-  socketMiddleware(WS_URL, TWsActions)
-);
-const store = createStore(rootReducer, enhancer);
 
-export default store;
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk, socketMiddleware(WS_URL, TWsActions))
+);
+export default createStore(rootReducer, enhancer);
