@@ -10,7 +10,7 @@ import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
 import ConstructorSubElement from "./contstructor-element";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../types/hooks";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
@@ -37,7 +37,7 @@ const BurgerConstructor = () => {
     const ingredientsId = [
       ...orderState.ingredients.map((product: TProduct) => product._id),
     ];
-    const bunId = orderState.bun?._id || null;
+    const bunId = orderState.bun?._id;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
     };
@@ -65,7 +65,7 @@ const BurgerConstructor = () => {
         item.type === "bun" ? addBunAction(item) : addIngredientAction(item)
       );
     },
-    collect: monitor => {
+    collect: (monitor) => {
       return {
         canDrop: monitor.canDrop(),
         dragItem: monitor.getItem(),

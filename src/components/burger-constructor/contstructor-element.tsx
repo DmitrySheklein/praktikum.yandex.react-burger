@@ -3,7 +3,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../types/hooks";
 import { useDrop, useDrag, DropTargetMonitor } from "react-dnd";
 import styles from "./burger-constructor.module.css";
 import { TProduct } from "../../types/data";

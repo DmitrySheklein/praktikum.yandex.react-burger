@@ -13,6 +13,11 @@ export type TProduct = {
   name: string;
   image: string;
   image_large: string;
+  image_mobile: string;
+  proteins: number;
+  fat: number;
+  calories: number;
+  carbohydrates: number;
 };
 
 export type TLocationState = {

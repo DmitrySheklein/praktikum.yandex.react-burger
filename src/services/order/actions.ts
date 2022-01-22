@@ -9,7 +9,7 @@ import { AppDispatch } from "../../types";
 
 export const createOrder = (
   data: {
-    ingredients: string[];
+    ingredients: (string | undefined)[];
   },
   setStartedOrder: (status: boolean) => void
 ) => {

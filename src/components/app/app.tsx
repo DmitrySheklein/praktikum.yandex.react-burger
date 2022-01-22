@@ -3,7 +3,7 @@ import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../types/hooks";
 import { getItems } from "../../services/ingredients/actions";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import {

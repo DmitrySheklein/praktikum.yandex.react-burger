@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../types/hooks";
 import { getIsAuthChecking, getUser } from "../services/auth/selectors";
 import Preloader from "./preloader/preloader";
 

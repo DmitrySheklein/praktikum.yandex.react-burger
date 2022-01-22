@@ -3,7 +3,7 @@ import { TProduct } from "../../types/data";
 import { TIngredient } from "./action-types";
 
 export type TInitialStateIngredients = {
-  ingredients: TProduct[];
+  ingredients: TProduct[] | [];
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
 };

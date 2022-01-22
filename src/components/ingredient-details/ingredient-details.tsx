@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styles from "./ingredient-details.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../types/hooks";
 import { useParams } from "react-router-dom";
 import { getIngredients } from "../../services/ingredients/selectors";
 import Preloader from "../preloader/preloader";
@@ -25,19 +25,24 @@ const IngredientDetails: FC<TIngredientDetails> = ({
   const ingredients = useSelector(getIngredients);
   const product = ingredients.find((product: TProduct) => product._id === id);
 
-  const statProductMap = {
+  interface IStatProductMap {
+    [propertyName: string]: string;
+  }
+  const statProductMap: IStatProductMap = {
     calories: "Калории,ккал",
     proteins: "Белки,г",
     fat: "Жиры,г",
     carbohydrates: "Углеводы,г",
   };
   const addOnOrderHandler = () => {
-    const productType = product.type;
+    if (product) {
+      const productType = product.type;
 
-    if (productType === "bun") {
-      dispatch(addBunAction(product));
-    } else {
-      dispatch(addIngredientAction(product));
+      if (productType === "bun") {
+        dispatch(addBunAction(product));
+      } else {
+        dispatch(addIngredientAction(product));
+      }
     }
     setFunc();
   };
@@ -66,7 +71,9 @@ const IngredientDetails: FC<TIngredientDetails> = ({
             <span
               className={`text text_type_digits-default text_color_inactive`}
             >
-              {product[type]}
+              {/* TODO побороть ошибку TS*/}
+              {/*{product[type]*/}
+              {type}
             </span>
           </li>
         ))}

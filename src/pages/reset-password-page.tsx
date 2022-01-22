@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../types/hooks";
 import { getForgotPassword } from "../services/auth/selectors";
 import { forgotPassword } from "../services/auth/actions";
 
