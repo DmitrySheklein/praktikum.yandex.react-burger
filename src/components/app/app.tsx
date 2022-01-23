@@ -20,7 +20,7 @@ import ProtectedRoute from "../protected-route";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import AuthProtectedRoute from "../auth-protected-route";
 import Modal from "../modal/modal";
-import OrderInfo from "../order-info/order-info";
+import OrderInfo from "../order-modal-info/order-modal-info";
 import { TLocationState } from "../../types/data";
 
 function App() {
@@ -36,8 +36,11 @@ function App() {
   const action = history.action === "PUSH" || history.action === "REPLACE";
   const modalIngredientOpen =
     action && location.state && location.state.background;
-  const modalOrderOpen = action && location.state && location.state.background;
-
+  const modalOrderOpen =
+    action &&
+    location.state &&
+    location.state.background &&
+    location.state.orderModal;
   return (
     <>
       <AppHeader />
@@ -92,13 +95,21 @@ function App() {
         {modalOrderOpen && (
           <>
             <Route path="/feed/:id">
-              <Modal visible={!!modalOrderOpen} setFunc={history.goBack}>
-                <OrderInfo isModal />
+              <Modal
+                visible={!!modalOrderOpen}
+                setFunc={history.goBack}
+                withHeader={false}
+              >
+                <OrderInfo isModal orderModal={location.state.orderModal} />
               </Modal>
             </Route>
             <Route path="/profile/orders/:id">
-              <Modal visible={!!modalOrderOpen} setFunc={history.goBack}>
-                <OrderInfo isModal />
+              <Modal
+                visible={!!modalOrderOpen}
+                setFunc={history.goBack}
+                withHeader={false}
+              >
+                <OrderInfo isModal orderModal={location.state.orderModal} />
               </Modal>
             </Route>
           </>

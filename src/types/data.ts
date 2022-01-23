@@ -22,6 +22,7 @@ export type TProduct = {
 
 export type TLocationState = {
   background: Location;
+  orderModal: any;
 };
 
 export enum EStatus {
@@ -39,7 +40,7 @@ export type TOrderInfo = {
   _id: string;
   status: EStatus;
   number: number;
-  createdAt: Date;
+  createdAt: string;
   updatedAt: string;
   name: string;
 };

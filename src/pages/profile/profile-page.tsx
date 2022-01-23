@@ -10,7 +10,7 @@ import {
 import ProfileSidebar from "./profile-sidebar";
 import ProfileEdit from "./profile-edit";
 import ProfileOrders from "./profile-orders";
-import OrderInfo from "../../components/order-info/order-info";
+import OrderInfo from "../../components/order-modal-info/order-modal-info";
 import Modal from "../../components/modal/modal";
 import { TLocationState } from "../../types/data";
 

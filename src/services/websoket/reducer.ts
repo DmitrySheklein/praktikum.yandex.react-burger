@@ -9,12 +9,17 @@ import {
 
 export type TInitialState = {
   wsConnected: boolean;
-  weError: boolean;
-  messages: TOrderInfo[] | null;
+  wsError: boolean;
+  messages: {
+    success: boolean;
+    orders: TOrderInfo[] | null;
+    total: number;
+    totalToday: number;
+  } | null;
 };
 const initialState: TInitialState = {
   wsConnected: false,
-  weError: false,
+  wsError: false,
   messages: null,
 };
 

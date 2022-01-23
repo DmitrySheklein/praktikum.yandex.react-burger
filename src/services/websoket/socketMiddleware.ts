@@ -6,37 +6,38 @@ export const socketMiddleware = (
   wsUrl: string,
   wsActions: typeof TWsActions
 ): Middleware<{}> => {
-  return store => {
+  return (store) => {
     let socket: WebSocket | null = null;
 
-    return next => action => {
+    return (next) => (action) => {
       const { dispatch } = store;
       const { type, withToken } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
-      const token = getCookie("accessToken");
+      const accessCookie = getCookie("accessToken");
+      const token = withToken ? accessCookie : "";
 
-      if (type === wsInit && withToken) {
+      if (type === wsInit) {
         socket = new WebSocket(
           withToken ? `${wsUrl}?token=${token}` : `${wsUrl}/all`
         );
       }
       if (socket) {
-        socket.onopen = event => {
+        socket.onopen = (event) => {
           dispatch({ type: onOpen, payload: event });
         };
 
-        socket.onerror = event => {
-          dispatch({ type: onError, payload: event });
+        socket.onerror = (event) => {
+          dispatch({ type: onError, wsError: event });
         };
 
-        socket.onmessage = event => {
+        socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
 
-          dispatch({ type: onMessage, payload: parsedData });
+          dispatch({ type: onMessage, messages: parsedData });
         };
 
-        socket.onclose = event => {
+        socket.onclose = (event) => {
           dispatch({ type: onClose, payload: event });
         };
       }

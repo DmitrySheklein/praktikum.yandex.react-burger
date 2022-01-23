@@ -72,7 +72,7 @@ const IngredientDetails: FC<TIngredientDetails> = ({
               className={`text text_type_digits-default text_color_inactive`}
             >
               {/* TODO побороть ошибку TS*/}
-              {/*{product[type]*/}
+              {/*product[type] */}
               {type}
             </span>
           </li>

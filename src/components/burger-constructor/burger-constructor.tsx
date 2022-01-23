@@ -21,12 +21,14 @@ import {
   addBunAction,
   addIngredientAction,
 } from "../../services/constructor/action-type";
+import { isOrderRequest } from "../../services/order/selectors";
 
 const BurgerConstructor = () => {
   const location = useLocation();
   const user = useSelector(getUser);
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
+  const isOrderLoading = useSelector(isOrderRequest);
   const { bun, ingredients } = orderState;
   const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
@@ -156,7 +158,7 @@ const BurgerConstructor = () => {
 
         {totalOrderSum && bun ? (
           <Button type="primary" size="large" onClick={startOrderHandle}>
-            Оформить заказ
+            {isOrderLoading ? "Оформление..." : "Оформить заказ"}
           </Button>
         ) : null}
 

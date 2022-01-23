@@ -6,6 +6,7 @@ import {
   createOrderFailedAction,
 } from "./action-type";
 import { AppDispatch } from "../../types";
+import { getCookie } from "../../utils/cookie";
 
 export const createOrder = (
   data: {
@@ -20,7 +21,9 @@ export const createOrder = (
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${getCookie("accessToken")}`,
         },
+
         body: JSON.stringify(data),
       });
       const isJson =
