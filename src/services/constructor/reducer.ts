@@ -4,21 +4,30 @@ import {
   REMOVE_INGREDIENT,
   RESET_CONSTRUCTOR,
   UPDATE_CONSTRUCTOR,
-} from "./actions";
+} from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import update from "immutability-helper";
+import { TProduct } from "../../types/data";
+import { TConstructor } from "./action-type";
 
-const initialState = {
+export type TInitialStateConstructor = {
+  bun: TProduct | null;
+  ingredients: TProduct[];
+};
+const initialState: TInitialStateConstructor = {
   bun: null,
   ingredients: [],
 };
 
-export const consturctorReducer = (state = initialState, action) => {
+export const constructorReducer = (
+  state = initialState,
+  action: TConstructor
+): TInitialStateConstructor => {
   switch (action.type) {
     case ADD_BUN: {
       return {
         ...state,
-        bun: { ...action.payload, uuid: uuidv4() },
+        bun: { ...action.bun, uuid: uuidv4() },
       };
     }
     case ADD_INGREDIENT: {
@@ -26,12 +35,12 @@ export const consturctorReducer = (state = initialState, action) => {
         ...state,
         ingredients: [
           ...state.ingredients,
-          { ...action.payload, uuid: uuidv4() },
+          { ...action.ingredient, uuid: uuidv4() },
         ],
       };
     }
     case REMOVE_INGREDIENT: {
-      const { _id } = action.payload;
+      const { _id } = action.ingredient;
       let deleted = false;
       return {
         ...state,
@@ -51,7 +60,7 @@ export const consturctorReducer = (state = initialState, action) => {
       };
     }
     case UPDATE_CONSTRUCTOR: {
-      const { dragIndex, hoverIndex } = action.payload;
+      const { dragIndex, hoverIndex } = action.value;
       const dragCard = state.ingredients[dragIndex];
       return {
         ...state,

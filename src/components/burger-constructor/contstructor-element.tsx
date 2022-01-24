@@ -3,15 +3,15 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  REMOVE_INGREDIENT,
-  UPDATE_CONSTRUCTOR,
-} from "../../services/constructor/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../types/hooks";
 import { useDrop, useDrag, DropTargetMonitor } from "react-dnd";
 import styles from "./burger-constructor.module.css";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 import { XYCoord } from "dnd-core";
+import {
+  removeIngredientAction,
+  updateIngredientAction,
+} from "../../services/constructor/action-type";
 type TConstructorElement = {
   product: TProduct;
   index: number;
@@ -70,13 +70,7 @@ const ConstructorSubElement: FC<TConstructorElement> = ({
       }
       // Time to actually perform the action
       // moveCard(dragIndex, hoverIndex);
-      dispatch({
-        type: UPDATE_CONSTRUCTOR,
-        payload: {
-          dragIndex,
-          hoverIndex,
-        },
-      });
+      dispatch(updateIngredientAction({ dragIndex, hoverIndex }));
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
       // but it's good here for the sake of performance
@@ -113,10 +107,7 @@ const ConstructorSubElement: FC<TConstructorElement> = ({
         price={product.price}
         thumbnail={product.image}
         handleClose={() => {
-          dispatch({
-            type: REMOVE_INGREDIENT,
-            payload: product,
-          });
+          dispatch(removeIngredientAction(product));
         }}
       />
     </div>

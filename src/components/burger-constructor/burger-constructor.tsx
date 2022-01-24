@@ -10,26 +10,25 @@ import styles from "./burger-constructor.module.css";
 
 import EmptyConstructorElement from "./empty-contstructor-element";
 import ConstructorSubElement from "./contstructor-element";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../types/hooks";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
-import { ADD_BUN, ADD_INGREDIENT } from "../../services/constructor/actions";
 import { getUser } from "../../services/auth/selectors";
 import { Redirect, useLocation } from "react-router-dom";
-import { TProduct } from "../../utils/types";
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
+import { TProduct } from "../../types/data";
+import {
+  addBunAction,
+  addIngredientAction,
+} from "../../services/constructor/action-type";
+import { isOrderRequest } from "../../services/order/selectors";
 
 const BurgerConstructor = () => {
   const location = useLocation();
   const user = useSelector(getUser);
   const dispatch = useDispatch();
   const orderState = useSelector(getConstructorItems);
+  const isOrderLoading = useSelector(isOrderRequest);
   const { bun, ingredients } = orderState;
   const [startedOrder, setStartedOrder] = useState(false);
   const startOrderHandle = () => {
@@ -40,7 +39,7 @@ const BurgerConstructor = () => {
     const ingredientsId = [
       ...orderState.ingredients.map((product: TProduct) => product._id),
     ];
-    const bunId = orderState.bun?._id || null;
+    const bunId = orderState.bun?._id;
     const orderData = {
       ingredients: [...ingredientsId, bunId],
     };
@@ -63,11 +62,10 @@ const BurgerConstructor = () => {
 
   const [{ canDrop, dragItem }, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item: DragItem) {
-      dispatch({
-        type: item.type === "bun" ? ADD_BUN : ADD_INGREDIENT,
-        payload: item,
-      });
+    drop(item: TProduct) {
+      dispatch(
+        item.type === "bun" ? addBunAction(item) : addIngredientAction(item)
+      );
     },
     collect: (monitor) => {
       return {
@@ -160,7 +158,7 @@ const BurgerConstructor = () => {
 
         {totalOrderSum && bun ? (
           <Button type="primary" size="large" onClick={startOrderHandle}>
-            Оформить заказ
+            {isOrderLoading ? "Оформление..." : "Оформить заказ"}
           </Button>
         ) : null}
 

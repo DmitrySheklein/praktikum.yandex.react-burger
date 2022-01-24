@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import BurgerIngredient from "./burger-ingredient";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../types/hooks";
 import {
   getIngredients,
   ingredientsIsLoading,
 } from "../../services/ingredients/selectors";
 import { useInView } from "react-intersection-observer";
 import Preloader from "../preloader/preloader";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 
 type TCategoryType = {
   name: string;

@@ -5,11 +5,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 
-import { useSelector } from "react-redux";
+import { useSelector } from "../../types/hooks";
 import { getConstructorItems } from "../../services/constructor/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-import { TProduct } from "../../utils/types";
+import { TProduct } from "../../types/data";
 
 type TBurgerIngredient = {
   product: TProduct;

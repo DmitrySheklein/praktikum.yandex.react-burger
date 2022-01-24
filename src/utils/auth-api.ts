@@ -2,7 +2,7 @@ import { SERVER_URL } from "./constants";
 import { setCookie } from "./cookie";
 
 const checkResponse = (res: Response): Promise<any> => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
 };
 
 export const refreshToken = () => {
@@ -17,9 +17,12 @@ export const refreshToken = () => {
   }).then(checkResponse);
 };
 
-type MyRequestInit = RequestInit & {
-  headers: Record<string, string>;
-};
+type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+type MyRequestInit = Overwrite<
+  RequestInit,
+  { headers: Record<string, string> }
+>;
+
 export const fetchWithRefresh = async (url: string, options: MyRequestInit) => {
   try {
     const res = await fetch(url, options);

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../types/hooks";
 import { getIsAuthChecking, getUser } from "../services/auth/selectors";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import Preloader from "./preloader/preloader";

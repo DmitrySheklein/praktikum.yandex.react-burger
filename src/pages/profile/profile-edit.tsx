@@ -1,10 +1,11 @@
 import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import styles from "../page.module.css";
+import stylesProfile from "./profile-form.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../types/hooks";
 import { getUser } from "../../services/auth/selectors";
 import {
   getUpdatedUser,
@@ -12,6 +13,7 @@ import {
   getUserUpdateSending,
 } from "../../services/user/selectors";
 import { updateUser } from "../../services/user/actions";
+import { TUser } from "../../types/data";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
@@ -20,9 +22,9 @@ const ProfileEdit = () => {
   const userUpdateSending = useSelector(getUserUpdateSending);
   const userUpdateError = useSelector(getUserUpdateError);
 
-  const [form, setValue] = useState({
-    name: updatedUser?.user?.name || user?.name,
-    email: updatedUser?.user?.email || user?.email,
+  const [form, setValue] = useState<TUser>({
+    name: updatedUser?.user?.name || user?.name || "",
+    email: updatedUser?.user?.email || user?.email || "",
     password: "",
   });
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,13 +34,17 @@ const ProfileEdit = () => {
     e.preventDefault();
     dispatch(updateUser(form));
   };
+
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
-    setValue({ ...user, password: "" });
+
+    if (user) {
+      setValue({ ...user, password: "" });
+    }
   };
 
   return (
-    <div className={`${styles.wrap} ${styles.profileWrap}`}>
+    <div className={`${styles.wrap} ${stylesProfile.profileWrap}`}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={`${styles.formField} mb-6`}>
           <Input

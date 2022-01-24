@@ -6,9 +6,9 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../types/hooks";
 import { register } from "../services/auth/actions";
-import { useSelector } from "react-redux";
+import { useSelector } from "../types/hooks";
 import { getRegisterError } from "../services/auth/selectors";
 
 const RegisterPage = () => {

@@ -49,9 +49,3 @@
 .formErrorMsg {
   text-align: center;
 }
-.profileContainer {
-  max-width: 860px;
-  width: 100%;
-  display: flex;
-  margin-top: 120px;
-}

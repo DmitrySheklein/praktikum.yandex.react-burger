@@ -8,6 +8,7 @@ type TModalTypes = {
   headerTitle?: string;
   visible: boolean;
   setFunc: (bool: boolean) => void;
+  withHeader?: boolean;
 };
 const modalRoot = document.getElementById("react-modals");
 const Modal: FC<TModalTypes> = ({
@@ -15,6 +16,7 @@ const Modal: FC<TModalTypes> = ({
   headerTitle,
   visible,
   setFunc,
+  withHeader = true,
 }) => {
   const handleEscClose = (evt: KeyboardEvent) => {
     if (evt.key === "Escape") {
@@ -40,22 +42,25 @@ const Modal: FC<TModalTypes> = ({
           className={`${styles.modalBody} pl-10 pr-10 pt-10 pb-10`}
           onClick={(evt) => evt.stopPropagation()}
         >
-          <div className={styles.modalHeader}>
-            {headerTitle && (
-              <strong className={"text text_type_main-large"}>
-                {headerTitle}
-              </strong>
-            )}
-            <button
-              title="Закрыть"
-              className={`${styles.modalCloseBtn} reset-btn`}
-              onClick={() => {
-                setFunc(false);
-              }}
-            >
-              <CloseIcon type="primary" />
-            </button>
-          </div>
+          <button
+            title="Закрыть"
+            className={`${styles.modalCloseBtn} reset-btn`}
+            onClick={() => {
+              setFunc(false);
+            }}
+          >
+            <CloseIcon type="primary" />
+          </button>
+          {withHeader ? (
+            <div className={styles.modalHeader}>
+              {headerTitle && (
+                <strong className={"text text_type_main-large"}>
+                  {headerTitle}
+                </strong>
+              )}
+            </div>
+          ) : null}
+
           <div className={styles.modalContent}>{children}</div>
         </div>
       </div>
