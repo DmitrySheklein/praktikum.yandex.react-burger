@@ -34,12 +34,17 @@ const BurgerIngredient: FC<TBurgerIngredient> = ({ product }) => {
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: { ...product },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDrag: monitor.isDragging(),
     }),
   });
   return (
-    <li className={`${styles.ListItem} mb-8`} ref={dragRef}>
+    <li
+      className={`${styles.ListItem} mb-8 ${
+        product.type === "bun" ? "bun-item" : "ingredient-item"
+      }`}
+      ref={dragRef}
+    >
       <Link
         className={`${styles.ListItemLink}`}
         to={{

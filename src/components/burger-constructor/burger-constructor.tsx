@@ -67,7 +67,7 @@ const BurgerConstructor = () => {
         item.type === "bun" ? addBunAction(item) : addIngredientAction(item)
       );
     },
-    collect: (monitor) => {
+    collect: monitor => {
       return {
         canDrop: monitor.canDrop(),
         dragItem: monitor.getItem(),
@@ -105,7 +105,7 @@ const BurgerConstructor = () => {
               isLocked={true}
               text={`${bun.name} (верх)`}
               price={bun.price}
-              thumbnail={bun.image}
+              thumbnail={bun.image_large}
             />
           </div>
         )}
@@ -143,7 +143,7 @@ const BurgerConstructor = () => {
               isLocked={true}
               text={`${bun.name} (низ)`}
               price={bun.price}
-              thumbnail={bun.image}
+              thumbnail={bun.image_large}
             />
           </div>
         )}
