@@ -14,7 +14,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 ReactDOM.render(
   <Provider store={store}>
     <DndProvider backend={HTML5Backend}>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <App />
       </Router>
     </DndProvider>
