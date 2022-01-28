@@ -1,10 +1,10 @@
 # Демо сайта на Github Pages
 
-[https://dmitrysheklein.github.io/react-burger/](ссылка)
+[ссылка](https://dmitrysheklein.github.io/react-burger/)
 
 # Демо сайта на Yandex Cloud
 
-[https://burger.sh.nomoredomains.work/](ссылка)
+[ссылка](https://burger.sh.nomoredomains.work/)
 
 # Getting Started with Create React App
 
