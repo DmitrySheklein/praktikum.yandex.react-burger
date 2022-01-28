@@ -3,13 +3,12 @@
 
 describe("dnd bun to constructor", function () {
   before(function () {
-    cy.visit("http://localhost:3001");
+    cy.visit(Cypress.env('host'));
   });
   it("dnd bun", function () {
     cy.get("[class*=bun-item]").first().as("item");
     cy.get("[class*=burger-constructor_noBuns__]").first().as("bunDropZone");
-    cy.get("@item").trigger("dragstart");
-    cy.get("@bunDropZone").trigger("drop");
+    cy.dnd("@item", "@bunDropZone");
 
     cy.get("@item")
       .find("[class*=counter_counter__num__]")

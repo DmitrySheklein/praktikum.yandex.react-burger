@@ -2,7 +2,7 @@
 
 describe("products modal works correctly", function () {
   before(function () {
-    cy.visit("http://localhost:3001");
+    cy.visit(Cypress.env("host"));
   });
   it("should show modal current product and close", function () {
     cy.get("[class^=burger-ingredients_ListItemLink__]").first().as("product");

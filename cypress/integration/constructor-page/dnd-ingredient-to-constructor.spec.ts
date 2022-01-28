@@ -3,15 +3,14 @@
 
 describe("dnd ingredient to constructor", function () {
   before(function () {
-    cy.visit("http://localhost:3001");
+    cy.visit(Cypress.env("host"));
   });
   it("dnd ingredient", function () {
     cy.get("[class*=ingredient-item]").first().as("item");
     cy.get("[class*=burger-constructor_noBunsMiddle__]")
       .first()
       .as("ingredientDropZone");
-    cy.get("@item").trigger("dragstart");
-    cy.get("@ingredientDropZone").trigger("drop");
+    cy.dnd("@item", "@ingredientDropZone");
 
     cy.get("@item")
       .find("[class*=counter_counter__num__]")
