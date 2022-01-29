@@ -32,7 +32,7 @@ export enum EStatus {
 }
 export type TOrderCreated = {
   name: string;
-  order: { number: boolean };
+  order: { number: number };
   success: boolean;
 };
 export type TOrderInfo = {

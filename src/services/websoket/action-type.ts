@@ -1,4 +1,3 @@
-import { TOrderInfo } from "../../types/data";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
@@ -6,6 +5,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
 } from "./constants";
+import { TMessages } from "./reducer";
 
 export interface IWsConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
@@ -22,7 +22,7 @@ export interface IWsConnectionClosed {
 }
 export interface IWsConnectionMsg {
   readonly type: typeof WS_GET_MESSAGE;
-  messages: TOrderInfo[];
+  messages: TMessages;
 }
 
 export type TWs =
@@ -40,7 +40,7 @@ export const wsConnectionClosed = (): IWsConnectionClosed => ({
   type: WS_CONNECTION_CLOSED,
 });
 
-export const wsConnectionMsg = (messages: TOrderInfo[]): IWsConnectionMsg => ({
+export const wsConnectionMsg = (messages: TMessages): IWsConnectionMsg => ({
   type: WS_GET_MESSAGE,
   messages,
 });
