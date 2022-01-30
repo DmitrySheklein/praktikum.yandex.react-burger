@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 // @ts-check
-
+console.log(Cypress.env("host"), "hello");
 describe("order", function () {
   before(function () {
     cy.visit(Cypress.env("host"));
@@ -18,7 +18,11 @@ describe("order", function () {
 
     cy.get("button").contains("Оформить заказ").click();
 
-    cy.location("pathname").should("eq", "/login");
+    cy.location("pathname").should(
+      "eq",
+      `/${Cypress.env("projectName")}/login`
+    );
+
     cy.login();
     cy.get("button").contains("Войти").click();
 
