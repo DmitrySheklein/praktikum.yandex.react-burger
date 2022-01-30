@@ -6,3 +6,4 @@ describe("service is available", function () {
     cy.visit(Cypress.env("host"));
   });
 });
+export {};

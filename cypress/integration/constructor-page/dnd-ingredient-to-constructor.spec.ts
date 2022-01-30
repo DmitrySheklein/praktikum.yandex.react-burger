@@ -25,14 +25,14 @@ describe("dnd ingredient to constructor", function () {
 
     cy.get("@item")
       .find("img")
-      .then($img => {
+      .then(($img) => {
         imgUrlItem = $img.attr("src")!;
       });
 
     // eslint-disable-next-line jest/valid-expect-in-promise
     cy.get("@ingredientItem")
       .find("img")
-      .then($img => {
+      .then(($img) => {
         imgUrlTopItemDrop = $img.attr("src")!;
         // @ts-ignore
         // eslint-disable-next-line jest/valid-expect
@@ -40,3 +40,4 @@ describe("dnd ingredient to constructor", function () {
       });
   });
 });
+export {};

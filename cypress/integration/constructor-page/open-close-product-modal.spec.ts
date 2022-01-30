@@ -38,3 +38,4 @@ describe("products modal works correctly", function () {
     cy.get("body").click(0, 0);
   });
 });
+export {};

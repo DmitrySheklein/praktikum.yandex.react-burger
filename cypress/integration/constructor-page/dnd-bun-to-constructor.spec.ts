@@ -48,3 +48,4 @@ describe("dnd bun to constructor", function () {
       });
   });
 });
+export {};
