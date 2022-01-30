@@ -2,7 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://students-yandex.github.io/react-intensive/",
+  "homepage": "./",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.12.0",
@@ -30,7 +30,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "deploy-script": "npm run build && scp -r ./build/* sheklein@51.250.8.226:/home/sheklein/stellar-frontend",
-    "cypress:open": "./node_modules/.bin/cypress open"
+    "cypress": "cypress open cache clear"
   },
   "eslintConfig": {
     "extends": [

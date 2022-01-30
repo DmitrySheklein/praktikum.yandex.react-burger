@@ -1,5 +1,8 @@
+/// <reference types="cypress" />
+// @ts-check
+
 describe("service is available", function () {
-  it("should be available on localhost:3001", function () {
-    cy.visit(Cypress.env('host'));
+  it("should be available on localhost:3000", function () {
+    cy.visit(Cypress.env("host"));
   });
 });

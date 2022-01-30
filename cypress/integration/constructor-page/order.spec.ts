@@ -1,3 +1,6 @@
+/// <reference types="cypress" />
+// @ts-check
+
 describe("order", function () {
   before(function () {
     cy.visit(Cypress.env("host"));

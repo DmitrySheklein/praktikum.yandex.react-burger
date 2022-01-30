@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-
+// @ts-check
 describe("products modal works correctly", function () {
   before(function () {
     cy.visit(Cypress.env("host"));
@@ -10,7 +10,7 @@ describe("products modal works correctly", function () {
     let itemModalName = "";
     cy.get("@product")
       .find("[class^=burger-ingredients_ListItemName__]")
-      .then($name => (itemName = $name.text()));
+      .then(($name) => (itemName = $name.text()));
 
     cy.get("@product").click();
     cy.url().should("include", "/ingredients/");
@@ -20,7 +20,7 @@ describe("products modal works correctly", function () {
     // eslint-disable-next-line jest/valid-expect-in-promise
     cy.get("@modal")
       .find("[class*=text_type_main-medium]")
-      .then($name => {
+      .then(($name) => {
         itemModalName = $name.text();
         //@ts-ignore
         // eslint-disable-next-line jest/valid-expect

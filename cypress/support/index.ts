@@ -14,14 +14,15 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
+/// <reference types="cypress" />
 declare global {
-    namespace Cypress {
-      interface Chainable {
-        dnd(element: string, dropBox: string): Chainable<Element>
-        login(): Chainable<Element>
-      }
-    } 
+  namespace Cypress {
+    interface Chainable {
+      dnd(element: string, dropBox: string): Chainable<Element>;
+      login(): Chainable<Element>;
+    }
   }
+}
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

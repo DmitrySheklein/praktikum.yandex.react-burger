@@ -3,7 +3,7 @@
 
 describe("dnd bun to constructor", function () {
   before(function () {
-    cy.visit(Cypress.env('host'));
+    cy.visit(Cypress.env("host"));
   });
   it("dnd bun", function () {
     cy.get("[class*=bun-item]").first().as("item");
@@ -23,14 +23,14 @@ describe("dnd bun to constructor", function () {
 
     cy.get("@item")
       .find("img")
-      .then($img => {
+      .then(($img) => {
         imgUrlItem = $img.attr("src")!;
       });
 
     // eslint-disable-next-line jest/valid-expect-in-promise
     cy.get("@bunTop")
       .find("img")
-      .then($img => {
+      .then(($img) => {
         imgUrlTopItemDrop = $img.attr("src")!;
         // @ts-ignore
         // eslint-disable-next-line jest/valid-expect
@@ -40,7 +40,7 @@ describe("dnd bun to constructor", function () {
     // eslint-disable-next-line jest/valid-expect-in-promise
     cy.get("@bunBottom")
       .find("img")
-      .then($img => {
+      .then(($img) => {
         imgUrlBottomItemDrop = $img.attr("src")!;
         // @ts-ignore
         // eslint-disable-next-line jest/valid-expect
