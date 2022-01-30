@@ -2,7 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./",
+  "homepage": "https://dmitrysheklein.github.io/react-burger/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.12.0",
