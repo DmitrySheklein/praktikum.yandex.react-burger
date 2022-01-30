@@ -1,0 +1,10 @@
+{
+  "viewportWidth": 1500,
+  "viewportHeight": 660,
+  "env": {
+    "userName": "1@1.ru",
+    "userPassword": "123456",
+    "host": "http://localhost:3000",
+    "projectName": "react-burger"
+  }
+}

@@ -1,3 +1,11 @@
+# Демо сайта на Github Pages
+
+[ссылка](https://dmitrysheklein.github.io/react-burger/)
+
+# Демо сайта на Yandex Cloud
+
+[ссылка](https://burger.sh.nomoredomains.work/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

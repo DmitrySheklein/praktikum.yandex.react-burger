@@ -83,7 +83,7 @@ const ConstructorSubElement: FC<TConstructorElement> = ({
     item: () => {
       return { id, index };
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
   });
@@ -105,7 +105,7 @@ const ConstructorSubElement: FC<TConstructorElement> = ({
       <ConstructorElement
         text={product.name}
         price={product.price}
-        thumbnail={product.image}
+        thumbnail={product.image_large}
         handleClose={() => {
           dispatch(removeIngredientAction(product));
         }}
