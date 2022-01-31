@@ -163,7 +163,11 @@ const BurgerConstructor = () => {
         ) : null}
 
         {startedOrder && (
-          <Modal visible={startedOrder} setFunc={setStartedOrder}>
+          <Modal
+            visible={startedOrder}
+            setFunc={setStartedOrder}
+            withHeader={false}
+          >
             <OrderDetails />
           </Modal>
         )}

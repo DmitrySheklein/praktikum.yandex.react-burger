@@ -60,7 +60,7 @@ const IngredientDetails: FC<TIngredientDetails> = ({
         {product.name}
       </strong>
 
-      <ul className={`${styles.statList} mb-4`}>
+      <ul className={`${styles.statList} mb-15`}>
         {Object.entries(statProductMap).map(([type, name]) => (
           <li className={`${styles.statItem} mr-5`} key={type}>
             <span
