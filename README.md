@@ -1,4 +1,4 @@
 # Демо сайта на Github Pages
 
-[ссылка](https://dmitrysheklein.github.io/react-burger/)
+[ссылка](https://dmitrysheklein.github.io/praktikum.yandex.react-burger/)
 
